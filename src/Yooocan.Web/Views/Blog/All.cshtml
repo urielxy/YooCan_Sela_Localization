@@ -1,0 +1,60 @@
+﻿@model List<Yooocan.Models.Blog.PostModel>
+@using Yooocan.Logic.Extensions
+@using System.Text.Encodings.Web
+@{
+    ViewBag.Title = "Blog control panel";
+    var featuredPostId = Model.Where(x => x.Order != 0).OrderBy(x => x.Order).FirstOrDefault()?.Id;
+}
+<script>
+    function confirmPublish(isPublished, title) {
+        return !isPublished || confirm("Do you want to unpublish post '" + title +
+            "'? If you publish this post in the future, it will reset the publish date (appears at the top of the post) to the last publish date.");
+    }
+
+    function confirmDelete(isDeleted, title) {
+        return isDeleted || confirm("Do you want to delete post '" + title +
+            "'? All links to this post will no longer work.");
+    }
+</script>
+<p>To update home page with the currently featured post immediately <a asp-controller="Admin" asp-action="DeleteCache">clear cache here</a></p>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Title</th>
+        <th>View</th>
+        <th>Edit</th>
+        <th>Publish</th>
+        <th>Make Featured</th>
+        <th>Delete</th>
+    </tr>
+    @foreach (var post in Model)
+    {
+        <tr>
+            <td>@post.Id</td>
+            <td>@post.Title</td>
+            <td><a asp-action="Index" asp-route-id="@post.Id" asp-route-title="@post.Title.ToCanonical()" target="_blank">View</a></td>
+            <td><a asp-action="Edit" asp-route-id="@post.Id" target="_blank">Edit</a></td>
+            <td>
+                <form asp-action="TogglePublish" asp-route-id="@post.Id" method="post" onsubmit="return confirmPublish(@(post.PublishDate == null ? "false" : "true"), '@JavaScriptEncoder.Default.Encode(post.Title)');">
+                    <button class="btn waves-effect waves-light @(post.PublishDate == null ? "green" : "red")">
+                        @(post.PublishDate == null ? "Publish" : "Unpublish")
+                    </button>
+                </form>
+            </td>
+            <td>
+                <form asp-action="ToggleFeatured" asp-route-id="@post.Id" method="post">
+                    <button class="btn waves-effect waves-light @(post.Id == featuredPostId ? "blue" : "grey")">
+                        @(post.Id == featuredPostId ? "Unfeature" : "Feature")
+                    </button>
+                </form>
+            </td>
+            <td>
+                <form asp-action="ToggleDelete" asp-route-id="@post.Id" method="post" onsubmit="return confirmDelete(@(post.IsDeleted ? "true" : "false"), '@JavaScriptEncoder.Default.Encode(post.Title)');">
+                    <button class="btn waves-effect waves-light @(post.IsDeleted ? "green" : "red")">
+                        @(post.IsDeleted ? "Undelete" : "Delete")
+                    </button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>

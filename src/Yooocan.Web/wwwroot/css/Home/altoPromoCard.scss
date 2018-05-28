@@ -1,0 +1,161 @@
+﻿.alto-card-promo.card {
+
+    .card-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        text-align: center;
+        height: 270px;
+        padding: 20px 7%;
+        background-color: #fb4e74;
+        background-position: center;
+        background-size: cover;
+        word-break: normal;
+
+        img.transparent-logo {
+            width: 170px;
+            max-width: 100%;
+            max-height: 124px;
+            margin: auto;
+        }
+
+        &.no-button {
+            height: 340px;
+        }
+
+        &.competition {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/images/promo/thanksgiving/card.jpg');
+            padding-right: 3px;
+        }
+
+        &.yoocan-shirt {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #e2e2e2;
+            margin: 0;
+            padding: 0;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+            margin: 0 auto;
+            object-fit: scale-down;
+        }
+
+        &.white-background {
+            background-color: white;
+
+            h2 {
+                color: #9b9b9b;
+            }
+
+            img {
+                max-height: 75%;
+            }
+        }
+    }
+
+    h2, h3 {
+        margin: 0;
+        font-size: 26px;
+        font-weight: bold;
+        line-height: 1;
+        text-align: left;
+        color: #fff;
+
+        .new {
+            color: #ffec00;
+        }
+    }
+
+    h3 {
+        font-size: 23px;
+    }
+
+    h4 {
+        margin: 0;
+        font-size: 21px;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    h2.alto-card-title {
+        font-size: 15px;
+        font-weight: 300;
+        line-height: 1;
+        margin-top: 0;
+        margin-bottom: 10px;
+        color: #fff;
+
+        strong {
+            color: #fff;
+            display: block;
+            font-size: 21px;
+            line-height: 0.8;
+            font-weight: bold;
+        }
+    }
+
+    .greeting {
+        margin: 0 0 20px 0;
+        font-size: 24px;
+        font-weight: bold;
+        text-align: left;
+        color: #fff;
+    }
+
+    .card-button {
+        height: 70px;
+        background-color: #9685b8;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-size: 24px;
+        font-weight: 900;
+        line-height: 1;
+
+        &.thanksgiving {
+            background-color: #e96111;
+        }
+
+        &.gold {
+            background-color: #d98e35;
+        }
+    }
+
+    &.chat-event {
+
+        .card-content {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/images/promo/nikki.jpg');
+            padding-right: 0;
+        }
+
+        .card-button {
+            background-color: #8c7562;
+        }
+
+        h2 {
+            font-size: 23px;
+        }
+
+        h6 {
+            margin-top: auto;
+            color: #fff;
+            text-align: left;
+            font-weight: bold;
+            margin: 0;
+            font-size: 23px;
+            margin-bottom: 10px;
+
+            .date {
+                display: block;
+                font-size: 16px;
+            }
+        }
+    }
+}

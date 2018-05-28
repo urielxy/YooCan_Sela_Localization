@@ -1,0 +1,33 @@
+﻿@using Yooocan.Models.New.Messages
+@model IEnumerable<PreviewModel>
+@{
+    ViewBag.Title = "Messages";
+    ViewBag.AddStoryClass = "hide";
+}
+@section head{
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+}
+<section id="mobile-container" class="hide-on-med-and-up">
+    <h2>Please use a Desktop or Tablet browser.</h2>
+    <h3>We're sorry – the messages interface is not optimized for smartphones yet.</h3>
+</section>
+<div id="messagesContainer" class="hide-on-small-and-down">
+    <embedcss href="/css/Message/message.css"></embedcss>
+    @Html.Partial("_Preview")
+    <div id="conversation"></div>
+    <div class="preloader-wrapper big">
+        <div class="spinner-layer spinner-blue-only">
+            <div class="circle-clipper left">
+                <div class="circle"></div>
+            </div><div class="gap-patch">
+                <div class="circle"></div>
+            </div><div class="circle-clipper right">
+                <div class="circle"></div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="dist/Message/index.js" asp-append-version="true"></script>
+}

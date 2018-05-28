@@ -1,0 +1,21 @@
+﻿.partners {
+    &.not-init {
+        display: flex;
+        overflow-x: hidden;
+
+        .carousel-cell {
+            display: inline-block;
+        }
+    }
+
+    .carousel-cell {
+        border-right: 4px solid #eee;
+        border-bottom: 4px solid #eee;
+    }
+
+    img {
+        height: 111px;
+        width: 145px;
+        padding: 0 15px;
+    }
+}

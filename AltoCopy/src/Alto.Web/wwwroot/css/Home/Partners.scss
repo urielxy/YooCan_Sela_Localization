@@ -1,0 +1,19 @@
+﻿.partners-strip {
+    margin-top: 110px;
+
+    &.not-init {
+        display: flex;
+        overflow-x: hidden;
+
+        .carousel-cell {
+            display: inline-block;
+        }
+    }
+
+    img {
+        border-right: 4px solid #ccc;
+        height: 111px;
+        width: 145px;
+        padding: 0 15px;
+    }
+}

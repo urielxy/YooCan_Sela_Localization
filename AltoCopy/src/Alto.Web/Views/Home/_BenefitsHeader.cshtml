@@ -1,0 +1,56 @@
+﻿<embedcss Href="/css/home/BenefitsHeader" />
+<div id="benefits-header">
+    <div class="background-slider">
+        <div class="carousel" id="benefits-header-slider">
+            <div class="carousel-cell san-francisco-tours"></div>
+            <div class="carousel-cell devils-tower"></div>
+            <div class="carousel-cell disneyland"></div>
+        </div>
+    </div>
+    <div class="left-col hide-on-small-and-down">
+        <h3>CATEGORIES</h3>
+        @await Component.InvokeAsync("SideMenu")
+    </div>
+    <div class="main-part">
+        <div class="top-part">
+            <h1>THE #1 RESOURCE</h1>
+            <div class="hide-on-med-and-up mobile-search-container">
+                @Html.Partial("_SearchControl")
+            </div>
+            <h3 class="subtitle">FOR PEOPLE WITH DISABILITIES AND THEIR FAMILIES</h3>
+            @Html.Partial("_BigSearchBar")
+            <div class="publishers">
+                <h4>FEATURED IN</h4>
+                <ul>
+                    <li>
+                        <a href="https://themighty.com/2017/04/alto-creates-first-advantage-club-for-people-with-disabilities/" target="_blank">
+                            <img src="/images/home/header/publishers/mighty.png" alt="The mighty" />
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://www.rehabpub.com/2017/03/newly-launched-alto-aims-advantage-club-people-disabilities/" target="_blank">
+                            <img src="/images/home/header/publishers/rehabv2.png" alt="Rehab management" />
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://mysocialgoodnews.com/launch-alto-americas-first-advantage-club-people-disabilities/" target="_blank">
+                            <img src="/images/home/header/publishers/my-social-good-news-v2.png" alt="My social good news" />
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://www.wheel-life.org/yoocan-get-empowered/" target="_blank">
+                            <img src="/images/home/header/publishers/wheellifev2.png" alt="Wheel Life" />
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://www.retailtouchpoints.com/features/news-briefs/alto-raises-1-million-to-launch-advantage-club-for-people-with-disabilities" target="_blank">
+                            <img src="/images/home/header/publishers/rtp.png" alt="Retail touch points" />
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        @Html.Partial("_FueBanner")
+    </div>
+</div>
+

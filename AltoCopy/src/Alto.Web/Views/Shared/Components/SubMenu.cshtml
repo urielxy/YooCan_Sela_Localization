@@ -1,0 +1,36 @@
+﻿@model List<Alto.Models.Categories.CategoryMenuModel>
+<embedcss Href="/css/Shared/SubMenu"></embedCss>
+<div class="dropdown-content" id="drop-menu-container">
+    <ul class="menu-main-dropdown">
+        @foreach (var category in Model)
+        {
+            <li class="@(category.SubCategories?.Any() == true ? "" : "no-subcategories")">
+                @if (category.AlternativeUrl == null)
+                {
+                    <a asp-route="Category" asp-route-id="@category.Id" asp-route-categoryName="@category.Name.ToCanonical()">@category.Name</a>
+                }
+                else
+                {
+                    <a href="@category.AlternativeUrl">@category.Name</a>
+                }
+            </li>
+        }
+    </ul>
+    <div id="sub-menu-container" class="hide">
+        @foreach (var category in Model)
+        {
+            <div class="sub-menu-dropdown hide" style="background-image: url('@(category.FooterImageUrl ?? "/images/menu-arrow-white.png")')">
+                <div class="row">
+                    @if (category.SubCategories?.Any() == true)
+                    {
+                         foreach (var sub in category.SubCategories)
+                         {
+                             <div class="col xs12"><a asp-route="category" asp-route-id="@sub.Key" asp-route-categoryName="@sub.Value.ToCanonical()">@sub.Value</a>
+                             </div>
+                         }
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>

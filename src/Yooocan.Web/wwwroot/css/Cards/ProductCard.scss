@@ -1,0 +1,80 @@
+﻿.product.card {
+    height: 354px;
+
+    .save-container {
+        padding-left: 26px;
+        margin-top: 20px;
+        color: #4a4a4a;
+    }
+
+    .save-text {
+        font-size: 18px;
+        margin: 0;
+    }
+
+    .saved-raw {
+        font-size: 40px;
+        font-weight: bold;
+        margin: 0;
+    }
+
+    .discount-small {
+        font-size: 13px;
+        margin-top: 0;
+        margin-bottom: 15px;
+    }
+
+    .discount {
+        font-size: 40px;
+        font-weight: bold;
+        color: #4a4a4a;
+        padding-left: 27px;
+        margin-bottom: 0;
+        margin-top: 20px;
+    }
+
+    .off {
+        margin: 0 0 23px 0;
+        font-size: 22px;
+        color: #4a4a4a;
+        padding-left: 27px;
+    }
+
+    .card-image {
+        height: 150px;
+        padding: 0 12px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+
+        img {
+            visibility: hidden;
+        }
+    }
+
+    .card-content {
+        text-align: center;
+        padding: 0 27px;
+    }
+
+    .name {
+        font-size: 18px;
+        font-weight: bold;
+        line-height: 0.78;
+        color: #4a4a4a;
+        margin: 12px 0 6px 0;
+    }
+
+    .vendor {
+        font-weight: 400;
+        font-size: 14px;
+        color: #838c8c;
+    }
+
+    .price {
+        font-size: 14px;
+        text-align: center;
+        color: #4a90e2;
+        margin-bottom: 17px;
+    }
+}

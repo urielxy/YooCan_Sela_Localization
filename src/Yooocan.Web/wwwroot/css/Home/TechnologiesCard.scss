@@ -1,0 +1,43 @@
+﻿@import '../_variables.scss';
+
+#technologies-card {
+    .card {
+        display: flex;
+        align-items: stretch;
+        flex-direction: row;
+        padding: 0;
+        background-position: center;
+        background-size: cover;
+        background-color: #08accf;
+    }
+
+    h3 {
+        font-size: 21px;
+        margin: 0;
+    }
+
+    h4 {
+        font-size: 15px;
+        margin: 0;
+    }
+
+    .card-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background: none;
+
+        @media #{$small-and-down} {
+            padding: 5px 10px;
+
+            h3 {
+                font-weight: bold;
+                font-size: 14px;
+            }
+
+            h4 {
+                font-size: 14px;
+            }
+        }
+    }
+}

@@ -1,0 +1,11 @@
+{
+  "globalDependencies": {
+    "google.maps": "registry:dt/google.maps#3.25.0+20161019131407",
+    "jquery": "registry:dt/jquery#1.10.0+20160929162922",
+    "jquery-validation-unobtrusive": "registry:dt/jquery-validation-unobtrusive",
+    "jquery.form": "registry:dt/jquery.form",
+    "jquery.validation": "registry:dt/jquery.validation",
+    "jqueryui": "registry:dt/jqueryui#1.11.0+20161214061125",
+    "materialize-css": "registry:dt/materialize-css#0.97.5+20161019124558"
+  }
+}

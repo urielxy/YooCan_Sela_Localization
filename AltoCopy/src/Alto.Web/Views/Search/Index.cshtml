@@ -1,0 +1,73 @@
+﻿@using System.Net
+@using Alto.Models.Products
+@model Alto.Models.Search.SearchResultModel
+@{
+    ViewBag.Title = "Search: " + ViewBag.Query;
+}
+@section Head {
+    <embedCss href="/css/search/Index" />
+}
+<div class="hide-on-med-and-up mobile-search-container">
+    @Html.Partial("_SearchControl")
+</div>
+<div class="container" id="main">
+    <header>
+        <div class="center">
+            @Html.Partial("_BigSearchBar")
+        </div>
+        <h1>
+            Search results - <strong>@ViewBag.Query</strong>
+        </h1>
+    </header>
+    <ul class="tabs">
+        <li class="tab"><a href="#benefits">Benefits</a></li>
+        <li class="tab">
+            <a href="#products"
+               class="@(!Model.Benefits.Any() && Model.Products.Any() ? "active" : "")">
+                Products
+            </a>
+        </li>
+        <li class="tab"><a href="#yoocan-service-providers" class="yoocan-search-link">Service Providers</a></li>
+    </ul>
+    <hr />
+    <div id="benefits">
+        @if (!Model.Benefits.Any())
+        {
+            <h6>We couldn't find any benefits.</h6>
+        }
+        @Html.Partial("../Home/_BenefitsStrip", new BenefitsStripModel { Benefits = Model.Benefits })
+    </div>
+    <div id="products">
+        @if (!Model.Products.Any())
+        {
+            <h6>We couldn't find any products.</h6>
+        }
+        @Html.Partial("../Home/_ProductsStrip", new ProductsStripModel { Products = Model.Products })
+    </div>
+    <div id="yoocan-service-providers">
+        <div class="yoocan-search-preloader center">
+            <div class="preloader-wrapper big active">
+                <div class="spinner-layer spinner-blue-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <environment names="Development">
+            <iframe data-src="https://localhost:44315/Search/Embed/?type=2&query=@(WebUtility.UrlEncode(ViewBag.Query))" frameborder="0" seamless="seamless"></iframe>
+        </environment>
+        <environment names="Staging,Production">
+            <iframe data-src="https://yoocanfind.com/Search/Embed/?type=2&query=@(WebUtility.UrlEncode(ViewBag.Query))" frameborder="0" seamless="seamless"></iframe>
+        </environment>
+    </div>
+</div>
+@section Scripts {
+    <script src="/scripts/Search/Index.js"></script>
+}

@@ -1,0 +1,22 @@
+{
+  "name": "asp.net",
+  "private": true,
+  "dependencies": {
+    "jquery": "3.1.1",
+    "croppie": "2.2.0",
+    "materialize": "0.97.7",
+    "jquery-validation": "1.15.0",
+    "jquery-validation-unobtrusive": "3.2.6",
+    "tinymce": "4.4.3",
+    "dropzone": "4.3.0",
+    "bootstrap": "3.3.6",
+    "font-awesome": "4.6.3",
+    "flickity": "2.0.5",
+    "add-to-homescreen": "3.2.2",
+    "hammerjs": "hammer.js#v2.0.8",
+    "flag-icon-css": "2.9.0"
+  },
+  "resolutions": {
+    "jquery": "3.1.1"
+  }
+}

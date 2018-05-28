@@ -1,0 +1,107 @@
+﻿@import 'Socialform.scss';
+@import '../_variables.scss';
+
+#modal-container {
+    max-height: 85%;
+    width: 670px;
+}
+
+#mainBody > #register-container {
+    margin-top: 40px;
+}
+
+#register-container {
+    text-align: center;
+    border-radius: 6px;
+    max-width: 670px;
+    margin: auto;
+
+    .header {
+        font-size: 32px;
+        font-weight: 900;
+        color: #4a4a4a;
+        margin-top: 20px;
+        margin-bottom: 30px;
+    }
+
+    button {
+        font-size: 11px;
+        letter-spacing: 1px;
+        color: #ffffff;
+        border-radius: 100px;
+    }
+
+    .statement {
+        width: 50%;
+        font-size: 14px;
+        line-height: 1.86;
+        color: #9b9b9b;
+        display: inline-block;
+
+        a {
+            text-decoration: underline;
+            color: inherit;
+        }
+    }
+
+    @include socialform;
+
+    .line {
+        height: 13px;
+        border-bottom: 1px solid #f1f1f1;
+        text-align: center;
+        margin: 15px;
+
+        .text {
+            padding: 0 22px;
+            font-size: 18px;
+            color: #9b9b9b;
+            background-color: #fff;
+        }
+    }
+
+    #register-form {
+        text-align: left;
+        margin-bottom: 30px;
+
+        #submit-container {
+            text-align: center;
+        }
+
+        #submit {
+            background-color: $main-color;
+            width: 50%;
+            max-width: 214px;
+            font-size: 18px;
+            height: 40px;
+            line-height: 40px;
+        }
+    }
+
+    .login {
+
+        h4 {
+            padding-top: 20px;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 14px;
+            line-height: 1;
+            color: #3a405b;
+        }
+
+        a {
+            font-size: 11px;
+            color: #ffffff;
+            width: 50%;
+            background-color: #1366da;
+            border-radius: 100px;
+            font-size: 18px;
+            height: 40px;
+            line-height: 40px;
+            max-width: 214px;
+            margin-bottom: 17px;
+        }
+
+        background-color: #f0f2f7;
+    }
+}

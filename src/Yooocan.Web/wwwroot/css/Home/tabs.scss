@@ -1,0 +1,25 @@
+﻿#homepage-tabs {
+    box-shadow: 0 2px 4px 0 rgba(120, 120, 120, 0.5);
+    margin-bottom: 40px;
+
+    .row {
+        margin-bottom: 0;
+    }
+
+    .tabs {
+        li a {
+            font-size: 18px;
+            color: #7f8fa4;
+            text-transform: none;
+        }
+
+        #whats-new {
+            font-weight: bold;
+            color: #4a4a4a;
+        }
+
+        .indicator {
+            background-color: #4a4a4a;
+        }
+    }    
+}

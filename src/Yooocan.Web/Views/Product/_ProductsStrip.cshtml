@@ -1,0 +1,25 @@
+﻿@model Yooocan.Models.Products.ProductsStripModel
+@if (Model.Products.Any())
+{
+    if (ViewContext.HttpContext.Items["ProductsStrip"] == null)
+    {
+        <embedcss href="/css/Product/ProductsStrip.css"></embedcss>
+        ViewContext.HttpContext.Items["ProductsStrip"] = true;
+    }
+    <div class="products-strip clearfix">
+        @if (!string.IsNullOrEmpty(Model.Title))
+        {
+            <h3 class="title">@Model.Title</h3>
+        }
+        <div class="carousel-container">
+            @{                
+                foreach (var card in Model.Products)
+                {
+                    <div class="carousel-cell">
+                        @Html.Partial("../Cards/_SlimProductCard", card)
+                    </div>
+                }
+            }
+        </div>
+    </div>
+}

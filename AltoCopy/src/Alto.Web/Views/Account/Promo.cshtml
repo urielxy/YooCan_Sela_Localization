@@ -1,0 +1,111 @@
+﻿@using Alto.Enums.Account
+@model Alto.Models.Account.PromoModel
+@{
+    ViewBag.Title = "Welcome to Alto!";
+}
+@section head {
+    <embedcss Href="/css/Account/Promo" />
+}
+<article>
+    <header>
+        <div class="logo-container">
+            <img src="@(Model.CompanyLogo ?? "/images/logo-big.png")" />
+        </div>
+        <h2>
+            Welcome
+            @if (string.IsNullOrWhiteSpace(Model.CompanyName))
+            {
+                <text> to Alto!</text>
+            }
+            else
+            {
+                <br />@Model.CompanyName @(Model.NotOrganization ? "" : " Community")
+            }
+        </h2>
+    </header>
+    <div class="container">
+        <div id="content">
+            <p>
+                @if (Model.Type == RegistrationPromoType.ExtendedTrial)
+                {
+                    <text>Sign up for 1 month on Alto and receive @Model.Amount.ToString("0") months free! <span class="note">($4.95 due at sign up)</span></text>
+                }
+                else if (Model.Type == RegistrationPromoType.DiscountPercentage)
+                {
+                    <text>We are happy to invite you to join Alto and receive @((int)(Model.Amount * 100))% off your yearly membership.</text>
+                }
+                else if (Model.Type == RegistrationPromoType.FreeTrial)
+                {
+                    <text>
+                        We are happy to invite you to join Alto for @Model.Amount.ToString("0") month FREE. <br />
+                    </text>
+                    <span class="note">
+                        This membership has no strings attached - That means there is no need to give your credit card or any payment method upon sign-up.
+                    </span>
+                }
+            </p>
+            @*@if (!Model.HideAltoDescriptionText)
+                {
+                    <p>
+                        We designed Alto to be an essential part of life for people with disabilities bringing together relevant products and benefits as well as offering exclusive savings in one place.
+                    </p>
+                }*@
+            <div>
+                <a class="btn waves-effect waves-light" asp-action="Register" id="promo-register-button">
+                    @if (Model.Type == RegistrationPromoType.ExtendedTrial)
+                    {
+                        <text>Get @Model.Amount.ToString("0") months free!</text>
+                    }
+                    else if (Model.Type == RegistrationPromoType.DiscountPercentage)
+                    {
+                        <span>Get <strong>@((int)(Model.Amount * 100))% off </strong> your yearly membership!</span>
+                    }
+                    else if (Model.Type == RegistrationPromoType.FreeTrial)
+                    {
+                        <span>Get your <strong>FREE</strong> @Model.Amount.ToString("0") month trial!</span>
+                    }
+                </a>
+            </div>
+            @if (Model.Type == RegistrationPromoType.DiscountPercentage)
+            {
+                <div id="prices">
+                    <div class="price">
+                        <h5>Original Price</h5>
+                        <div>
+                            <span class="currency">$</span>
+                            <div class="amount">
+                                4.99
+                                <div class="red-strike"></div>
+                            </div>
+                            <span class="frequency">/ month</span>
+                        </div>
+                    </div>
+                    <div class="price">
+                        <h5>Your Price</h5>
+                        <div>
+                            <span class="currency">$</span>
+                            <div class="amount">
+                                @Model.PerMonthPrice
+                            </div>
+                            <span class="frequency">/ month</span>
+                        </div>
+                    </div>
+                </div>
+            }
+            <p>
+                <strong>Why should I join Alto?</strong><br />You and your family can earn up to $5,000 in Money Saving Benefits.
+            </p>
+            <p class="contact">
+                For any questions, please e-mail info@@altolife.com
+            </p>
+        </div>
+    </div>
+</article>
+@section scripts {
+    <script>
+        $("#promo-register-button").click(function () {
+            registerModal();
+            return false;
+        });
+    </script>
+}

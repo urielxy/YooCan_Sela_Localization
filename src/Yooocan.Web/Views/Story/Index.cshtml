@@ -1,0 +1,851 @@
+﻿@using System.Net
+@using System.Security.Claims
+@using System.Text.Encodings.Web
+@using Yooocan.Logic.Extensions
+@using Yooocan.Models.New.Stories
+@using Yooocan.Web.Utils
+@inject Yooocan.Logic.Images.ImageUrlOptimizer ImageUrlOptimizer
+@inject Yooocan.Logic.HtmlSanitizer HtmlSanitizer
+@model StoryModel
+@{
+    ViewBag.Title = Model.IsBlogPost ? Model.Title: $"{Model.AuthorName} - {Model.Title}";
+    var firstParagraph = Model.Paragraphs.ElementAtOrDefault(0);
+    var secondParagraph = Model.Paragraphs.ElementAtOrDefault(1);
+    var canonicalUrl = Url.RouteUrl(Model.IsBlogPost ? "blog" : "story", new { Model.Id, Title = Model.Title.ToCanonical() }, "https");
+    var description = Model.IsBlogPost ?
+                        Model.Description :
+                            Model.Paragraphs.Any()
+                                ? $"{Model.Paragraphs.First().Title} {Model.Paragraphs.First().Text.StripHtml()}".Truncate(100)
+                                : Model.Title;
+}
+@section head {
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="yoocan" />
+    <meta property="og:image" content="@Model.Images.FirstOrDefault()" />
+    <meta property="og:image:secure_url" content="@Model.Images.FirstOrDefault()" />
+    @*<meta property="og:image:width" content="554" />
+        <meta property="og:image:height" content="554" />*@
+    <meta name="twitter:title" property="og:title" itemprop="title name" content="@Model.Title" />
+    <meta name="twitter:description" property="og:description" itemprop="description" content="@description" />
+    <meta name="description" content="@description" />
+    <meta property="og:url" content="@canonicalUrl" />
+    <meta name="twitter:card" content="summary_large_image">
+    @if (Model.IsNoIndex)
+    {
+        <environment Names="Production">
+            <meta name="robots" content="noindex">
+        </environment>
+    }
+    <embedCss href="/css/story/index.css" />
+    @if (Model.Latitude != null && Model.Longitude != null)
+    {
+        <link href="/css/vectorMap.css" rel="stylesheet" />
+    }
+    <link rel="canonical" href="@canonicalUrl" id="canonicalUrl" />
+}
+@Html.Partial("_StickyShare")
+    <div id="story-header" style="background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('@(ClientHelper.IsMobileDevice(Context.Request.Headers["User-Agent"].ToString()) ?
+                        !string.IsNullOrWhiteSpace(Model.MobileHeaderImageUrl) ? Model.MobileHeaderImageUrl : ImageUrlOptimizer.GetOptimizedUrl(Model.HeaderImageUrl, 450, 350) : Model.HeaderImageUrl)');
+                                      background-position: center; background-size: cover;">
+        <div>
+            <span class="tag" style="background-color: #@Model.CategoryColor">@Model.CategoryName</span>
+        </div>
+        <h1>@Model.Title</h1>
+        <div class="details">
+            <span class="post-date">@((Model.IsBlogPost ? Model.PublishDate : Model.InsertDate)?.ToString("MMMM dd yyyy hh:mm tt"))</span>
+            @*<span class="social">
+                <img src="/images/chat-white.svg" asp-append-version="true" alt="comments" /> <span class="comments-count">@Model.Comments.Count</span>
+                <img src="/images/heart-white.svg" asp-append-version="true" alt="likes" /> <span class="likes-count">@Model.LikesCount</span>
+            </span>*@
+        </div>
+        <div>
+            <span class="tag" style="background-color: #@Model.CategoryColor">@Model.LimitationName</span>
+        </div>
+        <div class="hide-on-med-and-up mobile-author-details">
+            <h4>@Model.AuthorName</h4>
+            <img src="@(Model.AuthorProfileUrl ?? "/images/no-avatar.jpg")" />
+        </div>
+    </div>
+@if (User.IsInRole("Admin"))
+{
+    if (!Model.IsBlogPost)
+    {
+        <div class="text-center" style="margin: 0 70px;">
+            <a id="load-set-products" class="btn btn-primary">Set story items</a>
+            <a id="toggle-index" class="btn" data-is-no-index="@Model.IsNoIndex" data-url="@Url.Action("SetStoryNoIndex", "Admin")">@(Model.IsNoIndex ? "Not Indexed" : "Indexed")</a>
+            <form asp-action="Delete" method="POST" onsubmit="return confirm('Do you want to delete story `@JavaScriptEncoder.Default.Encode(Model.Title)`?');" style="display: inline-block;">
+                <button class="btn red" value="@Model.Id" name="storyId">DELETE!</button>
+            </form>
+        </div>
+    }
+}
+<div class="container">
+    <div class="row">
+        <div class="article-content col m12 l9">
+            @Html.Partial("_MobileShare", new Tuple<string, string, string>(Model.Title, canonicalUrl, "up"))
+            @if (Model.Title == "Live Chat on yoocan: Parenting differently-abled children")
+            {
+                @*<iframe id="live-video-iframe" src="//www.youtube.com/embed/live_stream?channel=UCd3YanBT2DvrBViOuSMfD3g" frameborder="0" allowfullscreen></iframe>*@
+                @Html.Partial("_ChatEmbedded", 2)
+            }
+            @if (Model.YouTubeId != null)
+            {
+                <div class="video-container">
+                    <iframe id="video-iframe" src="//www.youtube.com/embed/@Model.YouTubeId?showinfo=0&rel=0&autohide=1&modestbranding=1&enablejsapi=1" frameborder="0" allowfullscreen></iframe>
+                </div>
+            }
+
+            @if (firstParagraph != null)
+            {
+                @if (!Model.IsBlogPost)
+                {
+                    <h2>@firstParagraph.Title</h2>
+                    <p class="paragraph">@Html.Raw(HtmlSanitizer.SanitizeStory(firstParagraph.Text))</p>
+                }
+                else
+                {
+                    @Html.Raw(HtmlSanitizer.SanitizeHtml(firstParagraph.Text))
+                }
+
+            }
+            @if (!Model.IsBlogPost)
+            {
+                if (User.IsInRole("Admin"))
+                {
+                    <div id="set-hot-area" class="center-align">
+                        <button class="btn waves-effect waves-light" style="border-radius: 100px;">SET HOT AREA</button>
+                    </div>
+                }
+                <div id="images-container">
+                    @if (Model.Images.Count > 1)
+                    {
+                        <div class="slider-navigation">
+                            <button id="slider-prev"><i class="material-icons">arrow_back</i></button>
+                            <button id="slider-next"><i class="material-icons">arrow_forward</i></button>
+                        </div>
+                    }
+                    <ul>
+                        @for (var i = 0; i < Model.Images.Count; i++)
+                        {
+                            <li class="@(i == 0 ? "visible" : "hidden")">
+                                <img src="@ImageUrlOptimizer.GetOptimizedUrl(Model.Images[i], height: 500)" />
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+
+            @if (secondParagraph != null)
+            {
+                <h2>@secondParagraph.Title</h2>
+                <p class="paragraph">@Html.Raw(HtmlSanitizer.SanitizeStory(secondParagraph.Text))</p>
+            }
+            @*@if (Model.RelatedProducts.Count >= 6)
+                {
+                    <div id="related-products-container" class="hide-on-small-and-down">
+                        <div class="card">
+                            <div id="related-products">
+                                <div class="header">
+                                    <span id="carousel-prev" role="button"><i class="material-icons">keyboard_arrow_left</i></span>
+                                    <h3>Related Items (3/@Model.RelatedProducts.Skip(3).Count())</h3>
+                                    <span id="carousel-next" role="button"><i class="material-icons">keyboard_arrow_right</i></span>
+                                </div>
+                                <div class="carousel">
+                                    @foreach (var relatedProduct in Model.RelatedProducts.Skip(3))
+                                    {
+                                        <div class="carousel-item">
+                                            <a asp-action="Index" asp-controller="Product" asp-route-id="@relatedProduct.Id">
+                                                <div class="product">
+                                                    <img src="@relatedProduct.PrimaryImageUrl">
+                                                    <div class="product-description">
+                                                        <h4>@relatedProduct.Name</h4>
+                                                        <h5>@relatedProduct.VendorName</h5>
+                                                        <h6>@relatedProduct.Price.ToString("C0")</h6>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }*@
+
+            @foreach (var paragraph in Model.Paragraphs.Skip(2))
+            {
+                <h2>@paragraph.Title</h2>
+                <p class="paragraph">@Html.Raw(HtmlSanitizer.SanitizeStory(paragraph.Text))</p>
+            }
+
+            <div>
+                @foreach (var subCategory in Model.SubCategories)
+                {
+                    <a asp-route="Feed" asp-route-id="@subCategory.Item1" asp-route-categoryName="@subCategory.Item2.ToCanonical()"
+                       class="tooltipped" data-position="top" data-delay="50" data-tooltip="Read more @subCategory.Item2 stories"><span class="story-tag">@subCategory.Item2</span></a>
+                }
+            </div>
+            @if (Model.Id == 814)
+            {
+                <div class="apester-media" data-media-id="5a12ca75588dfe000136322a" height="410"></div><script async src="//static.apester.com/js/sdk/v2.0/apester-javascript-sdk.min.js"></script>
+            }
+            else if (Model.Id == 816)
+            {
+                <div class="apester-media" data-media-id="5a140d558e25e40001254bd1" height="395"></div><script async src="//static.apester.com/js/sdk/v2.0/apester-javascript-sdk.min.js"></script>
+            }
+            else if (Model.Id == 820)
+            {
+                <div class="apester-media" data-media-id="5a1c1242b359e200010090aa" height="410"></div><script async src="//static.apester.com/js/sdk/v2.0/apester-javascript-sdk.min.js"></script>
+            }
+            @*<div id="story-footer-buttons">
+                    <a class="waves-effect waves-light btn with-badge @(Model.IsLiked ? "liking" : "")" id="like-btn">
+                        <i class="material-icons">favorite</i>
+                        <span class="text">LIKE</span>
+                        <span class="count">@Model.LikesCount</span>
+                    </a>
+                </div>*@
+            @Html.Partial("_MobileShare", new Tuple<string, string, string>(Model.Title, canonicalUrl, "down"))
+            <div class="more-container">
+                @*<section id="comments" class="row">
+                        <div class="col s12 m10 offset-m1">
+                            <h3 class="header">
+                                Comments <i class="material-icons" data-source="comments-icon">mode_edit</i>
+                                @if (Model.Comments.Any())
+                                {
+                                    <span class="counter">(@Model.Comments.Count)</span>
+                                }
+                            </h3>
+                            <ul class="collection">
+                                <h4>Leave a Comment</h4>
+                                <li class="collection-item">
+                                    <aside>
+                                        <img src="@(User.FindFirstValue("picture") ?? "/images/no-avatar.jpg")" alt="Avatar" class="circle">
+                                        <div class="author-name">@User.FindFirstValue(ClaimTypes.GivenName) @User.FindFirstValue(ClaimTypes.Surname)</div>
+                                    </aside>
+                                    <form asp-controller="Comment" asp-action="Create" id="comment-form" data-source="write comment">
+                                        <input name="storyId" type="hidden" value="@Model.Id" />
+                                        <textarea name="text" class="comment" placeholder="Add your comment here..."></textarea>
+                                        <div class="submit-container">
+                                            <button class="btn">Submit</button>
+                                        </div>
+                                    </form>
+                                </li>
+                                @foreach (var comment in Model.Comments)
+                                {
+                                    <li class="collection-item">
+                                        <aside>
+                                            <img src="@(comment.AuthorPictureUrl ?? "/images/no-avatar.jpg")" alt="Avatar" class="circle">
+                                            <div class="author-name">@comment.AuthorName</div>
+                                            <div class="date">@comment.InsertDate.Humanize()</div>
+                                        </aside>
+                                        <div class="comment-container">
+                                            <p class="comment">@comment.Text</p>
+                                            @if (User.IsInRole("Admin") || User.FindFirstValue(ClaimTypes.NameIdentifier) == comment.AuthorId)
+                                            {
+                                                <a href="#" class="delete" data-id="@comment.Id">Delete</a>
+                                            }
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </section>*@
+                <section class="related-stories">
+                    <embedCss href="/css/feed/storyCard.css" />
+                    <div class="row">
+                        <div class="col l4 m6 s12 hide-on-large-only">
+                            <embedCss href="/css/Home/altoPromoCard.css"></embedCss>
+                            @Html.Partial("../Home/Cards/_YoocanShirtCard")
+                        </div>
+                        @foreach (var product in Model.RelatedProducts.Take(3))
+                        {
+                            <div class="col l4 m6 s12 hide-on-large-only">
+                                @Html.Partial("../Home/_FeaturedProductCard", product)
+                            </div>
+                        }
+                    </div>
+                    @if (Model.RelatedStories?.Count > 0)
+                    {
+                        <h2 class="most-popular">@(!Model.IsBlogPost ? "People Also Like" : "Other Posts")</h2>
+                        <div class="row">
+                            @for (var i = 0; i < Model.RelatedStories.Count; i++)
+                            {
+                                var cardType = !Model.RelatedStories[i].IsProductsReviewed ? "_StoryCard" : "_BackgroundImageStoryCard";
+                                <div class="col l4 m6 s12 @(i > 1 ? "hide-on-med-and-down" : "") ">
+                                    @Html.Partial($"../Feed/{cardType}", Model.RelatedStories[i])
+                                </div>
+                            }
+                        </div>
+                    }
+                </section>
+            </div>
+        </div>
+        <aside class="col m3 hide-on-med-and-down">
+            <div class="author-details">
+                <img src="@(Model.AuthorProfileUrl ?? "/images/no-avatar.jpg")" class="circle" />
+                <h4>@Model.AuthorName</h4>
+                @if (!string.IsNullOrWhiteSpace(Model.AuthorAboutMe))
+                {
+                    <h5>About</h5>
+                    <p>@Model.AuthorAboutMe</p>
+                }
+
+                @*<a class="waves-effect waves-light btn" id="connect-user" asp-route="Messages" asp-route-userId="@Model.AuthorId">MESSAGE</a>*@
+
+                @*@if (Model.AuthorId != User.FindFirstValue(ClaimTypes.NameIdentifier))
+                    {
+                        <button class="waves-effect waves-light btn @(Model.IsFollowed ? "following" : "")" id="follow" data-url="@Url.Action("ChangeFollowState", "User", new {userId = Model.AuthorId})"></button>
+                    }*@
+                @if (User.IsInRole("Admin"))
+                {
+                    <div>
+                        <a class="waves-effect waves-light btn-flat" asp-controller="User" asp-action="Edit" asp-route-id="@Model.AuthorId">EDIT</a>
+                    </div>
+                }
+            </div>
+
+            <div id="vmap-container">
+                <label for="vmap">LOCATION</label>
+                <div id="vmap"></div>
+                <div id="location-text">@Model.City @Model.State @Model.Country</div>
+            </div>
+            <div id="featured-product-right">
+                @Html.Partial("../Home/Cards/_YoocanShirtCard")
+                <embedcss href="/css/home/featuredProduct.css"></embedcss>
+                @foreach (var product in Model.RelatedProducts.Take(3))
+                {
+                    @Html.Partial("../Home/_FeaturedProductCard", product)
+                }
+            </div>
+            @if (!string.IsNullOrWhiteSpace(Model.Quote))
+            {
+                <embedcss href="/css/story/quote.css"></embedcss>
+                @Html.Partial("_Quote")
+            }
+            @if (Model.RelatedServiceProviders.Any())
+            {
+                @Html.Partial("../Feed/_BackgroundImageServiceProviderCard", Model.RelatedServiceProviders.First())
+            }
+
+            @Html.Partial("_ShareCard", "Like this post? Share It now!")
+
+            @foreach (var sp in Model.RelatedServiceProviders.Skip(1))
+            {
+                @Html.Partial("../Feed/_BackgroundImageServiceProviderCard", sp)
+            }
+        </aside>
+    </div>
+</div>
+@if (!Model.IsBlogPost)
+{
+    <div id="share-the-story-container" class="hide">@Html.Partial("_PromptShare", new Tuple<bool, string, string>(false, Model.Title, canonicalUrl))</div>
+}
+@section scripts {
+    <script>
+
+        @if (ViewBag.ShowShareAfterPublish == true)
+        {
+            <text>
+        $('#spinner-container').hide();
+        $('#modal-container').openModal({ opacity: 0.75 });
+        </text>
+        }
+
+        var storageKey = 'comment-story-@Model.Id';
+        try {
+            var item = localStorage.getItem(storageKey);
+            if (item != null) {
+                item = JSON.parse(item);
+                var result = new Date(item.insertDate);
+                result.setDate(result.getDate() + 2); /*2 days expiry*/
+                if (result >= new Date()) {
+                    $('#comments textarea').val(item.text);
+                } else {
+                    localStorage.removeItem(storageKey);
+                }
+            }
+        } catch (e) {
+        }
+
+        $('#comments').on('click', '.delete', function() {
+            window.ga('send', {
+                hitType: 'event',
+                eventCategory: 'Story',
+                eventAction: 'Delete comment'
+            });
+            var $li = $(this).closest('li').fadeOut();
+            $.post('@Url.Action("Delete", "Comment")', { id: $(this).data('id') })
+                .fail(function() {
+                    $li.fadeIn();
+                    if (!navigator.onLine)
+                        Materialize.toast('Please make sure you have a good internet connection and try again.', 5000);
+                    else {
+                        Materialize.toast('Error has occured :( our egineers were notified and working on a solution.', 5000);
+                    }
+                });
+
+            return false;
+        });
+
+        $('#comments .header .material-icons').click(function() {
+            if (isAuthenticated()) {
+                $('html, body').animate({ scrollTop: $('#comments textarea').focus().offset().top }, 500);
+            } else {
+                registerModal.call(this);
+            }
+            return false;
+        });
+        $('#comment-form').submit(function() {
+            var text = $(this).find('textarea').val();
+            if (!isAuthenticated()) {
+                var storageItem = {
+                    text: text,
+                    insertDate: +new Date()
+                };
+                localStorage.setItem(storageKey, JSON.stringify(storageItem));
+                registerModal(this);
+                return false;
+            }
+
+            window.ga('send', {
+                hitType: 'event',
+                eventCategory: 'Story',
+                eventAction: 'Write comment',
+                eventLabel: '@Model.Id'
+            });
+            var that = this;
+            var $btn = $(this).find('button').prop('disabled', true);
+            $(this).ajaxSubmit({
+                success: function(data) {
+                    var template = `<li class="collection-item">
+                                <aside>
+                                    <img src="@(User.FindFirstValue("picture") ?? "/images/no-avatar.jpg")" alt="Avatar" class="circle">
+                                    <div class="author-name">@User.FindFirstValue(ClaimTypes.GivenName) @User.FindFirstValue(ClaimTypes.Surname)</div>
+                                    <div class="date">Just now</div>
+                                </aside>
+                                <div class =""><p class ="comment">${text}</p>
+                                <a href="#" class ="delete" data-id="${data.id}">Delete</a></div>
+                            </li>`;
+
+                    $(template).insertAfter($('#comments').find('ul li:first'));
+                    that.reset();
+                    localStorage.removeItem(storageKey);
+                },
+                error: function() {
+                    if (!navigator.onLine)
+                        Materialize.toast('Please make sure you have a good internet connection and try again.', 5000);
+                    else {
+                        Materialize.toast('Error has occured :( our egineers were notified and working on a solution.', 5000);
+                    }
+
+                    localStorage.setItem(storageKey, JSON.stringify({ text: text, insertDate: +new Date() }));
+                },
+                complete: function() {
+                    $btn.prop('disabled', false);
+                }
+            });
+
+            return false;
+        });
+
+        var initCarousel = function(wasCarouselInitialized) {
+            if (wasCarouselInitialized) {
+                //done to remove all original event listeners registered.
+                $('.carousel').replaceWith($('.carousel').clone());
+
+                $('.carousel').removeClass('initialized');
+            }
+
+            var $carousel = $('.carousel');
+
+            var paddingSlope = 0.733;
+            var paddingZeroWidth = 600;
+            var padding = ($carousel.width() - paddingZeroWidth) * paddingSlope;
+
+            $carousel.carousel({
+                padding: padding,
+                dist: 0
+            });
+
+            //done to prevent selecting the clicked element and moving it to the center
+            $('.carousel-item').click(function(e) {
+                e.stopPropagation();
+            });
+        };
+
+        initCarousel(false);
+        $('#related-products').mousedown(function(e) { e.preventDefault(); });
+        $(window).resize(function() {
+            initCarousel(true);
+        });
+
+        $('#carousel-prev').click(function() { $('.carousel').carousel('prev'); });
+        $('#carousel-next').click(function() { $('.carousel').carousel('next'); });
+
+        //$('#follow').click(function() {
+        //    if (!isAuthenticated()) {
+        //        registerModal.call(this);
+        //        return false;
+        //    }
+
+        //    var $this = $(this);
+        //    $this.toggleClass('following');
+        //    var url = $this.data('url');
+        //    $.post(url).fail(function() {
+        //        $this.toggleClass('following');
+        //        Materialize.toast('Something went wrong :( our engineers were notified and are working on a solution!', 5000);
+        //    });
+        //    return false;
+        //});
+
+        $('#connect-user').click(function() {
+            window.ga('set', 'dimension1', '@Model.Id');
+            window.ga('send', {
+                hitType: 'event',
+                eventCategory: 'Story',
+                eventAction: 'Connect user',
+                eventLabel: '@Model.AuthorId'
+            });
+        });
+        $('#like-btn').click(function() {
+            var $this = $(this);
+            if ($this.data('disabled'))
+                return false;
+
+            if (!isAuthenticated()) {
+                registerModal.call(this);
+                return false;
+            }
+
+            $this.data('disabled', true);
+            if ($this.hasClass('liking')) {
+                window.ga('set', 'dimension1', '@Model.Id');
+                window.ga('send', {
+                    hitType: 'event',
+                    eventCategory: 'Story',
+                    eventAction: 'Unlike'
+                });
+                $.post('@Url.Action("UnLike", "Story", new {Model.Id})')
+                    .always(function() {
+                        $this.data('disabled', false);
+                    })
+                    .fail(function() {
+                        $this.toggleClass('liking').find('.count').text(function(index, text) {
+                            return parseInt(text, 10) + 1;
+                        });
+                    });
+                $this.toggleClass('liking').find('.count').text(function(index, text) {
+                    return parseInt(text, 10) - 1;
+                });
+            } else {
+                window.ga('set', 'dimension1', '@Model.Id');
+                window.ga('send', {
+                    hitType: 'event',
+                    eventCategory: 'Story',
+                    eventAction: 'Like'
+                });
+                $.post('@Url.Action("Like", "Story", new {Model.Id})')
+                    .always(function() {
+                        $this.data('disabled', false);
+                    })
+                    .fail(function() {
+                        $this.toggleClass('liking').find('.count').text(function(index, text) {
+                            return parseInt(text, 10) - 1;
+                        });
+                    });
+                $this.toggleClass('liking').find('.count').text(function(index, text) {
+                    return parseInt(text, 10) + 1;
+                });
+            }
+        });
+        @if (!Model.IsBlogPost && Model.Images.Count >= 1)
+        {
+            <text>
+        var $liImages = $('#images-container li');
+        $('#slider-prev').show().click(function() {
+            var $currentImage = $liImages.filter('.visible');
+            var index = $currentImage.index();
+            if (index === 0)
+                index = $liImages.length;
+
+            --index;
+
+            window.ga('set', 'dimension1', '@Model.Id');
+            window.ga('set', 'dimension3', index + 1);
+            window.ga('send', 'event', 'Images', 'View', 'Story');
+            window.ga('send', 'event', 'Story', 'Images', 'View');
+
+            $currentImage.removeClass('visible').addClass('hidden');
+            $liImages.eq(index).removeClass('hidden').addClass('visible');
+        });
+        $('#slider-next').show().click(function() {
+            var $currentImage = $liImages.filter('.visible');
+            var index = $currentImage.index();
+            ++index;
+
+            if (index === $liImages.length)
+                index = 0;
+
+            window.ga('set', 'dimension1', '@Model.Id');
+            window.ga('set', 'dimension3', index + 1);
+            window.ga('send', 'event', 'Images', 'View', 'Story');
+            window.ga('send', 'event', 'Story', 'Images', 'View');
+
+            $currentImage.removeClass('visible').addClass('hidden');
+            $liImages.eq(index).removeClass('hidden').addClass('visible');
+        });
+
+        $('#slider-next,#slider-prev').mousedown(false);
+        </text>
+        }
+
+        $('a.pinterest').click(function() {
+            var width = 750,
+                height = 540,
+                left = getLeft(width),
+                top = getTop(height);
+
+            window.open("//www.pinterest.com/pin/create/button/" +
+                "?url=@canonicalUrl" +
+                "&media=@Model.Images.FirstOrDefault()" +
+                "&description=@description", "pinterest-share-dialog",
+                `width=${width},height=${height},top=${top},left=${left})`);
+            return false;
+        });
+
+        $('a.facebook').click(function() {
+            var width = 553,
+                height = 510,
+                left = getLeft(width),
+                top = getTop(height);
+            window.open('http://www.facebook.com/sharer/sharer.php?u=@WebUtility.UrlEncode(canonicalUrl)',
+                'facebook-share-dialog',
+                `width=${width},height=${height},top=${top},left=${left})`);
+            return false;
+        });
+
+        $('a.twitter').click(function() {
+            var width = 500,
+                height = 636,
+                left = getLeft(width),
+                top = getTop(height);
+            window
+                .open('https://twitter.com/home?status=@JavaScriptEncoder.Default.Encode(WebUtility.UrlEncode($"Check out {Model.Title} on yoocanfind.com {canonicalUrl}"))',
+                    'twitter-share-dialog',
+                    `width=${width},height=${height},top=${top},left=${left})`);
+
+            return false;
+        });
+
+        $('a.google-plus').click(function() {
+            var width = 500,
+                height = 636,
+                left = getLeft(width),
+                top = getTop(height);
+            window.open('https://plus.google.com/share?url=@canonicalUrl',
+                'google-plus-share-dialog',
+                `width=${width},height=${height},top=${top},left=${left})`);
+            return false;
+        });
+
+        $('.share-widget a').click(function() {
+            var source = $(this).closest('.share-widget').data('source');
+            var platform = $(this).data('platform');
+            window.ga('set', 'dimension1', '@Model.Id');
+            window.ga('send', {
+                hitType: 'event',
+                eventCategory: 'Story',
+                eventAction: 'Share',
+                eventLabel: platform,
+                dimension4: source
+            });
+
+            localStorage.setItem('last-share', new Date().toString());
+        });
+
+        @if (User.FindFirstValue(ClaimTypes.NameIdentifier) != Model.AuthorId)
+        {
+            <text>
+                var lastParagraph = $('.article-content > p').last();
+                var articleHeight = lastParagraph.offset().top + lastParagraph.innerHeight();
+                var $window = $(window);
+                var scrollHandler = function() {
+                    var scrollTop = $window.scrollTop();
+                    if (scrollTop + $window.height() + 50 >= articleHeight) {
+                        window.ga('set', 'dimension1', '@Model.Id');
+                        window.ga('send', {
+                            hitType: 'event',
+                            eventCategory: '@(Model.IsBlogPost ? "blog post" : "Story")',
+                            eventAction: 'Read all',
+                            eventLabel: '@Model.AuthorId',
+                            nonInteraction: true
+                        });
+                        $(document).off('scroll', scrollHandler);
+                    }
+                };
+                $(document).scroll(scrollHandler);
+            </text>
+        }@* YouTube API *@var tag = document.createElement('script');
+        tag.src = 'https://www.youtube.com/iframe_api';
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        var pauseFlag = false;
+        var duration;
+        var currentTime;
+        var intervalId;
+        var flags = {
+            "10": null,
+            "25": null,
+            "50": null,
+            "75": null,
+            "100": null
+        };
+
+        function onPlayerStateChange(event) {
+            ga('set', 'dimension1', '@Model.Id');
+            // track when user clicks to Play
+            if (event.data === YT.PlayerState.PLAYING) {
+                window.ga('send', 'event', 'Videos', 'Play', 'Story');
+                pauseFlag = true;
+                if (!intervalId && !flags["100"]) {
+                    intervalId = window.setInterval(function() {
+                        duration = duration || player.getDuration();
+                        var percents = player.getCurrentTime() * 100 / duration;
+                        var value;
+                        if (percents >= 100 && !flags["100"]) {
+                            flags["100"] = true;
+                            value = 100;
+                            window.clearInterval(intervalId);
+                        } else if (percents >= 75 && !flags["75"]) {
+                            flags["75"] = true;
+                            value = 75;
+                        } else if (percents >= 50 && !flags["50"]) {
+                            flags["50"] = true;
+                            value = 50;
+                        } else if (percents >= 25 && !flags["25"]) {
+                            flags["25"] = true;
+                            value = 25;
+                        } else if (percents >= 10 && !flags["10"]) {
+                            flags["10"] = true;
+                            value = 10;
+                        }
+                        if (value) {
+                            window.ga('send', {
+                                hitType: 'event',
+                                eventCategory: 'Story',
+                                eventAction: 'Watch %',
+                                eventLabel: value + '%'
+                            });
+                        }
+                    }, 1000);
+                }
+            }
+            // track when user clicks to Pause
+            if (event.data === YT.PlayerState.PAUSED && pauseFlag) {
+                window.ga('send', 'event', 'Videos', 'Pause', 'Story');
+                pauseFlag = false;
+            }
+            // track when video ends
+            if (event.data === YT.PlayerState.ENDED) {
+                window.ga('send', 'event', 'Videos', 'Finished', 'Story');
+            }
+        }
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('video-iframe',
+            {
+                events: {
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        addProductCardsAnalytics('Story');
+
+        $(".yoocan-shirt-card").click(function () {
+            ga("send", "event", "Story", "buy yoocan shirt click")
+        });
+    </script>
+    @if (Model.Latitude != null && Model.Longitude != null)
+    {
+        <script src="/scripts/Utils/vectorMap.js"></script>
+        <script>
+            $('#vmap-container').show().find('#vmap').vectorMap({
+                map: 'world_mill',
+                regionStyle: {
+                    initial: {
+                        fill: '#bfc7d8'
+                    },
+                    hover: {
+                        fill: "#bfc7d8",
+                        "fill-opacity": 1,
+                        cursor: 'default'
+                    }
+                },
+                normalizeFunction: 'polynomial',
+                hoverColor: false,
+                zoomButtons: false,
+                zoomOnScroll: false,
+                backgroundColor: '#fff',
+                onRegionTipShow: function(e) {
+                    e.preventDefault();
+                },
+                markers: [
+                    { latLng: [@Model.Latitude, @Model.Longitude], name: '@Model.City @Model.State @Model.Country', style: { image: '/images/place-orange.svg' } }
+                ]
+            });
+        </script>
+    }
+
+    @if (User.IsInRole("Admin"))
+    {
+        <script>
+            $('#set-hot-area button').click(function() {
+                $("#images-container ul li.visible").css('opacity', '0.3');
+                $("#images-container ul").off('click').click(function(e) {
+                    var $img = $(this).find('li.visible img');
+                    var y = e.pageY - $img.offset().top,
+                        x = e.pageX - $img.offset().left,
+                        hotAreaTop = y * 100 / $img.height(),
+                        hotAreaLeft = x * 100 / $img.width();
+                    $("#images-container ul li.visible").css('opacity', '1');
+                    $.post('@Url.Action("SetHotArea")', {
+                        storyId: @Model.Id,
+                        cdnUrl: $img.prop('src'),
+                        left: hotAreaLeft,
+                        top: hotAreaTop
+                    }).fail(function() {
+                        Materialize.toast('Error :(', '3000');
+                    });
+                });
+                return false;
+            });
+
+            $('#load-set-products').click(function() {
+                $(this).parent().load('@Url.Action("SetStoryProducts", "Story", new { storyId = Model.Id})');
+            });
+
+            var $toggleIndexButton = $('#toggle-index');
+            $toggleIndexButton.click(() => {
+                var isNoIndex = $toggleIndexButton.data("is-no-index").toLowerCase() === "true" ? true : false;
+                $.post($toggleIndexButton.data("url"), { id: @Model.Id, noIndex: !isNoIndex }).done(() => {
+                    $toggleIndexButton.text(isNoIndex ? "Indexed" : "Not Indexed");
+                    $toggleIndexButton.data("is-no-index", (!isNoIndex).toString());
+                });
+            });
+        </script>
+    }
+}
+@if (ViewBag.ShowShareAfterPublish == true && !Model.IsBlogPost)
+{
+    @section modal{
+        @Html.Partial("_PromptShare", new Tuple<bool, string, string>(true, Model.Title, canonicalUrl))
+    }
+}
+<script>
+    @section GA{
+    ga('set', 'contentGroup1', '@Model.CategoryName');
+    }
+</script>

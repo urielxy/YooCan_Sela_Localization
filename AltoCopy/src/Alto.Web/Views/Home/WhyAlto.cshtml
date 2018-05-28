@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Why ALTO";
+    ViewBag.CanonicalUrl = Url.Action("WhyAlto");
+}
+@section head{
+    <meta name="description" content="Learn how joining ALTO can save your family and you thousands of dollars each year!" />
+}
+<div id="why-alto-page">
+    @Html.Partial("WhyAlto/_Header")
+    @*<embedcss href="/css/Home/WhyAlto/BraggingFeatures" />
+    <div class="row" id="bargging-container">
+        <div class="col xs12 s6 center-align">
+            <img src="/images/why-alto/intercom.jpg" />
+            <h6>Outstanding support: Tap the Intercom button to chat with someone from our team</h6>
+        </div>
+        <div class="col xs12 s6 center-align">
+            <img src="/images/why-alto/mobile.jpg" />
+            <h6>Easy to use mobile browsing Bookmark Our <a href="#">Site</a></h6>
+        </div>
+    </div>*@
+    <embedcss href="/css/Home/WhyAlto/Description" />
+    <div class="line"></div>
+    <section class="main">
+        <img id="what-is-alto" src="/images/why-alto/cart.jpg" />
+        <h5 class="title">WHAT IS ALTO?</h5>
+        <h6 class="sub-title">The #1 resource to find disability related</h6>
+        <h2 class="first">ACTIVITES, BENEFITS, PRODUCTS</h2>
+        <h6 class="sub-title">and so much more.</h6>
+
+        <img id="alto-membership" src="/images/why-alto/cards.jpg" />
+        <h5 class="title">ALTO MEMBERSHIP</h5>
+        <h2 class="second">FOR PEOPLE LIVING WITH A DISABILITY AND THEIR ELIGIBLE FAMILY MEMBERS.</h2>
+        <p>Our membership is open to:<br />People with disabilities and their families who have accepted our terms and use of regulations. @*Join us and complete the Eligibility Questionnaire.*@</p>
+
+        <img id="member-benefits" src="/images/why-alto/tag.jpg" />
+        <h5 class="title">MEMBER BENEFITS</h5>
+        <h2 class="third">WHERE BECOMING A MEMBER MEANS JOINING OUR FAMILY.</h2>
+        <p>When you join, you get free access to our resources and personalized savings based on your disability, location and interests— we understand your specific needs because we are a members club founded by a family that has a child with a rare disease.<br/><a asp-controller="Home" asp-action="About">Read our story</a></p>
+    </section>
+</div>
+@section scripts{
+    <script>
+        $('#why-alto-page .banner a').click(function () {
+            var hash = $(this).attr('href');
+            $("html, body").animate({ scrollTop: $(hash).offset().top }, 600);
+            history.pushState(undefined, '', hash);
+            return false;
+        });
+    </script>
+}

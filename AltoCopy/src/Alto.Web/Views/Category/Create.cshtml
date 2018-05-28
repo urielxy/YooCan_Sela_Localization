@@ -1,0 +1,32 @@
+﻿@model Alto.Models.Categories.CategoryModel
+@{
+    ViewBag.Title = "Admin Create Category";
+}
+<form asp-controller="Category" asp-action="Create" method="post" class="container">
+    <div class="row" style="margin-top: 30px;">
+        <div class="col s12">
+            <div class="input-field">
+                <input asp-for="Name" class="validate">
+                <label asp-for="Name"></label>
+            </div>
+        </div>
+        <div class="col s12">
+            <div class="input-field">
+                <select asp-for="ParentCategoryId" asp-items="@ViewBag.Categories"></select>
+                <label asp-for="ParentCategoryId"></label>
+            </div>
+        </div>
+        <div class="col s12">
+            <div class="checkbox">
+                <input type="checkbox" asp-for="IsActive">
+                <label asp-for="IsActive"></label>
+            </div>
+        </div>
+    </div>
+    <div><button class="btn" type="submit">CREATE</button></div>
+</form>
+@section scripts{
+    <script>
+        $('select').material_select();
+    </script>
+}

@@ -1,0 +1,34 @@
+﻿@using Yooocan.Logic.Extensions
+@inject Yooocan.Logic.Images.ImageUrlOptimizer ImageUrlOptimizer
+@model StoryCardModel
+@{
+    var optimizedImageUrl = ImageUrlOptimizer.GetOptimizedUrl(Model.ImageUrl, 450, ViewBag.FullScreenStoryCards == true ? 350 : 200);
+}
+<a asp-route="@(!Model.IsBlogPost ? "Story" : "Blog")" asp-route-title="@Model.Title.ToCanonical()" asp-route-id="@Model.Id">
+    <div class="story-card-@(Model.IsDarkTheme ? "light" : "dark")">
+        <div class="card hoverable" data-publish-date="@Model.PublishDate" data-id="@Model.Id">
+            <div class="card-image" style="background-image: url('@optimizedImageUrl'); background-position: @(Model.HotAreaLeft??50)% @(Model.HotAreaTop??50)%">
+                <img src="@optimizedImageUrl">
+                <span class="tag-container">
+                    <span class="tag" style="background-color: #@Model.CategoryColor">
+                        @(Model.ShouldShowLimitation ? Model.LimitationName ?? Model.CategoryName : Model.CategoryName)
+                    </span>
+                </span>
+            </div>
+            <div class="card-content card-description">
+                <h3>@Model.Title</h3>
+                <p class="content">@Html.Raw(Model.Content?.StripHtml() ?? "")</p>
+            </div>
+            @*<div class="line"></div>*@
+            @*<div class="card-content">
+                    <div class="social">
+                        @if (Model.CommentsCount > 0)
+                        {
+                            <img src="/images/chat.svg" asp-append-version="true" alt="comments"/><span class="comments-count">@Model.CommentsCount</span>
+                        }
+                        <img src="/images/heart.svg" asp-append-version="true" alt="likes"/> <span class="likes-count">@Model.LikesCount</span>
+                    </div>
+                </div>*@
+        </div>
+    </div>
+</a>

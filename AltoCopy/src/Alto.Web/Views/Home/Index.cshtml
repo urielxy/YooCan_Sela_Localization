@@ -1,0 +1,113 @@
+﻿@using Alto.Models.Products
+@using Microsoft.AspNetCore.Mvc.Rendering
+@model Alto.Models.Home.HomeModel
+@{
+    ViewBag.Title = "YOUR ADVANTAGE FOR LIFE";
+    ViewBag.CanonicalUrl = "https://altolife.com";
+}
+@section Head{
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:type" content="website" />
+    <meta name="description" content="ALTO is the first advantage club for people with disabilites and thier families." />
+    <embedcss Href="/css/Home/Index" />
+}
+<div class="home-main">
+    @await Html.PartialAsync("_BenefitsHeader")
+
+    <div class="home-content">
+        @*@Html.Partial("_ProductsStrip", Model.ProductsStrips[1])
+        @Html.Partial("_ProductsStrip", Model.ProductsStrips[0])*@
+        @Html.Partial("_BenefitsStrip", new BenefitsStripModel
+           {
+               Title = Model.BenefitsStrips[1].Title,
+               Benefits = Model.BenefitsStrips[1].Benefits.Take(5).ToList()
+           })
+        @Html.Partial("_BenefitsStrip", new BenefitsStripModel
+            {
+                Title = Model.BenefitsStrips[0].Title,
+                Benefits = Model.BenefitsStrips[0].Benefits.Take(5).ToList()
+            })
+        @Html.Partial("_BenefitsStrip", new BenefitsStripModel
+           {
+               Title = Model.BenefitsStrips[1].Title,
+               Benefits = Model.BenefitsStrips[1].Benefits.Skip(5).Take(5).ToList()
+           })
+        @Html.Partial("_BenefitsStrip", new BenefitsStripModel
+           {
+               Title = Model.BenefitsStrips[0].Title,
+               Benefits = Model.BenefitsStrips[0].Benefits.Skip(5).Take(5).ToList()
+           })
+        @Html.Partial("_ProductsStrip", Model.ProductsStrips[1])
+    </div>
+</div>
+@Html.Partial("_CategoryBannersStrip")
+@Html.Partial("_Partners")
+@section scripts{
+    <script>
+        deferCss("/lib/flickity/dist/flickity.min.css");
+    </script>
+    @*<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACQ56qNiGAUPq1XnqJwO9z8m9c3af8oZU&callback=askLocation"></script>
+        <script src="/scripts/index.js" asp-append-version="true"></script>*@
+    <script src="https://unpkg.com/flickity@2.0/dist/flickity.pkgd.min.js" asp-fallback-src="/lib/flickity/dist/flickity.pkgd.min.js" asp-fallback-test="window.Flickity"></script>
+    <script>
+        $('#home-registered-header .carousel.carousel-slider').carousel({ full_width: true });
+        $('.products-strip > .carousel-container,.benefits-strip > .carousel-container').flickity({
+            cellAlign: 'left',
+            contain: true,
+            percentPosition: false,
+            groupCells: '100%',
+            dragThreshold: 10
+        }).filter('.partners-strip').removeClass('not-init');
+
+        $('.partners-strip').removeClass('not-init').flickity({
+            pageDots: false,
+            contain: true,
+            percentPosition: false,
+            groupCells: 2,
+            dragThreshold: 10,
+            freeScroll: true,
+            wrapAround: true
+        }).flickity('playPlayer');
+
+        var $categoryBanners = $('.category-banners-strip').removeClass('not-init').flickity({
+            pageDots: false,
+            contain: true,
+            percentPosition: false,
+            wrapAround: true,
+            autoPlay: 4000
+        });
+
+        //in case images haven't loaded yet
+        $('.category-banners-strip .carousel-cell:first-child img').on('load', function () {
+            $categoryBanners.flickity('resize');
+        });
+
+        $categoryBanners.on('staticClick.flickity', function (event, pointer, cellElement) {
+            if (!cellElement) {
+                return;
+            }
+            ga('send', 'event', 'homepage', 'category banner click', $(cellElement).find('a').attr('href'));
+        });
+    </script>
+@*<script src="/lib/jquery-background-video/jquery.background-video.js"></script>
+<script>
+    $("#header-video").bgVideo({ pauseAfter: 0 });
+    if (!$("#header-video").length) {
+        $(".jquery-background-video-pauseplay").hide();
+        var $gallery = $("#background-gallery");
+        $gallery.slider({ indicators: false });
+        $gallery.show();
+    }
+</script>*@
+
+    <script>
+        $('#benefits-header-slider').flickity({
+            pageDots: false,
+            contain: true,
+            percentPosition: true,
+            prevNextButtons: false,
+            wrapAround: true,
+            autoPlay: 7000
+        });
+    </script>
+}

@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/98cca0ec978fa412650e4c5be88fca6da8fe0d3e/jquery-validation-unobtrusive/jquery-validation-unobtrusive.d.ts",
+    "raw": "registry:dt/jquery-validation-unobtrusive#0.0.0+20160619021552",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/98cca0ec978fa412650e4c5be88fca6da8fe0d3e/jquery-validation-unobtrusive/jquery-validation-unobtrusive.d.ts"
+  }
+}

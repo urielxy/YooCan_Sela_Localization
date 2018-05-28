@@ -1,0 +1,139 @@
+﻿@import '../_common.scss';
+
+.featured-product.card.single {
+    text-align: center;
+    position: relative;
+
+    .card-image {
+        max-height: 130px;
+        padding: 0 20px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+
+        img {
+            visibility: hidden;
+        }
+    }
+
+    .badges {
+        padding: 6px 0;
+        height: 40px;
+
+        .category {
+            left: 12px;
+            position: absolute;
+        }
+
+
+        .new.tag {
+            position: absolute;
+            right: 12px;
+            background-color: #84ce8b;
+            border-radius: 100px;
+        }
+
+
+        @include tag;
+
+        .tag.category .amazon {
+            text-transform: none;
+        }
+    }
+
+    .name {
+        font-size: 15px;
+        font-weight: bold;
+        line-height: 1.33;
+        color: #393d3f;
+        margin-bottom: 6px;
+    }
+
+    .category {
+        font-family: Source Sans Pro;
+        font-size: 12px;
+        color: #838c8c;
+        margin-bottom: 6px;
+    }
+
+    .price {
+        font-size: 13px;
+        color: #1e1f1e;
+    }
+
+    .card-buy-button {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        color: #fff;
+        font-size: 20px;
+        font-weight: 900;
+        text-align: center;
+        width: 100%;
+        height: 50px;
+        line-height: 50px;
+    }
+}
+
+
+.featured-product.card.big {
+    text-align: center;
+    position: relative;
+
+    .card-image {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        max-width: 50%;
+        padding: 30px 10px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+
+        img {
+            visibility: hidden;
+        }
+    }
+
+    .card-content {
+        margin-left: 50%;
+        position: relative;
+    }
+
+    .description {
+        font-family: Source Sans Pro;
+        font-size: 14px;
+        letter-spacing: 0.3px;
+        color: #777777;
+        max-height: 170px;
+        overflow: hidden;
+    }
+
+    .price {
+        font-size: 13px;
+        color: #1e1f1e;
+        margin-bottom: 10px;
+    }
+
+    .bottom {
+        position: absolute;
+        bottom: 20px;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+
+    .buy {
+        border-radius: 17px;
+        border: solid 1px #dddddd;
+    }
+
+    .name {
+        color: #393d3f;
+    }
+}
+
+.featured-product.card {
+    height: 340px;
+}

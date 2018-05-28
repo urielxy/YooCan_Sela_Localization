@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Yooocan.Models.CategoryListModel>
+
+@{
+    ViewBag.Title = "Categories";
+}
+<h2>Categories</h2>
+
+<p>
+    @Html.ActionLink("Create New Category", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th></th>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Parent</th>
+        <th>Picture URL</th>
+        <th>Header picture URL</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParentCategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PictureUrl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HeaderPictureUrl)
+            </td>
+        </tr>
+    }
+
+</table>
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+    <script>
+        document.body.style.backgroundColor = "#e9e9e9";
+    </script>
+}

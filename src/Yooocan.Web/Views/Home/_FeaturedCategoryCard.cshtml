@@ -1,0 +1,22 @@
+﻿@using Yooocan.Logic.Extensions
+@model FeaturedCategory
+<div class="featured-category-card hoverable">
+    <div class="card horizontal">
+        <div class="card-stacked">
+            <div class="card-content">
+                <div>
+                    <img src="@Model.RoundIcon" class="avatar" alt="@Model.Name category avatar" />
+                </div>
+                <span class="tag" style="background-color: #@Model.TagColor">@Model.Name</span>
+                <div class="members-container">
+                    <img src="/images/members-icon.svg" alt="members" /> <span class="text">@Model.FollowersCount MEMBERS</span>
+                </div>
+                <p class="description">
+                    Explore <b>@Model.Name</b> stories and connect with others.
+                </p>
+            </div>
+            <a class="waves-effect waves-teal btn checkit"
+               asp-route="Feed" asp-route-categoryName="@Model.Name.ToCanonical()" asp-route-id="@Model.Id">CHECK IT OUT</a>
+        </div>
+    </div>
+</div>

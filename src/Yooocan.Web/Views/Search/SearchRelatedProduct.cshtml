@@ -1,0 +1,12 @@
+﻿@using Yooocan.Models.UploadStoryModels
+@model IEnumerable<SetRelatedProductModel>
+@foreach (var product in Model)
+{
+    <tr>
+        <td class="product-id">@product.Id</td>
+        <td class="product-name">@product.Name</td>
+        <td class="vendor-name">@product.VendorName</td>
+        <td><img src="@product.PrimaryImageUrl" class="img-responsive" /></td>
+        <td><button type="button" class="add-related-product" data-product-id="@product.Id">Add Product</button></td>
+    </tr>
+}

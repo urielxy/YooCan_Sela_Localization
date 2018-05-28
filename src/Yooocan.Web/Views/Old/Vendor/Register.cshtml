@@ -1,0 +1,143 @@
+﻿@using System.Threading.Tasks
+@using Yooocan.Models.Vendors
+@using Yooocan.Enums.Vendors
+@model RegisterVendorModel
+@{
+    ViewBag.Title = "vendor pre-registration";
+}
+@section Top {
+    @{ Html.RenderPartial("/Views/Old/_ImageBackground.cshtml", new ImageBackgroundModel { Title = "VENDOR /SELLER PRE-REGISTRATION FORM", HideSearch = true }); }
+}
+@section Head{
+    <style>
+        .bg-image {
+            background-image: url('/images/sellHeader.jpg?v=1')
+        }
+
+        body {
+            background-color: #ffffff;
+        }
+
+        #mainBody > div {
+            background-color: #f1f1f1;
+        }
+
+        #new-seller-registration-form-container {
+            padding-top: 17px;
+        }
+
+        h3.font-group-header {
+            font-size: 20px;
+            margin-top: 0;
+            clear: both;
+            margin-bottom: 4px;
+        }
+
+        @@media (min-width: 992px) {
+            #new-seller-registration-form-container {
+                margin-left: 10%;
+                margin-right: 10%;
+            }
+        }
+
+        @@media (min-width: 1200px) {
+            #new-seller-registration-form-container {
+                margin-left: 15%;
+                margin-right: 15%;
+            }
+        }
+    </style>
+}
+<section>
+    <div id="new-seller-registration-form-container">
+        <form id="newSellRegisterForm" method="post">
+        <div asp-validation-summary="All"></div>
+        <fieldset class="form-group">
+            <h3 class="font-group-header required" style="margin-top: 30px">Company name</h3>
+            <input asp-for="Name" required class="form-control" maxlength="50" placeholder="Company name">
+        </fieldset>
+        <fieldset class="form-group">
+            <h3 class="font-group-header">Website URL</h3>
+            <input asp-for="WebsiteUrl" class="form-control" placeholder="http://example.com">
+        </fieldset>
+        <div>
+            <h3 class="required">What is your business type?</h3>
+            <fieldset id="business-group">
+                <div class="radio">
+                    <input id="business-type-manufacturer" required type="radio" asp-for="BusinessType" value="@VendorBusinessType.ManufacturerVendorSeller">
+                    <label for="business-type-manufacturer">Manufacturer / vendor / seller</label>
+                </div>
+                <div class="radio radio">
+                    <input id="business-type-seller" type="radio" asp-for="BusinessType" value="@VendorBusinessType.ResellerDealer">
+                    <label for="business-type-seller">Reseller / dealer</label>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="radio radio">
+                            <input id="business-other" type="radio" asp-for="BusinessType" value="@VendorBusinessType.Other">
+                            <label for="business-other">Other</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-9 col-xs-12">
+                        <div class="form-group">
+                            <input asp-for="BusinessTypeOther" class="form-control" disabled placeholder="Which?" style="height: 40px" />
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <fieldset class="form-group">
+                    <h3 class="font-group-header">Contact person</h3>
+                    <input asp-for="ContactPresonName" type="text" class="form-control" placeholder="Contact person full name">
+                </fieldset>
+            </div>
+            <div class="col-md-6">
+                <fieldset class="form-group">
+                    <h3 class="font-group-header">Job/Role</h3>
+                    <input asp-for="ContactPresonRole" type="text" class="form-control" placeholder="Contact person role">
+                </fieldset>
+            </div>    
+        </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <fieldset class="form-group">
+                        <h3 class="font-group-header">Email address</h3>
+                        <input asp-for="Email" type="email" class="form-control" placeholder="JohnDoe@@myCompany.com">
+                    </fieldset>
+                </div>
+                <div class="col-md-6">
+                    <fieldset class="form-group">
+                        <h3 class="font-group-header">Phone number</h3>
+                        <input asp-for="PhoneNumber" type="tel" class="form-control" placeholder="987-654-3210">
+                    </fieldset>
+                </div>
+            </div>
+    <div class="form-group clearfix" style="margin-top: 20px">
+        <div>
+            <span style="float: left;">
+                <a class="btn btn-default" id="Contact-us-btn" href="mailto:moshe@yoocantech.com?subject=Question about vendors registeration" target="_Blank">Contact us for questions</a>
+            </span>
+            <div class="visible-xs"></div>
+            <span style="float: right; padding-bottom: 36px;">
+                <button id="submit" class="btn btn-info" type="submit">Submit</button>
+            </span>
+        </div>
+    </div>
+    </form>
+    </div>
+</section>
+@section Scripts{
+    <script>
+        $(function() {
+            $('input[name=@nameof(Model.BusinessType)]')
+                .change(function() {
+                    var showBusinessTypeOther = this.value !== '@VendorBusinessType.Other';
+                    $('#@nameof(Model.BusinessTypeOther)')
+                        .prop('disabled', showBusinessTypeOther)
+                        .focus();
+                });
+        });
+    </script>
+}

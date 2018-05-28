@@ -1,0 +1,359 @@
+﻿@using Yooocan.Logic.Extensions
+@using Yooocan.Logic.Options
+@using Yooocan.Web.Utils
+@inject ClientSideApiKeys Keys
+@inject Yooocan.Logic.Images.ImageUrlOptimizer ImageUrlOptimizer
+
+@model Yooocan.Models.ServiceProviders.ServiceProviderIndexModel
+@{
+    ViewBag.Title = Model.Name;
+    var canonicalUrl = Url.RouteUrl("ServiceProvider", new { Model.Id, Name = Model.Name.ToCanonical() }, "https");
+    var description = $"{Model.Name} page on yoocanfind.com";
+}
+@section head
+    {
+    <link href="/css/ServiceProvider/index.css" rel="stylesheet" asp-append-version="true" />
+    <link rel="canonical" href="@canonicalUrl" id="canonicalUrl" />
+    <meta property="og:type" content="product" />
+    <meta property="og:url" content="@canonicalUrl" />
+    <meta property="product:retailer_title" content="@Model.Name" />
+    <meta property="og:site_name" content="yoocan" />
+    <meta property="og:image" content="@Model.PrimaryImageUrl" />
+    <meta property="og:image:secure_url" content="@Model.PrimaryImageUrl" />
+    <meta property="og:image:width" content="554" />
+    <meta property="og:image:height" content="554" />
+    <meta name="twitter:title" property="og:title" itemprop="title name" content="@($" yoocan {Model.Name} service provider")" />
+    <meta name="twitter:description" property="og:description" itemprop="description" content="@($" Browse {Model.Name} and learn more about what they are doing and ask questions directly")" />
+    <meta name="description" content="@($" Browse {Model.Name} and learn more about what they are doing and ask questions directly")" />
+    <meta name="twitter:card" content="summary_large_image">
+
+    @if (Model.Latitude != null && Model.Longitude != null)
+    {
+        <link href="/css/vectorMap.css" rel="stylesheet" />
+    }
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+}
+@Html.Partial("_StickyShare")
+<div id="sp-page">
+    <div id="sp-header" style="background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('@(ClientHelper.IsMobileDevice(Context.Request.Headers["User-Agent"].ToString()) ?  Model.MobileHeaderImageUrl : Model.HeaderImageUrl)'); background-position: center; background-size: cover;">
+        <form asp-controller="ServiceProvider" asp-action="Unfollow" class="hide-on-small-and-down @(!Model.IsFollowed ? "hide" :"")" method="POST" data-action="Unfollow">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <button class="btn" id="unfollow-btn">- UNFOLLOW</button>
+        </form>
+        <form asp-controller="ServiceProvider" asp-action="Follow" class="hide-on-small-and-down @(Model.IsFollowed ? "hide" :"")" method="POST" data-action="Follow">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <button class="btn" id="follow-btn">+ FOLLOW</button>
+        </form>
+    </div>
+    <img id="sp-logo" src="@Model.LogoUrl" alt="logo" />
+    <div class="container">
+        <div class="row">
+            <div class="col m8 offset-m2 l8 offset-l2">
+                <h1 id="sp-name">@Model.Name</h1>
+                <h6 id="about-title">About</h6>
+                <p id="about">@Model.AboutTheCompany</p>
+                @if (Model.Images.Count > 0)
+                {
+                    <div id="images-container">
+                        @if (Model.Images.Count > 1)
+                        {
+                            <div class="slider-navigation">
+                                <button id="slider-prev"><i class="material-icons">arrow_back</i></button>
+                                <button id="slider-next"><i class="material-icons">arrow_forward</i></button>
+                            </div>
+                        }
+                        <ul>
+                            @for (var i = 0; i < Model.Images.Count; i++)
+                            {
+                                <li class="@(i == 0 ? "visible" : "hidden")">
+                                    <img src="@ImageUrlOptimizer.GetOptimizedUrl(Model.Images[i], height: 500)" />
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(Model.WebsiteUrl))
+                {
+                    <div class="center">
+                        <a href="@Model.WebsiteUrl" target="_blank" class="btn website-link" rel="nofollow noopener">Visit Website</a>
+                    </div>
+                }
+
+                @if (Model.Activities.Any())
+                {
+                    <h3 id="activities-header">OUR ACTIVITIES</h3>
+                    foreach (var activity in Model.Activities)
+                    {
+                        @Html.Partial("_ActivityCard", activity)
+                    }
+                }
+
+                @foreach (var youTubeId in Model.YouTubeIds)
+                {
+                    <div class="video-container">
+                        <iframe src="//www.youtube.com/embed/@youTubeId?showinfo=0&rel=0&autohide=1&modestbranding=1&enablejsapi=1" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(Model.Email))
+                {
+                    <form asp-action="Contact" id="contact-form" method="POST">
+                        <input type="hidden" name="ServiceProviderId" value="@Model.Id" />
+                        <input type="hidden" name="RecaptchToken" id="RecaptchToken" />
+                        <h2>Contact Us</h2>
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">person</i>
+                                <input required id="name" name="name" class="validate">
+                                <label for="name" data-error="Incorrect name">FULL NAME *</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">email</i>
+                                <input required id="email" name="email" type="email" class="validate">
+                                <label for="email" data-error="Incorrect email">YOUR E-MAIL *</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">location_on</i>
+                                <input id="address" name="address" class="validate">
+                                <label for="address">ADDRESS</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">phone</i>
+                                <input id="phone" name="phone" class="validate">
+                                <label for="phone">PHONE</label>
+                            </div>
+
+                            <div class="input-field col s12">
+                                <textarea id="message" name="message" placeholder="Start typing your message" required class="materialize-textarea"></textarea>
+                                <label for="message">YOUR MESSAGE *</label>
+                            </div>
+                        </div>
+                        <div style="color: #9e9e9e">
+                            * indicates required field
+                        </div>
+                        <div class="g-recaptcha" data-sitekey="@Keys.RecaptchaSiteKey" data-callback="recaptchCallback"></div>
+                        <div class="submit-container">
+                            <button type="submit" id="submit" class="btn" disabled="disabled">SUBMIT</button>
+                        </div>
+                    </form>
+                }
+            </div>
+            <aside class="col m12 l2">
+                <div id="vmap-container">
+                    <label for="vmap">LOCATION</label>
+                    <div id="vmap"></div>
+                    <div id="location-text">@Model.City @Model.State @Model.Country</div>
+                </div>
+                <embedCss href="/css/Home/altoPromoCard.css"></embedCss>
+                @Html.Partial("../Home/Cards/_YoocanShirtCard")
+                @if (Model.RelatedStories.Any())
+                {
+                    <h6 id="related-stories-title">RELATED STORIES</h6>
+                    <embedCss href="/css/feed/storyCard.css" />
+                    <div class="row">
+                        @foreach (var story in Model.RelatedStories)
+                        {
+                            <div class="col s6 m4 l12">
+                                @Html.Partial("../Feed/_BackgroundImageStoryCard", story)
+                            </div>
+                        }
+                    </div>
+                }
+                <div class="hide-on-med-and-down">
+                    @Html.Partial("_ShareCard", "SPREAD THE LOVE")
+                </div>
+            </aside>
+        </div>
+    </div>
+</div>
+@section scripts{
+    @if (Model.Latitude != null && Model.Longitude != null)
+    {
+        <script src="/scripts/Utils/vectorMap.js"></script>
+        <script>
+            $('#vmap-container').show().find('#vmap').vectorMap({
+                map: 'world_mill',
+                regionStyle: {
+                    initial: {
+                        fill: '#bfc7d8'
+                    },
+                    hover: {
+                        fill: "#bfc7d8",
+                        "fill-opacity": 1,
+                        cursor: 'default'
+                    }
+                },
+                normalizeFunction: 'polynomial',
+                hoverColor: false,
+                zoomButtons: false,
+                zoomOnScroll: false,
+                backgroundColor: '#fff',
+                onRegionTipShow: function (e) {
+                    e.preventDefault();
+                },
+                markers: [
+                    { latLng: [@Model.Latitude, @Model.Longitude], name: '@Model.City @Model.State @Model.Country', style: { image: '/images/place-orange.svg' } }
+                ]
+            });
+        </script>
+    }
+    <script>
+        $('#sp-header form').submit(function () {
+            if (!isAuthenticated()) {
+                registerModal.call(this);
+                return false;
+            }
+
+            var action = $(this).data('action');
+            window.ga('set', 'dimension1', '@Model.Id');
+            window.ga('send', 'event', 'Service Provider', action, '@Model.Id');
+
+            var $submit = $('#submit').prop('disabled', true);
+            $(this).ajaxSubmit({
+                error: function () {
+                    Materialize.toast('Something went wrong :( our engineers were notified and are working on a solution!', 5000);
+                },
+                complete: function () {
+                    $submit.prop('disabled', false);
+                },
+                success: function () {
+                    $('#sp-header form').toggleClass('hide');
+                }
+            });
+
+            return false;
+        });
+
+        @if (Model.Images.Count >= 1)
+        {
+            <text>
+        var $liImages = $('#images-container li');
+        $('#slider-prev').show().click(function () {
+            var $currentImage = $liImages.filter('.visible');
+            var index = $currentImage.index();
+            if (index === 0)
+                index = $liImages.length;
+
+            --index;
+
+            window.ga('set', 'dimension1', '@Model.Id');
+            window.ga('set', 'dimension3', index + 1);
+            window.ga('send', 'event', 'Images', 'View', 'Service Provider');
+            window.ga('send', 'event', 'Service Provider', 'Images', 'View');
+
+            $currentImage.removeClass('visible').addClass('hidden');
+            $liImages.eq(index).removeClass('hidden').addClass('visible');
+        });
+        $('#slider-next').show().click(function () {
+            var $currentImage = $liImages.filter('.visible');
+            var index = $currentImage.index();
+            ++index;
+
+            if (index === $liImages.length)
+                index = 0;
+
+            window.ga('set', 'dimension1', '@Model.Id');
+            window.ga('set', 'dimension3', index + 1);
+            window.ga('send', 'event', 'Images', 'View', 'Service Provider');
+            window.ga('send', 'event', 'Service Provider', 'Images', 'View');
+
+            $currentImage.removeClass('visible').addClass('hidden');
+            $liImages.eq(index).removeClass('hidden').addClass('visible');
+        });
+
+        $('#slider-next,#slider-prev').mousedown(false);
+        </text>
+        }
+
+        $('#contact-form').submit(function () {
+            var $submit = $('#submit').prop('disabled', true);
+            var that = this;
+            $(this).ajaxSubmit({
+                success: function () {
+                    Materialize.toast($('#sp-name').text() + " got your message and will get back to you shortly.", 8000);
+                    that.reset();
+                },
+                error: function () {
+                    Materialize.toast('Something went wrong :( our engineers were notified and are working on a solution!', 5000);
+                },
+                complete: function () {
+                    $submit.prop('disabled', false);
+                }
+            });
+
+            return false;
+        });
+
+        $('a.pinterest').click(function () {
+            var width = 750,
+                height = 540,
+                left = getLeft(width),
+                top = getTop(height);
+
+            window.open("//www.pinterest.com/pin/create/button/" +
+                "?url=@canonicalUrl" +
+                "&media=@Model.Images.FirstOrDefault()" +
+                "&description=@description", "pinterest-share-dialog",
+                `width=${width},height=${height},top=${top},left=${left})`);
+            return false;
+        });
+        var canonicalUrl = encodeURIComponent($('#canonicalUrl').attr('href'));
+        var name = encodeURIComponent($('#sp-name').text());
+        $('a.facebook').click(function () {
+            var width = 553,
+                height = 510,
+                left = getLeft(width),
+                top = getTop(height);
+            window.open('http://www.facebook.com/sharer/sharer.php?u=' + canonicalUrl,
+                'facebook-share-dialog',
+                `width=${width},height=${height},top=${top},left=${left})`);
+            return false;
+        });
+
+        $('a.twitter').click(function () {
+            var width = 500,
+                height = 636,
+                left = getLeft(width),
+                top = getTop(height);
+            window.open('https://twitter.com/home?status=Check out ' + name + ' on yoocanfind.com ' + canonicalUrl,
+                'twitter-share-dialog',
+                `width=${width},height=${height},top=${top},left=${left})`);
+
+            return false;
+        });
+
+        $('a.google-plus').click(function () {
+            var width = 500,
+                height = 636,
+                left = getLeft(width),
+                top = getTop(height);
+            window.open('https://plus.google.com/share?url=' + canonicalUrl,
+                'google-plus-share-dialog',
+                `width=${width},height=${height},top=${top},left=${left}`);
+            return false;
+        });
+
+        $('.share-widget a').click(function () {
+            var source = $(this).closest('.share-widget').data('source');
+            var platform = $(this).data('platform');
+            window.ga('set', 'dimension1', '@Model.Id');
+            window.ga('set', 'dimension4', source);
+            window.ga('send', {
+                hitType: 'event',
+                eventCategory: 'Story',
+                eventAction: 'Share',
+                eventLabel: platform
+            });
+        });
+
+        function recaptchCallback(token) {
+            $('#submit').prop('disabled', false);
+            $('#RecaptchToken').val(token);
+        }
+
+        $(".yoocan-shirt-card").click(function () {
+            ga("send", "event", "Service Provider", "buy yoocan shirt click")
+        });
+    </script>
+}

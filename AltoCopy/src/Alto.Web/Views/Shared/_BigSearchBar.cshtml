@@ -1,0 +1,6 @@
+﻿<embedcss Href="/css/Shared/BigSearchBar"></embedCss>
+<form asp-action="Index" asp-controller="Search" method="get" class="big-search hide-on-small-and-down">
+    <input class="search-query" type="text" placeholder="SEARCH FREE FOR..." name="query"
+           value="@ViewBag.Query" data-allow-enter="true">
+    <button class="btn">SEARCH</button>
+</form>

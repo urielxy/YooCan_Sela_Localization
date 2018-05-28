@@ -1,0 +1,21 @@
+﻿@model SearchResultModel
+@{
+    Layout = string.IsNullOrEmpty(ViewBag.Title) ? "_LayoutEmbed" : "";
+}
+@if (!Model.Stories.Any())
+{
+    <div class="no-results">We couldn't find any stories.</div>
+}
+else
+{
+    <div class="row feed">
+        @for (var i = 0; i < Model.Stories.Count; i++)
+        {
+            var cardType = !Model.Stories[i].IsProductsReviewed ? "_StoryCard" : "_BackgroundImageStoryCard";
+            Model.Stories[i].IsDarkTheme = i % 3 >= 1;
+            <div class="col s12 m6 l3">
+                @Html.Partial($"../Feed/{cardType}", Model.Stories[i])
+            </div>
+        }
+    </div>
+}

@@ -1,0 +1,33 @@
+﻿@model Yooocan.Models.Products.ProductModel
+<embedCss Href="/css/Product/RedirectWidow.css"></embedCss>
+<section id="redirect-window" class="hide" data-coupon-url="@Url.Action("GetCoupon", new {id = Model.Id})" data-coupon-not-needed="@Model.CouponNotNeeded">
+    <h1>YOU ARE NOW BEING TRANSFERRED</h1>
+    <div class="line"></div>
+    <div class="description">
+        You are now leaving yoocan and going to the site of a trusted provider.
+        <br />
+        @if (!string.IsNullOrEmpty(Model.RedirectPageComment))
+        {
+            <text>@Model.RedirectPageComment</text>
+        }
+        else if (Model.CouponNotNeeded)
+        {
+            <text>You will receive your discount automatically upon checkout.</text>
+        }
+        else
+        {
+            <text>Enter your yoocan coupon/promo code at checkout to receive your discount.</text>
+            <span class="coupon-container">
+                Code: <span class="coupon"></span>
+            </span>
+        }
+    </div>
+
+    <div class="continue-container">
+        <a href="#" class="continue">Click Here To Continue</a>
+    </div>
+    <footer>
+        <a href="#" class="cancel">Cancel</a>
+        <a href="#" class="continue">Continue</a>
+    </footer>
+</section>

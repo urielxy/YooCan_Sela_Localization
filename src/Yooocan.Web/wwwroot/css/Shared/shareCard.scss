@@ -1,0 +1,54 @@
+﻿.social-buttons.card {
+    padding: 20px 5px;
+
+    h4 {
+        font-family: Montserrat;
+        font-size: 15px;
+        font-weight: bold;
+        color: #393d3f;
+        text-align: center;
+    }
+
+    .buttons-container {
+        max-width: 200px;
+        margin-left: auto;
+        margin-right: auto;
+
+        .btn {
+            line-height: 40px;
+            height: 40px;
+            width: 200px;
+            border-radius: 60px;
+            background-color: #215b9a;
+            padding: 0 20px 0 10px;
+            margin: 8px 0;
+            font-size: 17px;
+            font-family: Source Sans Pro;
+            font-weight: 100;
+            display: block;
+            max-width: 100%;
+
+            &.facebook {
+                background-color: #215b9a;
+            }
+
+            &.twitter {
+                background-color: #00adf2;
+            }
+
+            &.pinterest {
+                background-color: #e51616;
+            }
+
+            &.google-plus {
+                background-color: #ce4435;
+            }
+
+            img {
+                height: 20px;
+                margin-right: 5px;
+                vertical-align: sub;
+            }
+        }
+    }
+}

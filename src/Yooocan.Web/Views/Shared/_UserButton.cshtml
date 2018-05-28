@@ -1,0 +1,31 @@
+﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.Http.Extensions
+@if (User.Identity.IsAuthenticated)
+{
+    <li>
+        <a class="dropdown-button user-dropdown-button" href="#!" data-activates='user-dropdown' data-beloworigin="true"
+           data-constrainwidth="true" data-alignment="right">
+            <img src="@(User.FindFirstValue("picture") ?? "/images/no-avatar.jpg")" />
+            <span class="user-name">
+                @if (User.FindFirstValue(ClaimTypes.GivenName) != null)
+                {
+                    @User.FindFirstValue(ClaimTypes.GivenName)
+                }
+                else
+                {
+                    @User.FindFirstValue(ClaimTypes.Email)
+                }
+            </span>
+            <i class="material-icons">keyboard_arrow_down</i>
+        </a>
+    </li>
+}
+else
+{
+    <li>
+        <a class="header-login-btn" asp-action="Login" asp-controller="Account" asp-route-returnUrl="@(ViewBag.ReturnUrl ?? Context.Request.Path.Value)">Sign In</a>
+    </li>
+    <li>
+        <a class="header-register-btn" asp-action="Register" asp-controller="Account" asp-route-returnUrl="@(ViewBag.ReturnUrl ?? Context.Request.Path.Value)">Sign Up</a>
+    </li>
+}

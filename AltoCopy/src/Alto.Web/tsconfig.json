@@ -1,0 +1,11 @@
+﻿{
+  "compilerOptions": {
+    "sourceMap": true,
+    "noEmitOnError": true,
+    "noImplicitAny": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "target": "es5"
+  },
+  "compileOnSave": true,
+  "exclude": [ "node_modules" , "bin", "obj"]
+}

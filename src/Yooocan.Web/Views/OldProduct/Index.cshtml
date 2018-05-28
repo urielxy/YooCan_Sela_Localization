@@ -1,0 +1,206 @@
+﻿@using System.Net
+@using System.Text.Encodings.Web
+@using System.Threading.Tasks
+@model ProductModel
+@{
+    ViewBag.Title = $"{Model.Name} {Model.VendorName}";
+    var canonicalUrl = Url.Action("Index", "Product", new { Model.Id }, "https");
+}
+@section head {
+    <meta property="og:type" content="product" />
+    <meta property="og:site_name" content="yooocan" />
+    <meta property="og:url" content="@Url.Action("Index", "Product", Model.Id, "https")" />
+    <meta property="product:price:amount" content="@Model.Price" />
+    <meta property="product:price:currency" content="USD" />
+    <meta property="product:retailer_title" content="@Model.VendorName" />
+    <meta property="og:image" content="@Model.PrimaryImageUrl" />
+    <meta property="og:image:secure_url" content="@Model.PrimaryImageUrl" />
+    <meta property="og:image:width" content="554" />
+    <meta property="og:image:height" content="554" />
+    <meta name="twitter:title" property="og:title" itemprop="title name" content="@($"{Model.Name} {Model.VendorName}")" />
+    <meta name="twitter:description" property="og:description" itemprop="description" content="@($"Browse {Model.Name} to learn about the features, pricing and reviews")" />
+    <meta name="description" content="@($"Browse {Model.Name} to learn about the features, pricing and reviews")" />
+    <meta name="twitter:card" content="summary_large_image">
+    <embedCss href="/css/product/oldindex.css" />
+}
+@Html.Partial("_StickyShare")
+<div id="product">
+    <div class="container">
+        <div class="breadcrumbs">
+            <a href="/" class="breadcrumb">Homepage</a>
+            <a class="breadcrumb" asp-controller="Shop" asp-action="Category" asp-route-id="@Model.SubCategoryId">@Model.SubCategoryName</a>
+            <span class="breadcrumb">@Model.Name</span>
+        </div>
+        <div id="main" class="row">
+            <div id="gallery" class="col l7 m12">
+                @if (Model.Images.Count > 1)
+                {
+                    <div id="thumbnails">
+                        @foreach (var image in Model.Images)
+                        {
+                            <a class="thumbnail" href="#!" style="background-image: url('@image')">
+                                <img src="@image"/>
+                            </a>
+                        }
+                    </div>
+                }
+                <div id="primaryImageContainer">
+                    <img id="primaryImage" src="@Model.PrimaryImageUrl" />
+                </div>
+            </div>
+            <section id="product-info" class="col l5 m12">
+                <h2>@Model.Name</h2>
+                <h3>By @Model.VendorName</h3>
+                <div id="product-details">
+                    <p>@Model.About</p>
+                    @if (!string.IsNullOrEmpty(Model.Specifications))
+                    {
+                        <h4>Specs</h4>
+                        <div class="separator"></div>
+                            <p class="specs">@Model.Specifications</p>
+                    }
+                    <div class="separator"></div>
+                </div>
+                <footer id="product-footer">
+                    @*@if (Model.Price > 0)
+                    {
+                        <div class="price">@Model.Price</div>
+                    }*@
+                    <div>
+                        <a class="waves-effect waves-light btn" id="buy-button" asp-controller="External" asp-action="Product" asp-route-id="@Model.Id" 
+                           rel="nofollow noopener" target="_blank">buy</a>
+                    </div>
+                </footer>
+            </section>
+        </div>
+    </div>
+    <aside>
+        <div class="container">
+            @if (Model.RelatedProducts.Any())
+            {
+                <h3 class="title">You may also like</h3>
+                <div class="row">
+                    <embedcss href="/css/home/featuredProduct.css"></embedcss>
+                    @foreach (var product in Model.RelatedProducts)
+                    {
+                        <div class="col s12 m6 l3">
+                            @Html.Partial("../Home/_FeaturedProductCard", product)
+                        </div>
+                    }
+                </div>
+            }
+            @if (Model.StoriesFeaturing.Any())
+            {
+                <h3 class="title">Featured in stories</h3>
+                <embedCss href="/css/feed/storyCard.css" />
+                <div class="row">
+                    @for (var i = 0; i < Model.StoriesFeaturing.Count; i++)
+                    {
+                        var cardType = i % 2 == 0 && !Model.StoriesFeaturing[i].IsProductsReviewed ? "_StoryCard" : "_BackgroundImageStoryCard";
+                        Model.StoriesFeaturing[i].IsDarkTheme = i % 3 == 0;
+                        <div class="col s12 m6 l3">
+                            @Html.Partial("../Feed/" + cardType, Model.StoriesFeaturing[i])
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </aside>
+</div>
+@section Scripts{
+    <script>
+        $thumbnails = $('.thumbnail');
+        var clearSelected = function () {
+            $thumbnails.removeClass("selected");
+        }
+
+        $("#thumbnails a")
+            .click(function () {
+                var index = $(this).index();
+                window.ga('set', 'dimension1', '@Model.Id');
+                window.ga('set', 'dimension3', index + 1);
+                window.ga('send', 'event', 'Images', 'View', 'Product');
+
+                clearSelected();
+                var src = $(this).addClass("selected")
+                                 .find('img').attr("src");
+                $('#primaryImage').prop('src', src);
+                return false;
+            });
+
+        $('.thumbnail').first().addClass("selected");
+
+        $('#buy-button').click(function() {
+            var price = parseInt($('.price').text().trim() || 0);
+            window.ga('set', 'dimension1', '@Model.Id');
+            window.ga('send', {
+                hitType: 'event',
+                eventCategory: 'products',
+                eventAction: 'buy button click',
+                eventLabel: '@Model.VendorName',
+                eventValue: price
+            });
+        });
+
+        $('a.pinterest').click(function () {
+            var width = 750,
+                height = 540,
+                left = getLeft(width),
+                top = getTop(height);
+
+            window.open("//www.pinterest.com/pin/create/button/" +
+                "?url=@canonicalUrl" +
+                "&media=@Model.Images.First()" +
+                `width=${width},height=${height},top=${top},left=${left})`);
+            return false;
+        });
+
+        $('a.facebook').click(function () {
+            var width = 553,
+                height = 510,
+                left = getLeft(width),
+                top = getTop(height);
+            window.open('http://www.facebook.com/sharer/sharer.php?u=@WebUtility.UrlEncode(canonicalUrl)',
+                'facebook-share-dialog',
+                `width=${width},height=${height},top=${top},left=${left})`);
+            return false;
+        });
+
+        $('a.twitter').click(function () {
+            var width = 500,
+                height = 636,
+                left = getLeft(width),
+                top = getTop(height);
+            window
+                .open('https://twitter.com/home?status=@JavaScriptEncoder.Default.Encode(WebUtility.UrlEncode($"Check out {Model.Name} on yoocanfind.com {canonicalUrl}"))',
+                    'twitter-share-dialog',
+                    `width=${width},height=${height},top=${top},left=${left})`);
+
+            return false;
+        });
+
+        $('a.google-plus').click(function () {
+            var width = 500,
+                height = 636,
+                left = getLeft(width),
+                top = getTop(height);
+            window.open('https://plus.google.com/share?url=@canonicalUrl',
+                'google-plus-share-dialog',
+                `width=${width},height=${height},top=${top},left=${left})`);
+            return false;
+        });
+
+        $('.share-widget a').click(function () {
+            var source = $(this).closest('.share-widget').data('source');
+            var platform = $(this).data('platform');
+            window.ga('set', 'dimension1', '@Model.Id');
+            window.ga('send', {
+                hitType: 'event',
+                eventCategory: 'Product',
+                eventAction: 'Share',
+                eventLabel: platform,
+                dimension4: source
+            });
+        });
+    </script>
+}

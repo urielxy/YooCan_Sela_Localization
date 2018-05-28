@@ -1,0 +1,100 @@
+﻿@model SearchResultModel
+@{
+    ViewBag.Title = "Search " + Model.Query;
+}
+@section Head {
+    <embedCss href="/css/search/search.css" />
+}
+<div id="main">
+    <header>
+        <div class="row">
+            <h1 class="col s12">Yoocan Search</h1>
+        </div>
+        <form>
+            <div class="row">
+                <div class="input-field col s12" id="search-line">
+                    <div>
+                        <input id="search-text" asp-for="Query" data-allow-enter="true" placeholder="Search for...">
+                        <button id="search-button" type="submit">
+                            <i class="material-icons">search</i>
+                        </button>
+                        <input type="submit"
+                               style="position: absolute; left: -9999px; width: 1px; height: 1px;"
+                               tabindex="-1" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m6">
+                    <select asp-for="CategoryId" asp-items="ViewBag.Categories">
+                        <option value="" selected>Categories</option>
+                    </select>
+                </div>
+                <div class="input-field col s12 m6" id="limitations-container">
+                    <select multiple asp-for="LimitationIds" asp-items="ViewBag.Limitations">
+                        <option value="" disabled>Disabilities</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </header>
+    @if (!string.IsNullOrWhiteSpace(Model.Query) || (bool)Model.LimitationIds?.Any() || Model.CategoryId != null)
+    { 
+        var activateProducts = !Model.Stories.Any() && Model.Products.Any();
+        var activateServiceProviders = !Model.Stories.Any() && !Model.Products.Any() && Model.ServiceProviders.Any();
+        var activateBenefits = !Model.Stories.Any() && !Model.Products.Any() && !Model.ServiceProviders.Any() && Model.Benefits.Any();
+        var searchParams = new { Model.Query, Model.CategoryId, Model.LimitationIds };
+
+        <div class="container">
+            <ul class="tabs">
+                <li class="tab"><a href="#stories">Stories</a></li>
+                <li class="tab"><a href="#products" class="@(activateProducts ? "active" : "")">Products</a></li>
+                <li class="tab"><a href="#service-providers" class="@(activateServiceProviders ? "active" : "")">Service Providers</a></li>
+                <li class="tab"><a href="#benefits" class="@(activateBenefits ? "active" : "")">Benefits</a></li>
+            </ul>
+            <hr />
+            <embedCss href="/css/feed/storyCard.css" />
+            <div id="stories">
+                @Html.Partial("StoriesSearchResults", Model)
+                @Html.Partial("_LoadMoreButton", Url.Action("SearchStories", searchParams))
+            </div>
+            <div id="products">
+                @if (!Model.Products.Any())
+                {
+                    <div class="no-results">We couldn't find any products.</div>
+                }
+                else
+                {
+                    <div class="row feed">
+                        <embedcss href="/css/home/featuredProduct.css"></embedcss>
+                        @foreach (var product in Model.Products)
+                        {
+                            <div class="col s12 m6 l3">
+                                @Html.Partial("../Home/_FeaturedProductCard", product)
+                            </div>
+                        }
+                    </div>
+                    @Html.Partial("_LoadMoreButton", Url.Action("SearchProducts", searchParams))
+                }
+            </div>
+            <div id="service-providers">
+                @Html.Partial("ServiceProvidersSearchResults", Model)
+                @Html.Partial("_LoadMoreButton", Url.Action("SearchServiceProviders", searchParams))
+            </div>
+            <div id="benefits">
+                @if (!Model.Benefits.Any())
+                {
+                    <div class="no-results">We couldn't find any benefits.</div>
+                }
+                else
+                {
+                    @Html.Partial("../Benefit/_BenefitsStrip", new Yooocan.Models.Benefits.BenefitsStripModel { Benefits = Model.Benefits })
+                    @Html.Partial("_LoadMoreButton", Url.Action("SearchBenefits", searchParams))
+                }
+            </div>
+        </div>
+    }
+</div>
+@section Scripts {
+    <script src="/dist/Search/Search.js" asp-append-version="true"></script>
+}

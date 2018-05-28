@@ -1,0 +1,20 @@
+﻿<div class="row hide-on-small-only" id="homepage-tabs">
+    <embedcss href="/css/home/tabs.css"></embedcss>
+    <div class="container ">
+        <div class="row">
+            <div class="col m12">
+                <ul class="tabs">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="tab col s12" id="content-im-following-link"><a class="active" href="#content-im-following">Content I'm following</a></li>
+                    }
+                    else
+                    {
+                        <li class="tab col s12"><a id="whats-new" class="active" href="#whats-new-content">What's New ?</a></li>
+                    }
+                    @*<li class="tab col l6 hide-on-med-and-down"><a href="#test3">Last Viewed</a></li>*@
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

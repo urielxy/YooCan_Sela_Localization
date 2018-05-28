@@ -1,0 +1,66 @@
+﻿@model ContentImFollowingModel
+
+@if (Model.Stories.Any())
+{
+    <embedCss href="/css/feed/storyCard.css" />   
+    @*<embedcss href="/css/home/featuredProduct.css"></embedcss>*@
+    @*<div class="col l4 m6 s12">
+        @Html.Partial("Cards/_StoryCompetitionCard")
+    </div>*@
+    @*<div class="col l4 m6 s12">
+        @await Html.PartialAsync("Cards/_ShopCategoriesCard")
+    </div>
+    <div class="col l4 m6 s12">
+        @await Html.PartialAsync("Cards/_ProductOfTheDayCard")
+    </div>
+    <div class="col l4 m6 s12">        
+        @Html.Partial("Cards/_YoocanShirtCard")
+    </div>*@
+    for (var i = 0; i < Model.Stories.Count - 4; i++)
+    {
+        <div class="col l3 m6 s12">
+            @Html.Partial("../Feed/_BackgroundImageStoryCard", Model.Stories[i])
+        </div>
+    }
+}
+else
+{
+    <style>
+        #no-following-content {
+            margin: 50px 0 50px 44.444444%;
+            max-width: 44.444444%;
+        }
+
+            #no-following-content img {
+                margin: 0 auto;
+                display: block;
+            }
+
+            #no-following-content h3 {
+                font-family: Montserrat;
+                font-size: 36px;
+                font-weight: bold;
+                text-align: center;
+                color: #4a4a4a;
+            }
+
+            #no-following-content p {
+                font-family: Montserrat;
+                font-size: 24px;
+                font-weight: 300;
+                text-align: center;
+                color: #4a4a4a;
+            }
+    </style>
+    <div class="row">
+        <section id="no-following-content">
+            <img src="/images/addlove.svg" />
+            <h3>
+                Sorry! No content yet
+            </h3>
+            <p>
+                Start following categories and community members that interest you!
+            </p>
+        </section>
+    </div>
+}

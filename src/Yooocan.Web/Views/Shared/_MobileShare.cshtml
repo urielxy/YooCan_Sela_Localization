@@ -1,0 +1,16 @@
+﻿@using System.Net
+@model Tuple<string, string, string>
+<div class="hide-on-med-and-up mobile-share share-widget" data-source="mobile-@Model.Item3">
+    <a class="facebook" rel="nofollow" href="#" data-platform="facebook">
+        <img src="/images/facebook-icon-white.svg" />
+    </a>
+    <a class="twitter" rel="nofollow" href="#" data-platform="twitter">
+        <img src="/images/twitter-icon-white.svg" />
+    </a>
+    <a class="pinterest" rel="nofollow" href="#" data-platform="pinterest">
+        <img src="/images/pinterest-icon-white.svg" />
+    </a>
+    <a class="whatsapp" rel="nofollow" data-platform="whatsapp" href="whatsapp://send?text=You must read @Model.Item1 @WebUtility.UrlEncode(Model.Item2)" data-action="share/whatsapp/share">
+        <img src="/images/whatsapp-logo.svg" asp-append-version="true" />
+    </a>
+</div>

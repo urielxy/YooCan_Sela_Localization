@@ -1,0 +1,85 @@
+﻿@{
+    ViewBag.Title = "Insurance";
+    ViewBag.CanonicalUrl = Url.Action("Isurance");
+}
+@section head{
+    <meta property="og:image" itemprop="image primaryImageOfPage" content="/images/categories/headers/Insurance.jpg" />
+    <meta property="og:image:width" content="1920" />
+    <meta property="og:image:height" content="450" />
+    <meta name="description" content="Browse discounts, rewards and benefits realted to Isurance." />
+}
+<embedcss Href="/css/Category/Insurance"></embedcss>
+<section id="insurance-page">
+    <header class="page-header">
+        <h1>INSURANCE</h1>
+    </header>
+    <div class="container">
+        <h3 class="strip-title">NEW SERVICES</h3>
+        <div class="row">
+            <div class="col xs12 s6 m4 l3">
+                <div class="travel-card">
+                    <a asp-action="InsuranceRegisteration">
+                        <div class="card hoverable" style="background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/images/insurance/life.jpg');">
+                            <div class="card-content">
+                                <h3 class="discount">Alto Life Insurance</h3>
+                                <h3 class="join">JOIN</h3>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col xs12 s6 m4 l3">
+                <div class="travel-card">
+                    <a asp-action="InsuranceRegisteration">
+                        <div class="card hoverable" style="background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/images/insurance/car.jpg');">
+                            <div class="card-content">
+                                <h3 class="discount">Alto Car Insurance</h3>
+                                <h3 class="join">JOIN</h3>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col xs12 s6 m4 l3">
+                <div class="travel-card">
+                    <a asp-action="InsuranceRegisteration">
+                        <div class="card hoverable" style="background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/images/insurance/house.jpg');">
+                            <div class="card-content">
+                                <h3 class="discount">Alto House Insurance</h3>
+                                <h3 class="join">JOIN</h3>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col xs12 s6 m4 l3">
+                <div class="travel-card">
+                    <a asp-action="InsuranceRegisteration">
+                        <div class="card hoverable" style="background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/images/insurance/travel.jpg');">
+                            <div class="card-content">
+                                <h3 class="discount">Alto Travel Insurance</h3>
+                                <h3 class="join">JOIN</h3>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section scripts{
+    <script>
+        $('.travel-card a').click(function () {
+            if (isMobile())
+                return;
+
+            $('#modal-container > div.modal-content').empty().load(this.href, function () {
+                $('#spinner-container').hide();
+                markRequiredFields('#modal-container');
+                $('#modal-container').openModal({ opacity: 0.75 });
+            });
+
+            return false;
+        });
+    </script>
+}

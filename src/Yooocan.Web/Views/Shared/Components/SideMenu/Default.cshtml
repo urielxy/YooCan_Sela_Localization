@@ -1,0 +1,131 @@
+﻿@using Yooocan.Logic.Extensions
+@model SideMenuModel
+@{
+    var isInShop = Context.Request.Path.ToString().StartsWith("/Shop");
+}
+<embedcss href="/css/ViewComponents/SideMenu.css"></embedcss>
+<ul id="side-menu" class="side-nav hide-on-large-only">
+    <li class="no-padding">
+        <ul class="collapsible collapsible-accordion">
+            <li>
+                <a class="collapsible-header stories @(isInShop ? "" : "active")" href="#!">EXPLORE STORIES<i class="material-icons">arrow_drop_down</i></a>
+                <div class="collapsible-body">
+                    <ul>
+                        @foreach (var category in Model.StoriesCategories)
+                        {
+                            <li>
+                                <a asp-route="Feed" asp-route-id="@category.Id"
+                                   asp-route-categoryName="@category.Name.ToCanonical()">
+                                    @*<span class="icon-container">
+                                            <img src="@category.MenuIconUrl" />
+                                        </span>*@
+                                    <span class="category-name">@category.Name.Replace("& ", "&\u00A0")</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <ul class="collapsible collapsible-accordion">
+            <li>
+                <a class="collapsible-header orange-background active" href="#!">
+                    ＋ADD<i class="material-icons">arrow_drop_down</i>
+                </a>
+                <div class="collapsible-body">
+                    <ul>
+                        <li>
+                            <a asp-controller="Story" asp-action="Create">
+                                <span class="category-name">PERSONAL STORY</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="Story" asp-action="Create" asp-route-template="tips">
+                                <span class="category-name">10 TIPS ARTICLE</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="Story" asp-action="Create" asp-route-template="product">
+                                <span class="category-name">PRODUCT RECOMMENDATION</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </li>
+    <li>
+        @if (!isInShop)
+        {
+            <a class="purple-background" asp-controller="Shop" asp-action="Index">SHOP</a>
+        }
+        else
+        {
+            <ul class="collapsible collapsible-accordion">
+                <li>
+                    <a class="purple-background collapsible-header service-providers active">SHOP<i class="material-icons">arrow_drop_down</i></a>
+                    <div class="collapsible-body">
+                        <ul>
+                            @foreach (var category in Model.ServiceProvidersCategories)
+                            {
+                                <li>
+                                    <a asp-route="CategoryShop" asp-route-id="@category.Id"
+                                       asp-route-categoryName="@category.Name.ToCanonical()">
+                                        <span class="category-name">@category.Name.Replace("& ", "&\u00A0")</span>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        }
+    </li>
+    <li>
+        <a class="red-background" asp-controller="Search" asp-action="Search">
+            SEARCH
+        </a>
+    </li>
+    @*<li class="no-padding">
+            <ul class="collapsible collapsible-accordion">
+                <li>
+                    <a class="collapsible-header orange-background" href="#!">SERVICE PROVIDERS<i class="material-icons">arrow_drop_down</i></a>
+                    <div class="collapsible-body">
+                        <ul>
+                            @foreach (var category in Model.ServiceProvidersCategories)
+                            {
+                                <li>
+                                    <a asp-route="CategoryServiceProvider" asp-route-id="@category.Id"
+                                       asp-route-categoryName="@category.Name.ToCanonical()">
+                                        <span class="category-name">@category.Name.Replace("& ", "&\u00A0")</span>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </li>
+        <li class="no-padding">
+            <ul class="collapsible collapsible-accordion">
+                <li>
+                    <a class="collapsible-header red-background" href="#!">BENEFITS<i class="material-icons">arrow_drop_down</i></a>
+                    <div class="collapsible-body">
+                        <ul>
+                            @foreach (var category in Model.BenefitsCategories)
+                            {
+                                <li>
+                                    <a asp-route="BenefitCategory" asp-route-id="@category.Id"
+                                       asp-route-categoryName="@category.Name.ToCanonical()">
+                                        <span class="category-name">@category.Name.Replace("& ", "&\u00A0")</span>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </li>*@
+</ul>

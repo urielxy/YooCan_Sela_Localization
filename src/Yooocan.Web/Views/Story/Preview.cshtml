@@ -1,0 +1,159 @@
+﻿@model PreviewStoryModel
+@{
+    ViewBag.Title = "Preview story";
+    var firstParagraph = Model.Paragraphs.ElementAtOrDefault(0);
+}
+<embedCss href="/css/story/index.css" />
+<embedCss href="/css/story/preview.css" />
+<link href="/css/vectorMap.css" rel="stylesheet" />
+@Html.Partial("_BackToEditStrip")
+<div id="story-header" style="background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('@Model.HeaderImageUrl'); background-position: center; background-size: cover;">
+    <div>
+        <span class="tag" style="background-color: #@Model.CategoryColor">@Model.CategoryName</span>
+    </div>
+    <h1>@Model.Title</h1>
+    <div class="details">
+        <span class="post-date">
+            @DateTime.UtcNow.ToString("MMMM dd yyyy hh:mm tt")
+        </span>
+        <span class="social">
+            <img src="/images/chat-white.svg" asp-append-version="true" alt="comments" /> <span class="comments-count">0</span>
+            <img src="/images/heart-white.svg" asp-append-version="true" alt="likes" /> <span class="likes-count">0</span>
+        </span>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="article-content col s9">
+            @if (firstParagraph != null)
+            {
+                <h4>@firstParagraph.Title</h4>
+                <p>@Html.Raw(firstParagraph.Text)</p>
+            }
+
+            @if (Model.Images.Any())
+            {
+                <div id="images-container">
+                    @if (Model.Images.Count > 1)
+                    {
+                        <div class="slider-navigation">
+                            <span id="slider-prev" role="button"><i class="material-icons">arrow_back</i></span>
+                            <span id="slider-next" role="button"><i class="material-icons">arrow_forward</i></span>
+                        </div>
+                    }
+                    <ul>
+                        @for (var i = 0; i < Model.Images.Count; i++)
+                        {
+                            <li class="@(i == 0 ? "visible" : "hidden")">
+                                <img src="@Model.Images[i]" />
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+
+            @foreach (var paragraph in Model.Paragraphs.Skip(1))
+            {
+                <h4>@paragraph.Title</h4>
+                <p>@Html.Raw(paragraph.Text)</p>
+            }
+
+            <div>
+                @foreach (var subCategory in Model.SubCategories)
+                {
+                    <span class="story-tag">@subCategory</span>
+                }
+            </div>
+        </div>
+        <aside class="col s3">
+            <div class="author-details">
+                <img src="@Model.AuthorProfileUrl" class="circle" />
+                <h4>@Model.AuthorName</h4>
+                @if (!string.IsNullOrWhiteSpace(Model.AuthorAboutMe))
+                {
+                    <h5>About</h5>
+                    <p>
+                        @Model.AuthorAboutMe
+                    </p>
+                }
+
+                <button class="waves-effect waves-light btn" disabled id="follow"></button>
+            </div>
+            <div id="vmap-container">
+                <label for="vmap">LOCATION</label>
+                <div id="vmap"></div>
+                <span>@Model.City @Model.State @Model.Country</span>
+            </div>
+            <embedcss href="/css/story/quote.css"></embedcss>
+        </aside>
+    </div>
+</div>
+<div id="back-to-edit-footer">
+    @Html.Partial("_BackToEditStrip")
+</div>
+<script>
+    $('.back-to-edit-strip .btn').click(function() {
+        window.ga('send', 'event', 'Upload Story', 'Back to edit');
+        $('#preview-container').fadeOut();
+        $('#create-story-container').fadeIn();
+    });
+
+        @if (Model.Images.Count >= 1)
+        {
+            <text>
+        var $liImages = $('#images-container li');
+        $('#slider-prev').show().click(function () {
+            var $currentImage = $liImages.filter('.visible');
+            var index = $currentImage.index();
+            if (index === 0)
+                index = $liImages.length;
+
+            --index;
+            $currentImage.removeClass('visible').addClass('hidden');
+            $liImages.eq(index).removeClass('hidden').addClass('visible');
+        });
+        $('#slider-next').show().click(function () {
+            var $currentImage = $liImages.filter('.visible');
+            var index = $currentImage.index();
+            ++index;
+
+            if (index === $liImages.length)
+                index = 0;
+
+            $currentImage.removeClass('visible').addClass('hidden');
+            $liImages.eq(index).removeClass('hidden').addClass('visible');
+        });
+
+        $('#slider-next,#slider-prev').mousedown(false);
+        </text>
+        }
+</script>
+@if (Model.Latitude != null && Model.Longitude != null)
+{
+    <script src="/scripts/Utils/vectorMap.js"></script>
+        <script>
+            $('#vmap-container').show().find('#vmap').vectorMap({
+                map: 'world_mill',
+                regionStyle: {
+                    initial: {
+                        fill: '#bfc7d8'
+                    },
+                    hover: {
+                        fill: "#bfc7d8",
+                        "fill-opacity": 1,
+                        cursor: 'default'
+                    }
+                },
+                normalizeFunction: 'polynomial',
+                hoverColor: false,
+                zoomButtons: false,
+                zoomOnScroll: false,
+                backgroundColor: '#fff',
+                onRegionTipShow: function (e) {
+                    e.preventDefault();
+                },
+                markers: [
+                    { latLng: [@Model.Latitude, @Model.Longitude], name: '@Model.City @Model.State @Model.Country', style: { image: '/images/place-orange.svg' } }
+                ]
+            });</script>
+}

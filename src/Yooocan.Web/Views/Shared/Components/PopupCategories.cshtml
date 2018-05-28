@@ -1,0 +1,19 @@
+﻿@using Yooocan.Logic.Extensions
+@model List<CategoryModel>
+
+<ul class="popup-categories">
+    @foreach (var category in Model)
+    {
+        <li>
+            <a asp-route="@ViewBag.RouteName" asp-route-id="@category.Id" asp-route-categoryName="@category.Name.ToCanonical()">
+                @if (!string.IsNullOrWhiteSpace(category.MenuIconUrl))
+                {
+                    <span class="icon-container">
+                        <img src="@category.MenuIconUrl" />
+                    </span>
+                }
+                <span class="category-name">@category.Name</span>
+            </a>
+        </li>
+    }
+</ul>

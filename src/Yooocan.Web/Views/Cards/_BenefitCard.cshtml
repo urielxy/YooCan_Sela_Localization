@@ -1,0 +1,35 @@
+﻿@using Yooocan.Enums
+@using Yooocan.Logic.Extensions
+@using Yooocan.Models.Cards
+@model BenefitCardModel
+@if (ViewContext.HttpContext.Items["BenefitCardModel"] == null)
+{
+    <embedcss href="/css/Cards/BenefitCard.css"></embedcss>
+    ViewContext.HttpContext.Items["BenefitCardModel"] = true;
+}
+<div class="image-benefit-card">
+    <a asp-route="Benefit" asp-route-id="@Model.Id" asp-route-company="@Model.CompanyName.ToCanonical()">
+        @if (!string.IsNullOrEmpty(Model.CategoryName))
+        {
+            <h5 class="category-name">@Model.CategoryName</h5>
+        }
+        <div class="card hoverable" style="background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('@(Model.ImageUrl)'); background-position: center;">
+            <div class="card-content">
+                <div class="top">
+                    @if ((Model.Type == BenefitType.FixedDiscount || Model.Type == BenefitType.PercentDiscount) && Model.Discount.HasValue)
+                    {
+                        <h3 class="discount">@(Model.Discount == 100 ? "FREE" : Model.Discount + "%")</h3>
+                        <h4>On @Model.Title</h4>
+                    }
+                    else
+                    {
+                        <h4>@Model.Title</h4>
+                    }
+                </div>
+                <div class="bottom">
+                    <div class="description">@Model.CompanyName</div>
+                </div>
+            </div>
+        </div>
+    </a>
+</div>

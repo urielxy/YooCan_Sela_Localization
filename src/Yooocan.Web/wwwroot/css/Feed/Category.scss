@@ -1,0 +1,192 @@
+﻿@import "../_variables.scss";
+@import "../_common.scss";
+
+#category-header {
+    background-position: center;
+    background-size: cover;
+    min-height: 315px;
+    max-height: 400px;
+    height: 315px;
+    height: 25vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    #category-title {
+        margin: 0 10px;
+        text-align: center;
+        padding: 10px 38px;
+        border-radius: 9px;
+        color: #ffffff;
+        background-color: #4a90e2;
+
+        h2 {
+            margin: 0;
+            font-size: 30px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        h3 {
+            margin: 10px 0 0 0;
+            font-size: 24px;
+        }
+
+        @media #{$small-and-down} {
+            padding: 5px 10px;
+
+            h2 {
+                font-size: 20px;
+            }
+
+            h3 {
+                margin-top: 5px;
+                font-size: 16px;
+            }
+        }
+    }
+
+    form {
+        display: inline;
+
+        .btn {
+            position: absolute;
+            height: 41px;
+            background-color: #02d4b1;
+            border-radius: 100px;
+            bottom: 20px;
+            right: 20px;
+            font-size: 14px;
+            line-height: 41px;
+        }
+
+        .unfollow-category-form {
+            display: none;
+        }
+
+        #unfollow-category-btn {
+            background-color: #26a45d;
+        }
+    }
+}
+
+#breadcrumbs-container {
+    margin-bottom: 20px;
+}
+
+@include breadcrumbs;
+
+#side-nav {
+    position: static;
+    transform: translateX(0);
+    box-shadow: none;
+
+    h2 {
+        font-size: 12px;
+        text-transform: uppercase;
+        color: #9fa9ba;
+        line-height: $sidenav-item-height;
+        margin: 10px 0 0 16px+5px;
+    }
+
+    ul {
+        margin: 0;
+
+        li {
+            ul {
+                margin-top: 5px;
+
+                .menu-text::before {
+                    height: 7px;
+                    width: 7px;
+                    border-radius: 7px;
+                    background-color: #4a90e2;
+                    display: inline-block;
+                    content: ' ';
+                    margin: 0 7px 0 20px;
+                }
+            }
+        }
+    }
+
+    a {
+        padding: 0 15px;
+        border-radius: 4px;
+    }
+
+    .menu-item {
+        display: flex;
+        width: 100%;
+        align-items: center;
+
+        .menu-icon {
+            width: 45px;
+            justify-content: center;
+        }
+
+        .menu-text {
+            flex: 1;
+            font-family: Source Sans Pro;
+            font-weight: 600;
+            font-size: 14px;
+            color: #354052;
+        }
+
+        $badge-height: 20px;
+
+        .badge {
+            background-color: #ff7800;
+            font-size: 12px;
+            line-height: $badge-height;
+            color: white;
+            border-radius: $badge-height;
+            min-width: $badge-height;
+            margin-top: ($sidenav-item-height - $badge-height) / 2;
+            position: static;
+            margin-right: 15px;
+        }
+    }
+
+    .active {
+        background-color: #fff;
+
+        > a {
+            background-color: #4a90e2;
+
+            .menu-item {
+                .menu-icon {
+                    g, path {
+                        fill: white !important;
+                        stroke: white !important;
+                    }
+                }
+
+                .menu-text {
+                    color: white;
+                }
+            }
+        }
+
+        li {
+            background-color: #fff;
+        }
+    }
+
+    .subcategories li:last-of-type {
+        margin-bottom: 20px;
+    }
+}
+
+#feed .row {
+    margin: 0 -10px;
+
+    .col {
+        padding: 0 10px;
+    }
+
+    .card {
+        margin-top: 0;
+    }
+}

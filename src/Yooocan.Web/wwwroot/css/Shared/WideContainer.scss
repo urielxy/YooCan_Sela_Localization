@@ -1,0 +1,64 @@
+﻿$max-extra-small-screen: 767px !default;
+$max-small-screen: 991px !default;
+$max-medium-screen: 1199px !default;
+$max-large-screen: 1439px !default;
+
+$small-screen: $max-extra-small-screen + 1px !default;
+$medium-screen: $max-small-screen + 1px !default;
+$large-screen: $max-medium-screen + 1px !default;
+$extra-large-screen: $max-large-screen + 1px !default;
+
+$small-and-up: "only screen and (min-width : #{$small-screen})" !default;
+$medium-and-up: "only screen and (min-width : #{$medium-screen})" !default;
+$large-and-up: "only screen and (min-width : #{$large-screen})" !default;
+$extra-large-and-up: "only screen and (min-width : #{$extra-large-screen})" !default;
+$extra-small-only: "only screen and (max-width : #{$max-extra-small-screen})" !default;
+$small-and-down: "only screen and (max-width : #{$max-small-screen})" !default;
+$medium-and-down: "only screen and (max-width : #{$max-medium-screen})" !default;
+$large-and-down: "only screen and (max-width : #{$max-large-screen})" !default;
+$small-only: "only screen and (min-width : #{$small-screen}) and (max-width : #{$max-small-screen})" !default;
+$medium-only: "only screen and (min-width : #{$medium-screen}) and (max-width : #{$max-medium-screen})" !default;
+$large-only: "only screen and (min-width : #{large-screen}) and (max-width : #{$max-large-screen})" !default;
+$extra-large-only: "only screen and (min-width : #{$extra-large-screen})" !default;
+
+#html {
+
+    .container.wide {
+        width: 100%;
+    }
+
+    @media #{$small-and-up} {
+        $small-container-width: 750px;
+
+        .container.wide {
+            max-width: $small-container-width;
+            width: unset;
+        }
+    }
+
+    @media #{$medium-and-up} {
+        $medium-container-width: 970px;
+
+        .container.wide {
+            max-width: $medium-container-width;
+        }
+    }
+
+    @media #{$large-and-up} {
+        $large-container-width: 1170px;
+
+        .container.wide {
+            max-width: $large-container-width;
+        }
+    }
+
+    @media #{$extra-large-and-up} {
+        $large-container-width: 1370px;
+
+        .container.wide {
+            width: 100%;
+            max-width: 100%;
+            padding: 0 5.4%;
+        }
+    }
+}

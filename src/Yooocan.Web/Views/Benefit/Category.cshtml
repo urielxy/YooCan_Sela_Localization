@@ -1,0 +1,41 @@
+﻿@using Yooocan.Logic.Extensions
+@model Yooocan.Models.Categories.AltoCategoryFeedModel
+@{
+    ViewBag.Title = Model.CategoryName ?? Model.ParentCategoryName;
+    ViewBag.CanonicalUrl = Url.Action("Category", new { id = Model.Id, categoryName = Model.CategoryName.ToCanonical() });
+}
+@section head{
+    <meta property="og:image" itemprop="image primaryImageOfPage" content="@Model.HeaderImageUrl" />
+    <meta property="og:image:width" content="1920" />
+    <meta property="og:image:height" content="350" />
+    <meta name="description" content="@($"Browse discounts, rewards and benefits realted to {Model.CategoryName}.")" />
+    <embedcss href="/css/Shared/WideContainer.css"></embedcss>
+    <embedcss Href="/css/Benefit/Category.css"></embedcss>
+}
+<section id="category-page">
+    <header class="page-header" style="background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('@Model.HeaderImageUrl')">
+        <h1>@Model.CategoryName</h1>
+        @*<h5>Enjoy nature, visit the best camps in the statets and text text sample filler text</h5>*@
+    </header>
+    <div class="container wide">
+        <div class="menu-col hide-on-small-and-down">
+            @if (Model.ParentCategoryId == null)
+            {
+                <a href="/"><i class="material-icons left-sign">keyboard_arrow_left</i>HOME</a>
+            }
+            else
+            {
+                <a asp-route="BenefitCategory" asp-route-id="@Model.ParentCategoryId" asp-route-categoryName="@Model.ParentCategoryName.ToCanonical()"><i class="material-icons left-sign">keyboard_arrow_left</i>@Model.ParentCategoryName</a>
+            }
+            <embedcss Href="/css/Benefit/Menu.css"></embedcss>
+            @Html.Partial("_Menu", Model)
+        </div>
+        <div class="content-col">
+            @Html.Partial("_CardStrips", Model)
+        </div>
+    </div>
+</section>
+@section scripts{
+    <script src="https://unpkg.com/flickity@2.0/dist/flickity.pkgd.min.js" asp-fallback-src="/lib/flickity/dist/flickity.pkgd.min.js" asp-fallback-test="window.Flickity"></script>
+    <script src="/dist/Benefit/Strips.js" asp-append-version="true"></script>
+}

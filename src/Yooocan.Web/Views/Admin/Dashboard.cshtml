@@ -1,0 +1,80 @@
+﻿@model DashboardModel
+
+@{
+    ViewBag.Title = "yoocan Dashboard";
+}
+<style>
+    col {
+        height: 160px;
+    }
+</style>
+<h4 class="text-center" style="margin-bottom: 20px;">
+    HERE ARE SOME SYSTEM FACTS FOR YOU MOSHE ❤
+</h4>
+<div class="container">
+    <div class="row text-center">
+        <div class="col m3 s6 ">
+            <h1>@Model.Stories</h1>
+            <h4>STORIES</h4>
+        </div>
+        <div class="col m3 s6 ">
+            <h1>@Model.ProductRecommendations</h1>
+            <h4>PRODUCT RECOMMEN-DATIONS</h4>
+        </div>
+        <div class="col m3 s6 ">
+            <h1>@Model.TipsArticles</h1>
+            <h4>Tips Articles</h4>
+        </div>
+        <div class="col m3 s6 ">
+            <h1 class="red-if-big">@Model.PendingStories</h1>
+            <h4>PENDING STORIES</h4>
+        </div>
+        <div class="col m3 s6 ">
+            <h1>@Model.Products</h1>
+            <h4>PRODUCTS</h4>
+        </div>
+        <div class="col m3 s6 ">
+            <h1>@Model.Vendors</h1>
+            <h4>VENDORS WITH PRODUCTS</h4>
+        </div>
+        <div class="col m3 s6 ">
+            <h1>@Model.Users</h1>
+            <h4>USERS</h4>
+            <a asp-route="ConfirmedUsersEmails">Confirmed emails csv</a>
+        </div>
+        <div class="col m3 s6 ">
+            <h1>@Model.ServiceProviders</h1>
+            <h4>SERVICE PROVIDERS</h4>
+        </div>
+        <div class="col m3 s6 ">
+            <h1 class="red-if-big">@Model.PendingServiceProviders</h1>
+            <h4>PENDING SERVICE PROVIDERS</h4>
+        </div>
+        <div class="col m3 s6 ">
+            <h1>@Model.StoryImages</h1>
+            <h4>STORY IMAGES</h4>
+        </div>
+        <div class="col m3 s6 ">
+            <h1>@Model.ProductImages</h1>
+            <h4>PRODUCT IMAGES</h4>
+        </div>
+        <div class="col m3 s6 ">
+            <h1>@Model.StoryVideos</h1>
+            <h4>STORY VIDEOS</h4>
+        </div>
+        <div class="col m3 s6 ">
+            <h1>@Model.ProductVideos</h1>
+            <h4>PRODUCT VIDEOS</h4>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $('.red-if-big').each(function () {
+            if (parseInt(this.innerHTML.trim()) > 0) {
+                this.style.color = 'red';
+                $(this).next().css('color', 'red');
+            }
+        });
+    </script>
+}

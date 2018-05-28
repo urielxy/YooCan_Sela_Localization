@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Yooocan.Models.SetStoryProductsDashboardModel>
+
+<style>
+    #approve-stories-products-table form {
+        display: inline;
+    }
+</style>
+<h1>Set products for stories</h1>
+<table class="table table-hover table-striped table-bordered" id="approve-stories-products-table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Title</th>
+        <th>View</th>
+        <th>EditProducts</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var story in Model)
+    {
+        <tr>
+            <th>@story.Id</th>
+            <th>@story.Title</th>
+            <th><a class="btn btn-secondary" asp-action="Index" asp-controller="Story" asp-route-id="@story.Id" target="_Blank">View</a></th>
+            <th><a class="btn btn-secondary" asp-action="Edit" asp-controller="Story" asp-route-id="@story.Id" target="_Blank">EditProducts</a></th>
+        </tr>
+    }
+    </tbody>
+</table>

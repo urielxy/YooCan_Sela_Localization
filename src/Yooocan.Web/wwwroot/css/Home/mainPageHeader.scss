@@ -1,0 +1,88 @@
+﻿#main-page-header {
+    .zoom-container {
+        overflow: hidden;
+
+        &:hover .image-container{
+            -webkit-transform: scale(1.08); /* Safari and Chrome */
+            -moz-transform: scale(1.08); /* Firefox */
+            -ms-transform: scale(1.08); /* IE 9 */
+            -o-transform: scale(1.08); /* Opera */
+            transform: scale(1.08);
+        }
+    }
+
+    .image-container {
+        position: relative;
+        background-position: top;
+        /* Make the background image cover the area of the <div>, and clip the excess */
+        background-size: cover;
+        height: 250px;
+        -webkit-transition: all 1s ease;
+        -moz-transition: all 1s ease;
+        -o-transition: all 1s ease;
+        transition: all 1s ease;
+    }
+
+    .image-container img {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        -webkit-transform: translate(-50%,-50%);
+        -ms-transform: translate(-50%,-50%);
+        transform: translate(-50%,-50%);
+    }
+
+    .col {
+        padding: 0;
+    }
+
+    .details {
+        position: absolute;
+        background: rgba(0, 0, 0, .3);
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding-top: 65px;
+        padding-left: 56px;
+        padding-right: 56px;
+        color: #fff;
+        text-transform: uppercase;
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            line-height: 1.25;
+            margin: 5px 0;
+        }
+
+        .author {
+            height: 15px;
+            font-size: 12px;
+            letter-spacing: 1.1px;
+            text-align: left;
+        }
+
+        .by {
+            font-family: Source Sans Pro;
+            font-style: italic;
+            text-transform: none;
+        }
+
+        .tag {
+            border-radius: 3px;
+            padding: 3px 9px;
+
+            span {
+                height: 12px;
+                font-family: Montserrat;
+                font-size: 10px;
+                font-weight: bold;
+                letter-spacing: 1px;
+                color: #ffffff;
+                text-transform: uppercase;
+                vertical-align: middle;
+            }
+        }
+    }
+}

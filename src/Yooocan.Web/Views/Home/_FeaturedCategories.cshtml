@@ -1,0 +1,24 @@
+﻿@model List<FeaturedCategory>
+<embedcss href="/css/home/featuredCategories.css"></embedcss>
+<div id="featured-categories">
+    <div class="card horizontal">
+        <div class="card-stacked">
+            <div class="card-content">
+                <div class="top">
+                    <img src="/images/ooo.png" class="avatar" asp-append-version="true" />
+                    <div class="right-column">
+                        <div class="title">Topics that might be intresting to you</div>
+                    </div>
+                </div>
+                <div class="row">
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        <div class="col m6 s12">
+                            @Html.Partial("_FeaturedCategoryCard", Model[i])
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

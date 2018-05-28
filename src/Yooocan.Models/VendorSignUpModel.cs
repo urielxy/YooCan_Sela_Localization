@@ -1,0 +1,4 @@
+﻿namespace Yooocan.Models
+{
+    
+}

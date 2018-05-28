@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Yooocan.Models.ProductListModel>
+
+@{
+    ViewBag.Title = "Products list";
+}
+<h2>Products</h2>
+
+<p>
+    @Html.ActionLink("Create New Product", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+        </th>
+        <th>
+            Id
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            About
+        </th>
+        <th>Specifications</th>
+        <th>Price</th>
+        <th>ListPrice</th>
+        <th>VideoUrl</th>
+        <th>PrimaryImageUrl</th>
+        <th>Images</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.About)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Specifications)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ListPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VideoUrl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrimaryImageUrl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Images)
+            </td>
+        </tr>
+    }
+
+</table>
+@section Scripts {
+    <script>
+        document.body.style.backgroundColor = "#e9e9e9";
+    </script>
+}

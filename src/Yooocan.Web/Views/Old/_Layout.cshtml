@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>    
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="fb:app_id" content="235838370135588"/>
+    <meta name="twitter:domain" content="yoocanfind.com"/>
+    @RenderSection("head", required: false)
+    <environment Names="Development,Staging">
+        <meta name="robots" content="noindex, nofollow">
+    </environment>
+    <title>yoocan - @(ViewBag.Title ?? "do anything")</title>
+
+    <style>
+        /**General changes**/
+        body {
+            font-family: Arial;
+        }
+    </style>
+    @{Html.RenderPartial("/Views/Old/_OpenSansImport.cshtml");}
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"/>
+        <link rel="stylesheet" href="~/css/old/main.css"/>
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="~/css/old/main.css" asp-append-version="true"/>
+    </environment>
+</head>
+<body>
+    <div class="container" id="top">
+        @RenderSection("Top", required: false)
+    </div>
+    <div class="container" id="mainBody">
+        <div>
+            @RenderBody()
+        </div>
+    </div>
+
+    <environment names="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.js"
+                asp-fallback-test="window.jQuery"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/scripts/old/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery">
+
+
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
+
+
+        </script>
+        <script src="~/scripts/old/site.min.js" asp-append-version="true"></script>
+    </environment>
+    <script>
+
+        $('form').submit(function (e) {
+            var emptyRequiredFields = $(this).find('[required]').filter(function () {
+                return !this.disabled && !this.cheked && this.value === '';
+            });
+
+            if (emptyRequiredFields.length === 0)
+                return;
+
+            e.preventDefault();
+            alert('Please fill all the required fields (marked with red *)');
+            emptyRequiredFields.eq(0).focus();
+
+            return false;
+        });
+
+        function createFunctionWithTimeout(callback, timeout) {
+            var called = false;
+
+            function fn() {
+                if (!called) {
+                    called = true;
+                    callback();
+                }
+            }
+
+            setTimeout(fn, timeout || 1000);
+            return fn;
+        }
+
+        function deferStyleSheet(src) {
+            if (document.createStyleSheet)
+                document.createStyleSheet(src);
+            else {
+                var stylesheet = document.createElement('link');
+                stylesheet.href = src;
+                stylesheet.rel = 'stylesheet';
+                stylesheet.type = 'text/css';
+                document.getElementsByTagName('head')[0].appendChild(stylesheet);
+            }
+        }
+
+        deferStyleSheet("/lib/font-awesome/css/font-awesome.min.css");
+        deferStyleSheet("/libold/bootstrap-checkbox.css");
+        deferStyleSheet("/libold/jquery-ui-1.12.0.custom/jquery-ui.min.css");
+        $(document)
+            .ready(function () {
+                $(".bottom-nav nav > div")
+                    .click(function () {
+                        $('#accebility').addClass('on');
+                    });
+                $(".close")
+                    .click(function (e) {
+                        e.preventDefault();
+                        $('#accebility, #yourStory').removeClass('on');
+                        $('.image-wrapper').removeClass('hidden');
+                        $('.bottom-nav ul li.story').addClass('hidden');
+
+                    });
+            });
+
+    </script>
+    @RenderSection("scripts", required: false)
+    <script src="/libold/jquery-ui-1.12.0.custom/jquery-ui.min.js"></script>
+    <i class="fa fa-check-square" id="force-load-fa" style="font-size: 0.0001px; visibility: hidden"></i>
+</body>
+</html>

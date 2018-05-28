@@ -1,0 +1,59 @@
+﻿@model Yooocan.Models.New.Messages.ConversationModel
+<div class="header">
+    <h5>@ViewBag.Name</h5>
+    @*<div class="buttons">
+        <button class="btn-flat">
+            <img src="/images/new-message.svg" asp-append-version="true" class="new" />
+        </button>
+        <button class="btn-flat">
+            <img src="/images/delete.svg" asp-append-version="true" class="delete" />
+        </button>
+    </div>*@
+</div>
+<ul class="collection">
+    @if (Model.Read.Any())
+    {
+        foreach (var dayMessages in Model.Read.GroupBy(x => x.InsertDate.ToString("M")))
+        {
+            <li class="line-container">
+                <div class="line">
+                    <span class="text">@dayMessages.Key</span>
+                </div>
+            </li>
+            foreach (var message in dayMessages)
+            {
+                <li class="collection-item avatar">
+                    <img src="@(message.FromUserAvatar ?? "/images/no-avatar.jpg")" alt="Avatar" class="circle">
+                    <span class="author-name">@message.FromUserName</span> <span class="date">@message.InsertDate.ToShortTimeString()</span>
+                    <p>@message.Content</p>
+                </li>
+            }
+
+        }
+    }
+    @if (Model.NotRead.Any())
+    {
+        <li class="line-container unread">
+            <div class="line">
+                <span class="text">New Messages</span>
+            </div>
+        </li>
+        foreach (var message in Model.NotRead)
+        {
+            <li class="collection-item avatar">
+                <img src="@(message.FromUserAvatar ?? "/images/no-avatar.jpg")" alt="Avatar" class="circle">
+                <span class="author-name">@message.FromUserName</span> <span class="date">@message.InsertDate.ToShortTimeString()</span>
+                <p>@message.Content</p>
+            </li>
+        }
+    }
+</ul>
+<form id="conversation-form" asp-action="Post">
+    <input type="hidden" name="ToUserId" value="@ViewBag.UserId"/>
+    <div class="row">
+        <div class="input-field col s12" id="messages-text-container">
+            <textarea id="message" name="Content" class="materialize-textarea" placeholder="Type a message"></textarea>
+            <button id="send" type="submit"><i class="material-icons">send</i></button>
+        </div>
+    </div>
+</form>

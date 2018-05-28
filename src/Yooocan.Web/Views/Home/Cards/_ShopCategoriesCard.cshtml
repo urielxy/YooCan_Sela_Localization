@@ -1,0 +1,17 @@
+﻿@inject Yooocan.Logic.ICategoriesLogic CategoriesLogic
+@{
+    var categories = (await CategoriesLogic.GetMenuShopAndServiceProvidersCategories()).OrderBy(x => Guid.NewGuid()).ToList();
+}
+<a asp-controller="Shop" asp-action="Index">
+    @foreach (var category in categories)
+    {
+        <div class="alto-card-promo card hoverable shop-category @(category.Id == categories.First().Id ? "" : "hide")">
+            <div class="card-content" style="background-color: #@category.ShopBackgroundColor">
+                <h2>@category.Name</h2>
+            </div>
+            <div class="card-button" style="background-color: #@category.ShopBackgroundColor">
+                YOOCAN SHOP
+            </div>
+        </div>
+    }
+</a>

@@ -1,0 +1,41 @@
+﻿#sticky-social {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+
+    a {
+        margin: 5px 2px;
+        height: 50px;
+        width: 50px;
+        text-align: center;
+        transition: width 0.3s;
+        display: block;
+
+        &:hover {
+            width: 65px;
+            transition: width 0.3s;
+        }
+
+        &.facebook {
+            background-color: #215b9a;
+        }
+
+        &.twitter {
+            background-color: #00adf2;
+        }
+
+        &.pinterest {
+            background-color: #e51616;
+        }
+
+        &.google-plus {
+            background-color: #ce4435;
+        }
+
+        img {
+            height: 30px;
+            margin-top: 10px;
+        }
+    }
+}

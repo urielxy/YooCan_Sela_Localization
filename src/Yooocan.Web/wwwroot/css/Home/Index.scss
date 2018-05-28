@@ -1,0 +1,38 @@
+﻿@import '../_variables.scss';
+
+#main-page-content {
+
+    #main-options {
+        margin-bottom: 0;
+    }
+
+    .section-title {
+        font-size: 32px;
+        font-weight: 900;
+        color: #000;
+        margin: 25px 0 0 0;
+
+        &#stories-heading {
+            margin: 0;
+            //margin-left: 12px;
+        }
+    }
+}
+
+#stories, #main-options {
+    margin: 0 -12px;
+
+    .col {
+        padding: 0 12px;
+    }
+}
+
+#stories .col {
+    float: right;
+}
+
+#editors-choice-container {
+    @media #{$medium-and-up} {
+        margin-top: -40px;
+    }
+}

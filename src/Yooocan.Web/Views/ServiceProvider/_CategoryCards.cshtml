@@ -1,0 +1,7 @@
+﻿@model List<RelatedServiceProviderModel>
+@foreach (var serviceProvider in Model)
+{
+    <div class="col s12 m6 l3" data-query-result="1">
+        @Html.Partial("../Feed/_BackgroundImageServiceProviderCard", serviceProvider)
+    </div>
+}

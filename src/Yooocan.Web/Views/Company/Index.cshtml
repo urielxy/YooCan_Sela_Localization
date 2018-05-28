@@ -1,0 +1,45 @@
+﻿@model List<Yooocan.Models.Company.CompanyIndexModel>
+@{
+    ViewBag.Title = "Companies Index";
+}
+@section Head {
+    <embedcss href="/css/Shared/WideContainer.css"></embedcss>
+    <style>
+        #html body {
+            word-break: normal;
+        }
+    </style>
+}
+<div class="container wide">
+    <table class="striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Website url</th>
+                <th>Contact person name</th>
+                <th>Contact person email</th>
+                <th>Contact person position</th>
+                <th>Edit commercial terms</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var company in Model.Where(x => !string.IsNullOrEmpty(x.WebsiteUrl)))
+            {
+                <tr>
+                    <td><a asp-action="All" asp-controller="Product" asp-route-id="@company.Id">@company.Id</a></td>
+                    <td><a asp-action="Edit" asp-route-id="@company.Id" target="_blank">@company.Name</a></td>
+                    <td>@company.WebsiteUrl</td>
+                    <td>@company.ContactPersonName</td>
+                    <td>@company.ContactPersonEmail</td>
+                    <td>@company.ContactPersonPosition</td>
+                    <td>
+                        <a asp-controller="Company" asp-action="EditCommercialTerms" asp-route-id="@company.Id"
+                           class="btn @(company.OnBoardingDate == null ? "orange" : "green")">Edit terms</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

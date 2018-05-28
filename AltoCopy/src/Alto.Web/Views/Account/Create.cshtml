@@ -1,0 +1,52 @@
+﻿@using Microsoft.AspNetCore.Http.Extensions
+<embedcss href="/css/Account/Create"></embedcss>
+<section id="create-account-step" class="step">
+    <div id="register-container">
+        <h4 class="header">Create your account</h4>
+        <form id="social-form" asp-action="ExternalLogin" asp-controller="Account" method="post" data-return-url="@ViewBag.ReturnUrl" data-window-url="@Url.Action("ExternalLoginWindow")">
+            <button name="provider" value="Facebook"><img src="/images/Account/facebook-signin.png" asp-append-version="true" /></button>
+            <button name="provider" value="Google"><img src="/images/account/google-signin.png" asp-append-version="true" /></button>
+        </form>
+        <div class="line">
+            <span class="text">OR REGISTER USING</span>
+        </div>
+        <form id="register-form" asp-controller="Account" asp-action="Register" asp-route-returnUrl="@ViewBag.ReturnUrl"
+              data-customize-feed-url="@Url.Action("Index","Home", new {returnUrl = ViewBag.ReturnUrl?? Context.Request.GetEncodedUrl()})" method="post" novalidate="novalidate">
+            <div class="row">
+                <div class="col s12">
+                    <div class="input-field">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input required id="email" name="email" type="email">
+                        <label for="email" data-error="Incorrect email">YOUR E-MAIL</label>
+                    </div>
+                </div>
+                <div class="col s12 m6">
+                    <div class="input-field">
+                        <i class="material-icons prefix">lock</i>
+                        <input required id="password" name="password" type="password">
+                        <label for="password">Password</label>
+                    </div>
+                </div>
+                <div class="col s12 m6">
+                    <div class="input-field">
+                        <i class="material-icons prefix">lock</i>
+                        <input required id="confirmPassword" name="confirmPassword" type="password">
+                        <label for="confirmPassword">Confirm Password</label>
+                    </div>
+                </div>
+            </div>
+            <div id="submit-container">
+                <button type="submit" class="btn waves-effect" id="submit">SIGN UP</button>
+            </div>
+        </form>
+        <p class="statement">
+            By creating an account you agree to the <a asp-route="TermsOfUse" target="_Blank">Terms of Service</a> and <a asp-route="Privacy" target="_Blank">Privacy Policy</a>.
+        </p>
+
+
+        <div class="login">
+            <h4>Already have an account?</h4>
+            <a class="waves-effect waves-light btn" id="login-btn" asp-action="Login" asp-route-returnUrl="@ViewBag.ReturnUrl">Login</a>
+        </div>
+    </div>
+</section>

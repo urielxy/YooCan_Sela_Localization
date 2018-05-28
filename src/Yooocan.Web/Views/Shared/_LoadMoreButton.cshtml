@@ -1,0 +1,22 @@
+﻿@model string
+@{
+    if (Context.Items["WasLoadMoreButtonStyleLoaded"] == null)
+    {
+        <embedCss href="/css/Utils/LoadMore.css"></embedCss>
+        Context.Items["WasLoadMoreButtonStyleLoaded"] = true;
+    }
+}
+<div class="center load-more-container">
+    <button class="load-more btn" data-url="@Model">LOAD MORE</button>
+    <div class="load-more-preloader preloader-wrapper big active" style="display: none;">
+        <div class="spinner-layer spinner-blue-only">
+            <div class="circle-clipper left">
+                <div class="circle"></div>
+            </div><div class="gap-patch">
+                <div class="circle"></div>
+            </div><div class="circle-clipper right">
+                <div class="circle"></div>
+            </div>
+        </div>
+    </div>
+</div>

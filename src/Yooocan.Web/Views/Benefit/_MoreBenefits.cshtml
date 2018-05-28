@@ -1,0 +1,7 @@
+﻿@model List<Yooocan.Models.Cards.BenefitCardModel>
+@foreach(var benefit in Model)
+{
+    <div class="carousel-cell" data-query-result="1">
+        @Html.Partial("../Cards/_BenefitCard", benefit)
+    </div>
+}

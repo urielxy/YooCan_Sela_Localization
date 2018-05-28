@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Yooocan.Models.Vendors.RegisterVendorModel>
+@{
+    ViewBag.Title = "Vendor Registration Status Dashboard";
+}
+<style>
+    #vendor-registrations-table form {
+        display: inline;
+    }
+
+    #vendor-registrations-table th.btn-header {
+        padding-left: 12px;
+    }
+
+    h3 {
+        margin: 30px 0;
+    }
+</style>
+<h3 class="text-uppercase">Vendor Registration Status Dashboard</h3>
+<table class="table table-hover table-striped table-bordered" id="vendor-registrations-table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Contact Name</th>
+            <th>Contact Role</th>
+            <th>Contact Email</th>
+            <th>Contact Phone</th>
+            <th>Website</th>
+            <th>Set Commercial Terms</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var vendorRegistration in Model)
+        {
+        <tr>
+            <td>@vendorRegistration.Id</td>
+            <td>@vendorRegistration.Name</td>
+            <td>@vendorRegistration.ContactPresonName</td>
+            <td>@vendorRegistration.ContactPresonRole</td>
+            <td>@vendorRegistration.Email</td>
+            <td>@vendorRegistration.PhoneNumber</td>
+            <td>@vendorRegistration.WebsiteUrl</td>
+            <td>
+                <a asp-controller="Admin" asp-action="SetVendorCommercialTerms" class="btn btn-warning"
+                   asp-route-id="@vendorRegistration.Id" target="_Blank">
+                    Set Business Terms
+                </a>
+            </td>
+            <td>
+                <form asp-controller="Admin" asp-action="DeleteVendorRegistration" method="post">
+                    <input name="id" value="@vendorRegistration.Id" type="hidden"/>
+                    <button type="submit" onclick="return confirm('Are you sure you wish to delete vendor pre-registration: @vendorRegistration.Name?');"
+                            class="btn btn-danger">
+                        Delete
+                    </button>
+                </form>
+                @*<a asp-controller="Admin" asp-action="DeleteVendorRegistration"
+                   onclick="return confirm('Are you sure you wish to delete vendor pre-registration: @vendorRegistration.Name?');"
+                   asp-route-id="@vendorRegistration.Id" class="btn btn-danger">
+                    Delete
+                </a>*@
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

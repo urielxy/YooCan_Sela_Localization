@@ -1,0 +1,148 @@
+﻿@import "../_variables.scss";
+@import "../_common.scss";
+
+@include breadcrumbs;
+$imageSize: 600px;
+
+#main {   
+    margin: 25px 0 50px 0;   
+
+    #gallery {
+        margin: 30px 0;
+        display: flex;
+        align-items: center;       
+
+        #thumbnails {
+            $thumbnail-size: 54px;
+            width: $thumbnail-size;
+
+            .thumbnail {
+                margin-bottom: 15px;
+                display: block;
+                font-size: 0;
+                display: inline-block;
+                background-position: center;
+                background-size: cover;
+                width: $thumbnail-size;
+                height: $thumbnail-size;
+                border: solid 1px #e8e8e8;
+                border-radius: 3.3px;
+
+                img {
+                    display: none;
+                }
+
+                &.selected {
+                    opacity: 0.6;
+                }
+            }
+        }
+
+        #primaryImageContainer {
+            flex: 1;
+            text-align: center;
+            max-height: $imageSize;
+            min-width: 200px;
+            margin: 0 30px;
+            display: flex;
+            align-items: center;
+
+            img {
+                max-height: 100%;
+                max-width: 100%;
+                margin: 0 auto;
+            }
+        }
+    }
+
+    #product-info {        
+        min-width: 250px;
+
+        p {
+            white-space: pre-wrap;
+        }
+
+        #product-details {
+            max-height: $imageSize - 60px;
+            overflow-y: auto;
+        }
+
+        h2 {
+            font-family: Montserrat;
+            font-size: 24px;
+            color: #1e2226;
+            margin: 0 0 5px 0;
+        }
+
+        h3 {
+            font-family: Montserrat;
+            font-size: 20px;
+            color: #979797;
+            margin: 0 0 25px 0;
+        }
+
+        > p {
+            font-family: Montserrat;
+            font-size: 14px;
+            line-height: 1.29;
+            color: #1e2226;
+            white-space: pre-wrap;
+        }
+
+        h4 {
+            margin: 35px 0 17px 0;
+            font-family: Montserrat;
+            font-size: 14px;
+            line-height: 1;
+            color: #5e6977;
+        }
+
+        .separator {
+            height: 1px;
+            background-color: #e1e8ee;
+        }
+    }
+
+    #product-footer {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 8px;
+
+        .price {
+            font-family: Montserrat;
+            font-size: 24px;
+            color: #1366da;
+
+            &::before {
+                margin-right: 3px;
+                content: '$';
+            }
+        }
+
+        .btn {
+            font-family: Montserrat;
+            font-size: 12px;
+            color: #ffffff;
+            background-color: #1366da;
+            padding: 0 50px;
+            text-transform: uppercase;
+        }
+    }
+}
+
+#product {
+    aside {
+        padding: 60px 0;
+        background-color: #f3f3f3;
+
+        h3.title {
+            font-family: Montserrat;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 0.2px;
+            text-align: center;
+            text-transform: uppercase;
+            color: #1e2226;
+        }
+    }
+}

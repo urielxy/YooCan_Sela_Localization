@@ -1,0 +1,11 @@
+﻿{
+  "plugins": ["lodash"],
+  "presets": [
+    [
+      "env",
+      {
+        "modules": false
+      }
+    ]
+  ]
+}

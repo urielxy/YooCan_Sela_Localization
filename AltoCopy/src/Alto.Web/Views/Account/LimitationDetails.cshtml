@@ -1,0 +1,51 @@
+﻿@using Alto.Enums
+@model Alto.Models.Account.UserDetailsModel
+<embedcss Href="/css/Account/LimitationDetails" />
+<section id="limitation-details" class="step">
+    <div class="main">
+        <h2>
+            Relationship To Account Owner
+        </h2>
+        <h4>
+            What is your relationship to the account owner?
+        </h4>
+        @foreach (var enumValue in Html.GetEnumSelectList(typeof(AccountRelationship)))
+        {
+            <div>
+                <input type="radio" id="AccountRelationship@(enumValue.Value)" name="@nameof(Model.AccountRelationship)" value="@enumValue.Value" class="with-gap"
+                       checked="@(((int)Model.AccountRelationship).ToString() == enumValue.Value)" />
+                <label for="AccountRelationship@(enumValue.Value)">@enumValue.Text</label>
+            </div>
+        }
+        <h2>
+            BASIS OF ELIGIBILITY AND DISABILITY TYPE OF THE ACCOUNT OWNER
+        </h2>
+        <p>
+            Please provide the information below on the basis of eligibility and disability type of the account owner. This is required to join ALTO. Please check the appropriate boxes below.
+        </p>
+        <h3>
+            Type of Disability of the Account Owner
+        </h3>
+        <h4>
+            Please select the option that best reflects the account owner’s disability:
+        </h4>
+        @foreach (var limitationOption in Model.Limitations)
+        {
+            <div>
+                <input type="checkbox" id="Limitation@(limitationOption.Id)" name="@nameof(Model.LimitationIds)" value="@limitationOption.Id" class="with-gap" />
+                <label for="Limitation@(limitationOption.Id)">@limitationOption.Name</label>
+            </div>
+        }
+        <div>
+            <input type="checkbox" id="LimitationOtherOption" class="with-gap" />
+            <label for="LimitationOtherOption">Other</label>
+            <div class="input-group" id="other-limitation-text">
+                <input asp-for="LimitationOther" placeholder="Please specify" />
+            </div>
+        </div>
+    </div>
+    <div class="done-container">
+        <a class="back btn-flat hide-on-extra-small-only">&lt; Back</a>
+        <button type="submit" class="btn done waves-effect">DONE</button>
+    </div>
+</section>

@@ -1,0 +1,217 @@
+﻿@{
+    ViewBag.Title = "Our partners";
+}
+@section Head{
+    <meta property="og:type" content="website" />
+    <meta property="og:image:secure_url" content="https://yooocan.com/images/partnersHeader.jpg" />
+    <meta property="og:image:width" content="1140" />
+    <meta property="og:image:height" content="250" />
+    <meta property="og:url" content="@Url.RouteUrl("Parners", null, "https")" />
+    <meta name="twitter:title" property="og:title" itemprop="title name" content="yooocan - partners" />
+    <meta name="twitter:description" property="og:description" itemprop="description" content="yooocan's valued partners from around the world." />
+    <meta name="twitter:card" content="summary_large_image">
+}
+@section Top{
+    @{ Html.RenderPartial("_ImageBackground", new ImageBackgroundModel { Title = "PARTNER WITH YOOOCAN", HideSearch = true}); }
+    <style>
+        body {
+            background-color: #efefef !important;
+        }
+
+        .bg-image {
+            background-image: url('/images/partnersHeader.jpg?v=1');
+        }
+
+
+        @@media (min-width: 992px) and (max-width: 1170px) {
+            .col-md-2 {
+                width: 18.666667%;
+            }
+        }
+
+        @@media (max-width: 520px) {
+            .col-xs-4 {
+                width: 49%;
+            }
+        }
+
+        h3 {
+            text-align: center;
+        }
+
+        #sell-on-container .row > div {
+            background-color: #cccccc;
+            background-clip:content-box;
+        }
+   
+        #sell-on-container .row > div a{
+            color: black;
+            text-decoration: none;
+        }
+
+        #sell-on-container .row > div div{
+            padding-bottom: 10px;
+        }
+
+        #sell-on-container .row > div:hover a{
+            color: white;
+            text-decoration: none;
+        }
+
+        #sell-on-container .row > div:hover {
+            background-color: #696969;
+        }
+
+        #sell-on-container .row h2 {
+            margin-bottom: 5px;
+        }
+
+        #sell-on-container .row h1 {
+            margin-top: 0;
+            font-weight: bold;
+        }
+
+        #sell-on-container .row p {
+            line-height: 17px;
+        }
+
+        #sell-on-container .row a:hover {
+            text-decoration: none;
+        }
+
+        #textOnImage {
+            top: 42% !important;
+            margin: 0;
+            font-size: 40px;
+        }
+
+        @@media(min-width: 768px)
+        {
+            #sell-on-container .row > div {
+                height: 220px;
+            }
+            #sell-on-container .row > div:nth-child(odd){
+                padding-right: 3.5px;
+            }
+
+            #sell-on-container .row > div:nth-child(even){
+                padding-left: 3.5px;
+            }
+
+            #textOnImage {
+                font-size: 53px;
+            }
+        }
+
+    </style>
+}
+
+<section id="sell-on-container">
+    <div class="row text-center">
+        <div class="col-sm-6">
+            <div>
+                <a asp-controller="Vendor" asp-action="Register">
+                    <h2>Join us as a</h2>
+                    <h1>VENDOR</h1>
+                    <p>
+                        Manufacturer or seller of products and equipment <br />Ex: wheelchair manufactures, adaptive equipment products etc.
+                    </p>
+                </a>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div>
+                <a href="@Url.Action("Create", "ServiceProvider")">
+                    <h2>Join us as a</h2>
+                    <h1>SERVICE PROVIDER</h1>
+                    <p>
+                        Providers of services (classes, therapeutic lessons, camps, NPO’s, resources, etc.)
+                        <br/>Ex: swimming classes, over-night camp, dance studio etc. 
+                    </p>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<h3>WE ARE PROUD TO PARTNER WITH:</h3>
+<div class="row" style="padding-bottom: 15px;">
+    <div class="col-md-2 col-sm-3 col-xs-4">
+        <img class="partner-logo" asp-append-version="true" src="/images/partners/A3I.png" />
+    </div>
+    <div class="col-md-2 col-sm-3 col-xs-4">
+        <img class="partner-logo" asp-append-version="true" src="/images/partners/Access Israel.png" />
+    </div>
+    <div class="col-md-2 col-sm-3 col-xs-4">
+        <img class="partner-logo" asp-append-version="true" src="/images/partners/ALTSO.png" />
+    </div>
+    <div class="col-md-2 col-sm-3 col-xs-4">
+        <img class="partner-logo" asp-append-version="true" src="/images/partners/Beit Issie Shapiro.png" />
+    </div>
+    @*<div class="col-md-2 col-sm-3 col-xs-4">
+        <img class="partner-logo" asp-append-version="true" src="/images/partners/BORP.png" />
+    </div>*@
+    <div class="col-md-2 col-sm-3 col-xs-4">
+        <img class="partner-logo" asp-append-version="true" src="/images/partners/Christopher and Dana Reeve Foundation.png" />
+    </div>
+    <div class="col-md-2 col-sm-3 col-xs-4">
+        <img class="partner-logo" asp-append-version="true" src="/images/partners/English Federation Of Disability.png" />
+    </div>
+    <div class="col-md-2 col-sm-3 col-xs-4">
+        <img class="partner-logo" asp-append-version="true" src="/images/partners/Erez Foundation.png" />
+    </div>
+    <div class="col-md-2 col-sm-3 col-xs-4">
+        <img class="partner-logo" asp-append-version="true" src="/images/partners/Gate.png" />
+    </div>
+    <div class="col-md-2 col-sm-3 col-xs-4">
+        <img class="partner-logo" asp-append-version="true" src="/images/partners/Israel foundation For Handucapped Children.png" />
+    </div>
+    <div class="col-md-2 col-sm-3 col-xs-4">
+        <img class="partner-logo" asp-append-version="true" src="/images/partners/Israel Paralympic.png" />
+    </div>
+    <div class="col-md-2 col-sm-3 col-xs-4">
+        <img class="partner-logo" asp-append-version="true" src="/images/partners/Kelsey.png" />
+    </div>
+    <div class="col-md-2 col-sm-3 col-xs-4">
+        <img class="partner-logo" asp-append-version="true" src="/images/partners/Krembo Wings.png" />
+    </div>
+    <div class="col-md-2 col-sm-3 col-xs-4">
+        <img class="partner-logo" asp-append-version="true" src="/images/partners/Life.png" />
+    </div>
+    <div class="col-md-2 col-sm-3 col-xs-4">
+        <img class="partner-logo" asp-append-version="true" src="/images/partners/Lucky Fin Project.png" />
+    </div>
+    <div class="col-md-2 col-sm-3 col-xs-4">
+        <img class="partner-logo" asp-append-version="true" src="/images/partners/National Multiple Sclerosis Society.png" />
+    </div>
+    <div class="col-md-2 col-sm-3 col-xs-4">
+        <img class="partner-logo" asp-append-version="true" src="/images/partners/Presentense.png" />
+    </div>
+    <div class="col-md-2 col-sm-3 col-xs-4">
+        <img class="partner-logo" asp-append-version="true" src="/images/partners/RIO.png" />
+    </div>
+    <div class="col-md-2 col-sm-3 col-xs-4">
+        <img class="partner-logo" asp-append-version="true" src="/images/partners/Ruderman.png" />
+    </div>
+    <div class="col-md-2 col-sm-3 col-xs-4">
+        <img class="partner-logo" asp-append-version="true" src="/images/partners/TACA.png" />
+    </div>
+    <div class="col-md-2 col-sm-3 col-xs-4">
+        <img class="partner-logo" asp-append-version="true" src="/images/partners/The Jewish Federation LA.png" />
+    </div>
+    <div class="col-md-2 col-sm-3 col-xs-4">
+        <img class="partner-logo" asp-append-version="true" src="/images/partners/TOM.png" />
+    </div>
+    <div class="col-md-2 col-sm-3 col-xs-4">
+        <img class="partner-logo" asp-append-version="true" src="/images/partners/UnitedCeberalPalsy.png" />
+    </div>
+    <div class="col-md-2 col-sm-3 col-xs-4">
+        <img class="partner-logo" asp-append-version="true" src="/images/partners/variety.png" />
+    </div>
+    <div class="col-md-2 col-sm-3 col-xs-4">
+        <img class="partner-logo" asp-append-version="true" src="/images/partners/ZOOZ.png" />
+    </div>
+    <div class="col-md-2 col-sm-3 col-xs-4">
+        <img class="partner-logo" asp-append-version="true" src="/images/partners/daniel rowing centre.png" />
+    </div>
+</div>

@@ -1,0 +1,29 @@
+﻿@model Yooocan.Models.Products.ProductCardModel
+@if (Model.Price == 0 && Model.DiscountPercentage == 100)
+{
+    <div class="save-container">
+        <h6 class="save-text">&nbsp;</h6>
+        <h3 class="saved-raw">FREE</h3>
+        <h3 class="discount-small">&nbsp;</h3>
+    </div>
+}
+else if (Model.DiscountAbsolute >= 5)
+{
+    <div class="save-container">
+        <h6 class="save-text">SAVE</h6>
+        <h3 class="saved-raw">@(Model.DiscountAbsolute.ToString("C"))</h3>
+        <h3 class="discount-small">
+            @(Html.Raw(Model.Price > 0 ? $"({Model.DiscountPercentage.ToString("0\\%")})" : "&nbsp;"))
+        </h3>
+    </div>
+}
+else if (Model.DiscountPercentage > 0)
+{
+    <h3 class="discount">@Model.DiscountPercentage.ToString("0\\%")</h3>
+    <h4 class="off">Off</h4>
+}
+else
+{
+    <h3 class="discount">&nbsp;</h3>
+    <h4 class="off">&nbsp;</h4>
+}

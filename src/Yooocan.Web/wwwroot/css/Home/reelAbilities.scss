@@ -1,0 +1,72 @@
+﻿@import '../_variables.scss';
+
+#reel-abilities {
+    header {
+        text-align: center;
+
+        img {
+            max-width: 100%;
+        }
+    }
+
+    main {
+        text-align: center;
+        padding-bottom: 50px;
+
+        .btn.new-story {
+            margin-top: 40px;
+            height: 90px;
+            border-radius: 100px;
+            background-color: #1366da;
+            box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.5);
+            font-size: 28px;
+            background-image: url('/images/star.svg');
+            background-repeat: no-repeat;
+            background-position: center 12px;
+
+            span {
+                margin-top: 45px;
+                display: inline-block;
+            }
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 600;
+            color: #202020;
+            margin: 40px 0;
+        }
+
+        h4 {
+            font-size: 22px;
+            font-weight: bold;
+            color: #4a4a4a;
+            margin-bottom: 0;
+        }
+
+        p {
+            font-size: 18px;
+            color: #4a4a4a;
+            margin: 0 0 20px 0;
+
+            strong {
+                font-weight: bold;
+            }
+        }
+
+        p.intro {
+            color: #898989;
+        }
+    }
+
+    @media #{$small-and-down} {
+        main {
+            padding: 0 10px;
+
+            .btn.new-story {
+                width: unset;
+                font-size: 24px;
+            }
+        }
+    }
+}

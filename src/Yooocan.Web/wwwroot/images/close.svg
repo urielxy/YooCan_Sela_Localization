@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 41.1 (35376) - http://www.bohemiancoding.com/sketch -->
+    <title>E3E18CB7-1DCB-43A6-8C3D-6DC28E96BC84</title>
+    <desc>Created with sketchtool.</desc>
+    <defs>
+        <circle id="path-1" cx="15" cy="15" r="15"></circle>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="30" height="30" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+    </defs>
+    <g id="Final" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Add-Story_Image-Upload" transform="translate(-472.000000, -1456.000000)">
+            <g id="Group-37" transform="translate(472.000000, 1456.000000)">
+                <g id="Group-38">
+                    <use id="Oval-2" stroke="#4A4A4A" mask="url(#mask-2)" stroke-width="2" stroke-linecap="square" fill="#FFFFFF" xlink:href="#path-1"></use>
+                    <polygon id="close-icon-copy" fill="#4A4A4A" points="20.5 10.1078571 19.3921429 9 15 13.3921429 10.6078571 9 9.5 10.1078571 13.8921429 14.5 9.5 18.8921429 10.6078571 20 15 15.6078571 19.3921429 20 20.5 18.8921429 16.1078571 14.5"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

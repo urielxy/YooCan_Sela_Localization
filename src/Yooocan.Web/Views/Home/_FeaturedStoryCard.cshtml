@@ -1,0 +1,52 @@
+﻿@using Yooocan.Logic.Extensions
+@model StoryCardModel
+@if (ViewContext.HttpContext.Items["FeaturedStoryCardCssLoaded"] == null)
+{
+    <embedcss href="/css/home/featuredStoryCard.css"></embedcss>
+    ViewContext.HttpContext.Items["FeaturedStoryCardCssLoaded"] = true;
+}
+<div class="home-featured-story-card">
+    <div class="card horizontal hoverable">
+        <div class="card-stacked">
+            <div class="card-content">
+                <div class="top">
+                    <img src="@Model.AuthorPictureUrl" class="avatar" />
+                    <div class="right-column">
+                        <a asp-route="Story" asp-route-id="@Model.Id" asp-route-title="@Model.Title.ToCanonical()">
+                            <div class="title">@Model.Title</div>
+                        </a>
+                        <span class="tag" style="background-color: #@Model.CategoryColor">
+                            @Model.CategoryName
+                        </span>
+                    </div>
+                </div>
+                <a asp-route="Story" asp-route-id="@Model.Id" asp-route-title="@Model.Title.ToCanonical()" class="content">
+                    <p class="content">@Html.Raw(Model.Content?.StripHtml()?.Truncate(150) ?? "")</p>
+                </a>
+                @if (ViewBag.EditStory == true)
+                {
+                    <a class="waves-effect waves-teal btn-flat edit" asp-action="Edit" asp-controller="Story" asp-route-id="@Model.Id" asp-route-title="@Model.Title.ToCanonical()"><i class="material-icons">edit</i>Edit</a>
+                }
+                else
+                {
+                    <a class="waves-effect waves-teal btn-flat read-more" asp-route="Story" asp-route-id="@Model.Id" asp-route-title="@Model.Title.ToCanonical()">READ MORE</a>
+                }
+                @*<div class="line"></div>
+                <div class="social">
+                    @if (Model.CommentsCount > 0)
+                    {
+                        <img src="/images/chat.svg" asp-append-version="true" alt="comments" title="@Model.CommentsCount commens" />
+                            <span class="comments-count">@Model.CommentsCount</span>
+                    }
+                    <img src="/images/heart.svg" asp-append-version="true" alt="likes" title="@Model.LikesCount likes" /> <span class="likes-count">@Model.LikesCount</span>
+                </div>*@
+            </div>
+
+        </div>
+        <div class="card-image" style="background-image: url('@Model.ImageUrl')">
+            <a asp-route="Story" asp-route-id="@Model.Id" asp-route-title="@Model.Title.ToCanonical()">
+                <img src="@Model.ImageUrl">
+            </a>
+        </div>
+    </div>
+</div>

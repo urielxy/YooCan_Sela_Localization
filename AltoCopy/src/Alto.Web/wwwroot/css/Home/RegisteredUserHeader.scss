@@ -1,0 +1,79 @@
+﻿@import '../_variables.scss';
+
+#home-registered-header {
+    width: 100%;
+
+    > .carousel {
+        height: 500px;
+        min-height: 500px;
+        overflow: hidden;
+    }
+
+    .indicator-item{
+        height: 19px;
+        width: 19px;
+        margin: 7px;
+    }
+
+    .carousel-item {
+        background-position: center;
+        background-size: cover;
+        text-align: left;
+        color: #ffffff;
+
+        .title {
+            position: absolute;
+            left: 113px;
+            top: 33px;
+            font-size: 40px;
+            font-weight: 800;
+            word-spacing: 9999999px;
+        }
+
+        .sub-title {
+            position: absolute;
+            left: 113px;
+            bottom: 105px;
+            font-size: 25px;
+        }
+
+        .read-more {
+            position: absolute;
+            left: 113px;
+            border-radius: 6px;
+            background-color: #1366da;
+            border: solid 1px #ffffff;
+            bottom: 34px;
+            font-size: 14px;
+            line-height: 14px;
+            padding: 9px 24.5px;
+        }
+    }
+
+    &:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+}
+
+#left-carousel {
+    width: 100%;
+    float: left;
+}
+
+#right-carousel {
+    width: 35.3535%;
+    float: left;
+    display: none;
+}
+
+@media #{$large-and-up} {
+    #left-carousel {
+        width: 64.646%;
+    }
+
+    #right-carousel {
+        display: block;
+    }
+}

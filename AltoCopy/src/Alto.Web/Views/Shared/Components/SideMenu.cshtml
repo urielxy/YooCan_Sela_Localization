@@ -1,0 +1,37 @@
+﻿@model List<Alto.Models.Categories.CategoryMenuModel>
+<embedcss Href="/css/Home/SideMenu"></embedCss>
+@{
+    var toysAndFunction = new List<int> { 802, 807, 811, 813, 818, 821 };
+}
+@foreach (var category in Model.Where(x => !toysAndFunction.Contains(x.Id)))
+{
+    <div class="menu">
+        <h3 class="parent">
+            @if (category.AlternativeUrl != null)
+            {
+                <a href="@category.AlternativeUrl">
+                    @category.Name
+                </a>
+            }
+            else
+            {
+                <a asp-route="category" asp-route-id="@category.Id" asp-route-categoryName="@category.Name.ToCanonical()">
+                    @category.Name
+                </a>
+            }
+        </h3>
+        @if (category.SubCategories?.Any() == true)
+        {
+            <ul>
+                @foreach (var subCategory in category.SubCategories.OrderBy(x => x.Value))
+                {
+                    <li>
+                        <a asp-route="category" asp-route-id="@subCategory.Key" asp-route-categoryName="@subCategory.Value.ToCanonical()">
+                            @subCategory.Value
+                        </a>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+}

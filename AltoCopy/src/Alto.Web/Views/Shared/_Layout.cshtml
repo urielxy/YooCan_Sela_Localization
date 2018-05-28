@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html id="html" lang="en-US">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#624c85">
+    <title>Alto: @ViewBag.Title</title>
+    <environment Names="Development,Staging">
+        <meta name="robots" content="noindex, nofollow">
+    </environment>
+    <link href="//fonts.googleapis.com/css?family=Montserrat:400,700|Material+Icons" rel="stylesheet">
+    <meta property="fb:app_id" content="325431067856632" />
+    <meta name="twitter:domain" content="altolife.com" />
+    @if (ViewBag.CanonicalUrl != null)
+    {
+        <meta property="og:url" content="@ViewBag.CanonicalUrl" />
+    }
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    @RenderSection("Head", false)
+    <environment Names="Development">
+        <link href="/css/Materialize.css" rel="stylesheet" asp-append-version="true">
+    </environment>
+    <environment Names="Staging,Production">
+        <link href="/css/Materialize.min.css" rel="stylesheet" asp-append-version="true">
+    </environment>
+    <script>
+        function getCookieValue(name) {
+            var cookie = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+            return cookie ? cookie.pop() : '';
+        }
+    </script>
+    @*Google Analytics*@
+    <script>
+        @Html.Partial("_GoogleAnalytics")
+    </script>
+    <!-- Facebook Pixel Code -->
+    <script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window,document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '185730055272521');
+fbq('track', 'PageView');
+    </script>
+    <noscript>
+        <img height="1" width="1"
+             src="https://www.facebook.com/tr?id=185730055272521&ev=PageView
+&noscript=1" />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+</head>
+<body>
+    @Html.Partial("../Shared/_Header")
+    <div id="body-content">
+        @RenderBody()
+    </div>
+    @await Component.InvokeAsync("DropDownMenu")    
+    @Html.Partial("_Footer")
+    <div id="modal-container" class="modal">       
+        <div id="spinner-container">
+            <div>
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                    <div class="spinner-layer spinner-red">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                    <div class="spinner-layer spinner-yellow">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                    <div class="spinner-layer spinner-green">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-content">@RenderSection("modal", false)</div>
+    </div>
+     <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+         <script src="~/lib/materialize/dist/js/materialize.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery">
+        </script>
+        <script src="~/lib/materialize/dist/js/materialize.min.js" asp-append-version="true"></script>
+    </environment>
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+<script src="/scripts/Shared/Layout.js" asp-append-version="true"></script>
+@RenderSection("scripts", required: false)
+</body>
+</html>

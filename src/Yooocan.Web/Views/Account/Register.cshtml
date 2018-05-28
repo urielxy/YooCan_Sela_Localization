@@ -1,0 +1,67 @@
+﻿@using Yooocan.Logic.Extensions
+@{
+    ViewBag.AddStoryClass = "hide";
+    var isAjax = Context.Request.IsAjaxRequest();
+    if (isAjax)
+    {
+        Layout = null;
+    }//So won't go back to the register page after successful login
+    else
+    {
+        ViewBag.ReturnUrl = ViewBag.ReturnUrl ?? "/";
+    }
+    ViewBag.Title = "Register";
+}
+<embedcss href="/css/Account/register.css"></embedcss>
+<div id="register-container">
+    @if (!string.IsNullOrEmpty(Context.Request.Query["fromAlto"].ToString()))
+    {
+        <div class="red-text text-center">In order to proceed on Alto, you must first create an account.</div>
+    }
+    <h4 class="header">Create Account</h4>
+    <form class="social-form social" asp-action="ExternalLogin" asp-controller="Account" method="post" data-return-url="@ViewBag.ReturnUrl" data-window-url="@Url.Action("ExternalLoginWindow")">
+        <button name="provider" value="Facebook" class="facebook btn waves-effect"><img src="/images/facebook-icon.svg" asp-append-version="true" />FACEBOOK</button>
+        <button name="provider" value="Google" class="google btn waves-effect"><img src="/images/google-g-icon.svg" asp-append-version="true" />GOOGLE</button>
+    </form>
+    <div class="line social">
+        <span class="text">OR SIGN UP USING EMAIL</span>
+    </div>
+    <form id="register-form" asp-controller="Account" asp-action="Register" asp-route-returnUrl="@ViewBag.ReturnUrl"
+          method="post" novalidate="novalidate">
+        <div asp-validation-summary="All" class="red-text" style="margin-left: 24px;"></div>
+        <div class="row">
+            <div class="input-field col s12 m6">
+                <i class="material-icons prefix">account_circle</i>
+                <input required id="email" name="email" type="email" class="validate">
+                <label for="email" data-error="Incorrect email">YOUR E-MAIL</label>
+            </div>
+            <div class="input-field col s12 m6">
+                <i class="material-icons prefix">lock</i>
+                <input required id="password" name="password" type="password">
+                <label for="password">CREATE A PASSWORD</label>
+            </div>
+        </div>
+        <div id="submit-container">
+            <button type="submit" class="btn waves-effect" id="submit">SIGN UP</button>
+        </div>
+    </form>
+    <p class="statement">
+        By creating an account you agree to the <a asp-route="TermsOfUse" target="_Blank">Terms of Service</a> and <a asp-route="Privacy" target="_Blank">Privacy Policy</a>.
+    </p>
+
+
+    <div class="login">
+        <h4>Already have an account?</h4>
+        <a class="waves-effect waves-light btn" id="login-btn" asp-action="Login" asp-route-returnUrl="@ViewBag.ReturnUrl">Login</a>
+    </div>
+</div>
+@if (isAjax)
+{
+    <script src="/dist/Account/register.js" asp-append-version="true"></script>
+}
+else
+{
+    @section Scripts{
+        <script src="/dist/Account/register.js" asp-append-version="true"></script>
+    }
+}

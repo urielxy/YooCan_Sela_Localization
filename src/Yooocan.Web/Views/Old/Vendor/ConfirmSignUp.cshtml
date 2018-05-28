@@ -1,0 +1,23 @@
+﻿@section Top {
+    @{ Html.RenderPartial("/Views/Old/_ImageBackground.cshtml", new ImageBackgroundModel { Title = ""}); }
+}
+@section head {
+    <style>
+        .bg-image {
+            background-image: url('/images/sellHeader.jpg?v=1');
+        }
+    </style>
+}
+<h3>
+    We are excited to inform you that you can start uploading products on yooocan by <a asp-action="MyProducts" asp-controller="Vendor">clicking here</a>!
+    <br /><br />
+    Please note that the "My Catalog" dashboard will help you manage your assortment and lead you through the product uploading and management process.
+    <br /><br />
+    Once submitted, the products are uploaded on the site and ready for selling. All products are adjustable through the edit button of each product line. This can only be done by you or our administrator.
+    <br /><br />
+    Go ahead and start uploading products :) Yes, yoocan!
+    <br />
+    <a href="mailto:moshe@yoocantech.com">Moshe Gaon</a>
+    <br />
+    Co-Founder and CEO, yoocan
+</h3>

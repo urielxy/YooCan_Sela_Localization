@@ -1,0 +1,139 @@
+﻿@{
+    Layout = null;
+}
+<html>
+<head>
+    <script>location.href = "http://alto-by-yoocan.pagedemo.co/";</script>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="//fonts.googleapis.com/css?family=Montserrat:400,700|Source+Sans+Pro|Material+Icons" rel="stylesheet">
+    <title>Alto</title>
+    <style>
+        body {
+            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.85)), url('/images/landing/alto-landing-background.jpg');
+            background-size: cover;
+            background-position: top;
+            position: relative;
+            margin: 0;
+        }
+
+        .header {
+            position: absolute;
+            top: 14.4%;
+            text-align: center;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+        }
+
+        .logo {
+            max-width: 295px;
+            opacity: 0.5;
+        }
+
+        h1 {
+            margin: 0 0 25px 0;
+        }
+
+        h2 {
+            font-family: Montserrat;
+            font-size: 60px;
+            font-weight: 600;
+            color: #858e9f;
+            margin: 0;
+        }
+
+        h3 {
+            font-family: Montserrat;
+            font-size: 30px;
+            font-weight: 500;
+            color: #858e9f;
+            max-width: 700px;
+            margin: 5px auto 0 auto;
+        }
+
+        .button {
+            padding: 17px 63px;
+            border-radius: 6px;
+            background-color: #1366da;
+            border: solid 1px #ffffff;
+            font-family: Montserrat;
+            font-size: 25px;
+            font-weight: bold;
+            color: #ffffff;
+            display: inline-block;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .yoocan {
+            display: block;
+            margin-top: 44px;
+            font-family: Source Sans Pro;
+            font-size: 30px;
+            font-weight: bold;
+            text-align: center;
+            color: #858e9f;
+        }
+
+        .links {
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+
+        @@media (max-width: 600px), (max-height: 800px) {
+            .yoocan, h3 {
+                font-size: 20px;
+            }
+
+            .yoocan {
+                margin-top: 10px;
+            }
+
+            h2 {
+                font-size: 35px;
+            }
+
+            .header {
+                top: 5%;
+            }
+
+            .links {
+                bottom: 5%;
+            }
+        }
+
+        @@media (max-height: 600px) {
+            h1 {
+                margin-bottom: 5px;
+            }
+
+            .logo {
+                height: 100px;
+            }
+
+            .button {
+                padding: 5px 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1><img src="/images/landing/alto-logo.png" class="logo" alt="Alto Logo" /></h1>
+        <h2>COMING SOON</h2>
+        <h3>WE ARE CHANGING THE LIVES OF PEOPLE WITH DISABILITIES AND THEIR FAMILIES</h3>
+    </div>
+    <div class="links">
+        <div>
+            <a class="button" href="mailto:moshe@yoocantech.com">CONTACT</a>
+        </div>
+        <a class="yoocan" href="https://yoocanfind.com">YOOCAN TECHNOLOGIES LTD.</a>
+    </div>
+</body>
+</html>

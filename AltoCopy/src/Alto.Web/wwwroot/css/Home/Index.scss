@@ -1,0 +1,17 @@
+﻿@import "../_variables.scss";
+
+#html {
+    .home-main {
+        text-align: center;
+    }
+
+    .home-content {
+        text-align: left;
+        display: inline-block;
+        width: calc(90% - #{$home-left-col-width});
+
+        @media #{$small-and-down} {
+            width: 95%;
+        }
+    }
+}

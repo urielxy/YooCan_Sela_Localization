@@ -1,0 +1,51 @@
+﻿/*
+This file currently can be imported multiple times so don't add 
+any code that directly outputs code on import (like simple selectors)
+*/
+@mixin tag {
+    .tag {
+        border-radius: 3px;
+        padding: 0 13px;
+        font-size: 10px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        color: #ffffff;
+        text-transform: uppercase;
+        line-height: 17px;
+        display: inline-block;
+    }
+}
+
+@mixin breadcrumbs {
+    .breadcrumbs {
+        margin-top: 30px;
+
+        .breadcrumb {
+            text-transform: uppercase;
+            color: #1e2226;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            line-height: 30px;
+
+            &:last-child {
+                color: #c6c6c6;
+            }
+
+            &:before {
+                color: #1e2226;
+                content: '/';
+                font-size: 14px;
+                font-weight: bold;
+                line-height: 30px;
+                vertical-align: baseline;
+            }
+        }
+    }
+}
+
+@mixin word-wrap() {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+}

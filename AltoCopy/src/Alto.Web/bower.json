@@ -1,0 +1,14 @@
+{
+  "name": "alto",
+  "private": true,
+  "dependencies": {
+    "jquery": "3.1.1",
+    "croppie": "2.2.0",
+    "materialize": "0.97.7",
+    "jquery-validation": "1.14.0",
+    "jquery-validation-unobtrusive": "3.2.6",
+    "dropzone": "4.3.0",
+    "flickity": "2.0.5",
+    "jquery-background-video": "1.1.2"
+  }
+}

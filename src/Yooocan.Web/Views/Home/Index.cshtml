@@ -1,0 +1,115 @@
+﻿@model HomeModel
+@using Yooocan.Logic.Extensions
+@inject Yooocan.Logic.Images.ImageUrlOptimizer ImageUrlOptimizer
+@{
+    ViewBag.Title = "The #1 collaborative community for people with disabilities";
+}
+@section head{
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://yoocanfind.com" />
+    <meta property="og:image" itemprop="image primaryImageOfPage" content="https://yooocanlive.azureedge.net/static/images/yoocan-share.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="description" content="We believe that our collaborative community of shared experiences and knowledge from around the world can inspire people with disabilities and change their lives, so no one feels alone. " />
+    <embedCss href="/css/Home/Index.css" />
+    <embedCss href="/css/Home/altoPromoCard.css" />
+}
+@*@Html.Partial("_HeaderStrip", Model.HeaderStories)*@
+@Html.Partial("_ContestHeader", Model.HeaderStories.First())
+@* Todo: add ARIA for the tabs *@
+<div id="main-page-content">
+    @*@Html.Partial("_Tabs")*@
+    <div class="container">
+        <h2 class="section-title">WHAT WOULD YOU LIKE TO DO?</h2>
+        <div class="row" id="main-options">
+            <div class="col l3 m6 s12">
+                <a asp-controller="Story" asp-action="Create">
+                    <div class="alto-card-promo card hoverable">
+                        <div class="card-content no-button" style="background-image:linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url('/images/home/cards/handcycle.jpg?v=1')">
+                            <h3 class="white-text">
+                                ADD A STORY, TIPS OR RECOMMEND PRODUCT
+                            </h3>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col l3 m6 s12">
+                <a href="#stories-heading">
+                    <div class="alto-card-promo card hoverable">
+                        <div class="card-content no-button" style="background-image:linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url('/images/home/cards/turtle.jpg?v=1')">
+                            <h3 class="white-text">
+                                EXPLORE PERSONAL STORIES
+                            </h3>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col l3 m6 s12">
+                <a asp-controller="Search" asp-action="Search">
+                    <div class="alto-card-promo card hoverable">
+                        <div class="card-content no-button" style="background-image:linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/images/home/cards/search.jpg?v=1')">
+                            <h3 class="white-text">
+                                SEARCH <i class="material-icons" style="vertical-align: bottom;">search</i><br /> FOR INFORMATION
+                            </h3>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col l3 m6 s12">
+                <a asp-controller="Shop" asp-action="Index">
+                    <div class="alto-card-promo card hoverable">
+                        <div class="card-content no-button" style="background-image:linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/images/home/cards/shop.jpg?v=1')">
+                            <h3 class="white-text">
+                                SHOP FOR RELEVANT PRODUCTS
+                            </h3>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <h2 class="section-title" id="stories-heading">STORIES</h2>
+        <div id="stories" class="row">
+            <div class="col l3 m6 s12" id="editors-choice-container">
+                @Html.Partial("_EditorsChoice", Model.StoryCards.Skip(1).ToList())
+                <img src="/images/impact-award.png" style="display: block; height: 164px; margin-top: 7px;" />
+                @Html.Partial("_MainPartners")
+            </div>
+            @if (Model.FeatureBlogPost != null)
+        {
+            <div class="col l3 m6 s12">
+                <a asp-controller="Blog" asp-action="Index" asp-route-id="@Model.FeatureBlogPost.Id" asp-route-title="@Model.FeatureBlogPost.Title?.ToCanonical()">
+                    <div class="alto-card-promo card hoverable">
+                        <div class="card-content no-button" style="background-image:linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('@ImageUrlOptimizer.GetOptimizedUrl(Model.FeatureBlogPost.PrimaryImageUrl, 300, 350)')">
+                            <h3 class="white-text">
+                                YOOCAN BLOG
+                            </h3>
+                            <h4 class="white-text">
+                                @Model.FeatureBlogPost.Title?.ToUpper()
+                            </h4>
+                        </div>
+                    </div>
+                </a>
+            </div>
+    }
+            <div class="col l3 m6 s12">
+                @Html.Partial("Cards/_TechnologiesCard")
+            </div>
+            <div id="content-im-following" data-url="@(Url.Action("ContentImFollowing", "Home"))" class="feed"></div>
+        </div>
+        <div>
+            @Html.Partial("_LoadMoreButton", Url.Action("MoreContentImFollowing", "Home"))
+        </div>
+    </div>
+    @Html.Partial("_SocialNumbers")
+</div>
+@Html.Partial("_PartnersStrip")
+@section Scripts{
+    <script>
+        deferStyleSheet("/lib/flickity/dist/flickity.min.css");
+    </script>
+    <script src="https://unpkg.com/flickity@2.0/dist/flickity.pkgd.min.js" asp-fallback-src="/lib/flickity/dist/flickity.pkgd.min.js" asp-fallback-test="window.Flickity"></script>
+    <script src="/dist/Home/index.js" asp-append-version="true"></script>
+    <script src="/dist/Home/IndexCommon.js" asp-append-version="true"></script>
+    <script src="/dist/Shared/FollowCategory.js" asp-append-version="true"></script>
+}

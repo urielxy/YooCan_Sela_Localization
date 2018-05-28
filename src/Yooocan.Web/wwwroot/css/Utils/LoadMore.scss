@@ -1,0 +1,18 @@
+﻿.load-more-container {
+    margin-bottom: 50px;
+
+    .load-more {
+        display: inline-block;
+        margin: auto;
+        height: 60px;
+        line-height: 60px;
+        border-radius: 100px;
+        background-color: #1366da;
+        font-size: 22px;
+    }
+
+    .load-more-preloader {
+        display: inline-block;
+        margin: auto;
+    }
+}

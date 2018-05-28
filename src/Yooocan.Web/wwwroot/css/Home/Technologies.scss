@@ -1,0 +1,67 @@
+﻿@import '../_variables.scss';
+
+#yoocan-technologies-container {
+    > header {
+        height: 372px;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/images/categories/header/technologies.jpg');
+        background-position: center;
+        background-size: cover;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+
+        h1 {
+            margin: 0;
+            font-size: 40px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            text-align: center;
+            color: #fff;
+        }
+
+        h2 {
+            margin: 0;
+            color: #fff;
+            font-size: 24px;
+            font-weight: 300;
+            line-height: normal;
+            text-align: center;
+        }
+
+        @media #{$small-and-down} {
+            padding: 0 20px;
+
+            h1 {
+                font-size: 30px;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
+        }
+    }
+
+    .main-content {
+        font-size: 22px;
+        font-weight: 300;
+        color: #000;
+        margin: 35px auto 70px auto;
+
+        h3 {
+            font-weight: 600;
+            font-size: 22px;
+        }
+
+        ul {
+            li {
+                list-style-type: square;
+            }
+        }
+
+        @media #{$small-and-down} {
+            padding: 0 20px;
+            font-size: 18px;
+        }
+    }
+}

@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "Choose Subscription";
+}
+<div id="paypal-button"></div>
+
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+
+<script>
+    paypal.Button.render({
+
+        env: 'sandbox', // Optional: specify 'sandbox' environment
+
+        payment: function(resolve, reject) {
+
+            var CREATE_PAYMENT_URL = '/Account/CreateBillingAgreement';
+
+            paypal.request.post(CREATE_PAYMENT_URL)
+                //.then(function (data) { resolve("EC-8CF028556E456233B"); })
+                .then(function(data) { resolve(data.paymentID); })
+                .catch(function(err) { reject(err); });
+        },
+
+        onAuthorize: function(data) {
+
+            // Note: you can display a confirmation page before executing
+
+            var EXECUTE_PAYMENT_URL = 'https://my-store.com/paypal/execute-payment';
+
+            paypal.request.post(EXECUTE_PAYMENT_URL,
+                    { paymentID: data.paymentID, payerID: data.payerID })
+
+                .then(function(data) { /* Go to a success page */ })
+                .catch(function(err) { /* Go to an error page  */ });
+        }
+
+    }, '#paypal-button');
+</script>

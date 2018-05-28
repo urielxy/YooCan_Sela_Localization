@@ -1,0 +1,84 @@
+﻿@import '../_variables.scss';
+
+#insurance-page {
+
+    .page-header {
+        height: 350px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        color: #fff;
+        text-align: center;
+        background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/images/categories/headers/Insurance.jpg');
+        background-size: cover;
+
+        h1 {
+            font-size: 40px;
+            font-weight: 800;
+            margin: 0;
+            word-wrap: break-word;
+            text-transform: uppercase;
+
+            @media #{$small-and-up} {
+                font-size: 60px;
+            }
+        }
+    }
+
+    .strip-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #1e2226;
+        margin-top: 35px;
+        margin-bottom: 25px;
+
+        @media #{$extra-small-only} {
+            text-align: center;
+        }
+    }
+
+    .travel-card {
+        margin-bottom: 25px;
+
+        .card {
+            height: 354px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .discount {
+            font-size: 40px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .off {
+            font-size: 22px;
+            margin-bottom: 0;
+            margin-top: 5px;
+        }
+
+        .join {
+            position: absolute;
+            font-size: 32px;
+            font-weight: bold;
+            bottom: 25px;
+            right: 25px;
+            margin: 0;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        a {
+            color: #fff;
+        }
+    }
+
+    @media #{"only screen and (min-width : 1750px)"} {
+        .row .col {
+            width: 20% !important;
+        }
+    }
+}

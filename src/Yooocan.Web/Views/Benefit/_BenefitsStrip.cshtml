@@ -1,0 +1,30 @@
+﻿@model Yooocan.Models.Benefits.BenefitsStripModel
+@if (Model.Benefits.Any())
+{
+    if (ViewContext.HttpContext.Items["BenefitsStrip"] == null)
+    {
+        <embedcss href="/css/Benefit/BenefitsStrip.css"></embedcss>
+        ViewContext.HttpContext.Items["BenefitsStrip"] = true;
+    }
+    <div class="benefits-strip clearfix">
+        @if (!string.IsNullOrEmpty(Model.Title))
+        {
+            @if (!string.IsNullOrEmpty(Model.TitleLink))
+            {
+                <a href="@Model.TitleLink"><h3 class="title">@Model.Title</h3></a>
+            }
+            else
+            {
+                <h3 class="title">@Model.Title</h3>
+            }
+        }
+        <div class="carousel-container feed">
+            @foreach (var card in Model.Benefits)
+            {
+                <div class="carousel-cell">
+                    @Html.Partial("../Cards/_BenefitCard", card)
+                </div>
+            }
+        </div>
+    </div>
+}

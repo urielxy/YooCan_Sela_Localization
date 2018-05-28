@@ -1,0 +1,26 @@
+﻿@model Yooocan.Models.Admin.AddAmazonProductModel
+@{
+    ViewBag.Title = "Add Amazon Product";
+    Layout = "_Layout";
+}
+
+<h4>@ViewBag.Title</h4>
+<form method="post" id="add-product">
+    <input asp-for="Asin" maxlength="10" required style="width: 200px" placeholder="ASIN" />
+    <button class="btn">Add</button>
+</form>
+@if (Model.ProductId != 0)
+{
+    <p>
+        Product added. <br />
+        <a asp-controller="Product" asp-action="Edit" asp-route-id="@Model.ProductId" target="_blank">Edit</a><br/>
+        <a asp-controller="Vendor" asp-action="MyProducts" asp-route-id="@Model.AmazonVendorId" target="yoocan-amazon-products">View Amazon Products</a>
+    </p>
+}
+@section scripts {
+    <script>
+        $('#add-product').submit(function () {
+            $(this).find('button').first().prop('disabled', true);
+        });
+    </script>
+}

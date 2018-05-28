@@ -1,0 +1,23 @@
+﻿@using Yooocan.Logic.Extensions
+@inject Yooocan.Logic.Images.ImageUrlOptimizer ImageUrlOptimizer
+@model List<StoryCardModel>
+<embedcss href="/css/home/editorsChoice.css"></embedcss>
+<div id="editors-choice" data-offset-top="336" data-offset-bottom="350">
+    <div id="editors-picks">Editor's Picks</div>
+    <div id="stories-worth-talking">Stories we're talking about:</div>
+    <div class="line"></div>
+    @foreach (var story in Model)
+    {
+        <div class="featured-story">
+            <a asp-route="story" asp-route-id="@story.Id" asp-route-title="@story.Title.ToCanonical()">
+                <div class="avatar-container">
+                    <img class="avatar" src="@ImageUrlOptimizer.GetOptimizedUrl(story.AuthorPictureUrl, 50, 50)" />
+                </div>
+                <div class="story">
+                    <div class="title">@story.Title</div>
+                    <div class="author-name">@story.AuthorName</div>
+                </div>
+            </a>
+        </div>
+    }
+</div>

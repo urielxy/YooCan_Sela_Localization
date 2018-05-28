@@ -1,0 +1,43 @@
+﻿@using Yooocan.Models.ServiceProviders
+@model CreateServiceProviderActivityModel
+@if (ViewContext.HttpContext.Items["ActivityCardCssLoaded"] == null)
+{
+    <embedcss href="/css/ServiceProvider/activityCard.css"></embedcss>
+    ViewContext.HttpContext.Items["ActivityCardCssLoaded"] = true;
+}
+<div class="activity-card">
+    <div class="card horizontal hoverable">
+        <div class="card-stacked">
+            <div class="card-content">
+                <div class="name">@Model.Name</div>
+                <p class="content">
+                    @Model.Description
+                    <div class="line"></div>
+                    <div class="details">
+                        @if (!string.IsNullOrEmpty(Model.OpenDays))
+                        {
+                            <span>
+                                <i class="material-icons">schedule</i>
+                                <span class="open-days">@Model.OpenDays</span>
+                            </span>
+                        }
+                        @*<span><i class="material-icons">favorite</i> <span class="likes-count">230</span></span>*@
+                        <span><i class="material-icons">payment</i>
+                        @if (Model.Price > 0)
+                        {
+                            @Model.Price?.ToString("C")
+                        }
+                        else
+                        {
+                            @Html.Raw("Free")
+                        }
+                        </span>
+                        @if (!string.IsNullOrEmpty(Model.Units))
+                        {
+                            <span><span>@Model.Units</span></span>
+                        }
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>

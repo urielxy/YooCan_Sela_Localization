@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk;Microsoft.NET.Sdk.Publish">
+  <PropertyGroup>
+    <TargetFramework>net47</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <PackageId>Yooocan.WebJobs</PackageId>
+    <AssemblyName>Yooocan.WebJobs</AssemblyName>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\Yooocan.Web\appsettings.Development.json">
+      <Link>appsettings.Development.json</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Yooocan.Web\appsettings.json">
+      <Link>appsettings.json</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\PublishProfiles\yooocandev - Web Deploy.pubxml" />
+    <None Include="Properties\webjob-publish-settings.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions" Version="2.1.0-beta4" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Yooocan.Infrastructure\Yooocan.Infrastructure.csproj" />
+    <ProjectReference Include="..\Yooocan.Logic\Yooocan.Logic.csproj" />
+  </ItemGroup>
+</Project>

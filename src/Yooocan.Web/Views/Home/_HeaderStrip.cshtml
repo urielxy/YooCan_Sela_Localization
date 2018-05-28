@@ -1,0 +1,13 @@
+﻿@model List<FeaturedStoryHeader>
+<embedCss href="/css/Home/mainPageHeader.css"></embedCss>
+<div id="main-page-header" class="row">
+    <div class="col l4 m6 s12">
+        @Html.Partial("_HeaderFeaturedStory", Model[0])
+    </div>
+    <div class="col m6 l4 hide-on-small-and-down">
+        @Html.Partial("_HeaderFeaturedStory", Model[1])
+    </div>
+    <div class="col s12 m6 l4 hide-on-med-and-down">
+        @Html.Partial("_HeaderFeaturedStory", Model[2])
+    </div>
+</div>

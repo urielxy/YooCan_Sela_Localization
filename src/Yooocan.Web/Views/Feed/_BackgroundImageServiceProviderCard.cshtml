@@ -1,0 +1,15 @@
+﻿@using Yooocan.Logic.Extensions
+@inject Yooocan.Logic.Images.ImageUrlOptimizer ImageUrlOptimizer
+@model RelatedServiceProviderModel
+@{
+    var optimizedImageUrl = ImageUrlOptimizer.GetOptimizedUrl(Model.PrimaryImageUrl, 450, 350);
+}
+<div class="image-story-card">
+    <a asp-route="ServiceProvider" asp-route-id="@Model.Id" asp-route-name="@Model.Name.ToCanonical()">
+        <div class="card hoverable" style="background-image: linear-gradient(rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.4)), url('@optimizedImageUrl')">
+            <div class="card-content">
+                <h3>@Model.Name</h3>
+            </div>
+        </div>
+    </a>
+</div>

@@ -1,0 +1,32 @@
+﻿@import '../_variables.scss';
+
+@mixin socialform {
+    .social-form {
+        button {
+            width: 200px;
+            height: 42px;
+
+            @media #{$medium-and-up} {
+                &:first-of-type {
+                    margin-right: 30px;
+                }
+            }
+
+            img {
+                vertical-align: text-bottom;
+                height: 15px;
+                margin-right: 10px;
+            }
+        }
+
+        .facebook.btn {
+            background-color: #3b5998;
+        }
+
+        .google.btn {
+            background-color: #ddd;
+            color: #000;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+    }
+}

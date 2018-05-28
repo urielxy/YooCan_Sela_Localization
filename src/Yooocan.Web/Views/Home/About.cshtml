@@ -1,0 +1,124 @@
+﻿@{
+    ViewBag.Title = "About us";
+}
+@section head {
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="yoocan" />
+    <meta property="og:image:secure_url" content="https://yoocanfind.com/images/about.jpg" />
+    <meta property="og:image:width" content="1140" />
+    <meta property="og:image:height" content="250" />
+    <meta property="og:url" content="@Url.RouteUrl("About", null, "https")" />
+    <meta name="twitter:title" property="og:title" itemprop="title name" content="yoocan - About us" />
+    <meta name="twitter:description" property="og:description" itemprop="description" content="Learn more about yoocan, how we started, and our vision to change the disability world!" />
+    <meta name="description" content="Learn more about yoocan, how we started, and our vision to change the disability world!" />
+    <meta name="twitter:card" content="summary_large_image">
+}
+<style>
+    #about-content-container header {
+        margin-top: 2px;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/images/about.jpg?v=2');
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 250px;
+    }
+
+        #about-content-container header h1 {
+            color: #fff;
+            font-size: 40px;
+            text-align: center;
+        }
+
+    #about-content-container h2 {
+        font-size: 30px;
+        text-align: center;
+    }
+
+    #about-content-container p, #about-content-container li {
+        font-size: 18px;
+        font-family: "Source Sans Pro";
+    }
+
+        #about-content-container p strong {
+            font-weight: bold;
+        }
+
+    #moshe-signatute {
+        display: block;
+        margin: 0 auto;
+    }
+</style>
+<div id="about-content-container" class="container">
+    <div class="row">
+        <div class="col s12">
+            <header>
+                <h1>
+                    Welcome
+                </h1>
+            </header>
+            <div style="text-align: center; margin-top: 20px;">
+                <h2>WHAT IS YOOCAN?</h2>
+                <p class="text-uppercase">
+                    We believe that shared experiences and knowledge from around the world can inspire people with disabilities and change their lives, so no one feels alone.
+                </p>
+                <p>
+                    With thousands of yoocan community members making daily connections, finding new friendships and relevant solutions, we are the world’s #1 collaborative community for sharing experiences and knowledge for and by people with disabilities.
+                </p>
+            </div>
+            <div>
+                <h2>WHAT CAN YOU DO ON YOOCAN?</h2>
+                <ul>
+                    <li>1. <a asp-controller="Story" asp-action="Create">Share</a> your story, tips or product recommendation</li>
+                    <li>2. <a asp-action="Index">Explore</a> global personal experiences and read practical tips</li>
+                    <li>3. <a asp-controller="Search" asp-action="Search">Search</a> for relevant information (ie: names of storytellers, organizations, products, services, disability, activities, etc.)</li>
+                    <li>4. <a asp-controller="Shop" asp-action="Index">Shop</a> for relevant products and/or find important information you seek</li>
+                    <li>5. Chat with caring people in a safe community or connect with the yoocan help team</li>
+                    <li>6. Join us as an Innovator or as an Investor - <a asp-action="Technologies">learn more</a></li>
+                </ul>
+            </div>
+            <div style="text-align: center;">
+                <h2>YOOCAN IS A REAL STORY</h2>
+            </div>
+            <div style="text-align: left">
+                <img src="/images/erez-yoav.jpg" style="float: left; margin-right: 20px;" width="250" asp-append-version="true" />
+                <p>
+                    In July 2008, my nephew Erez was born with a rare disease and complex cognitive and physical disabilities. This was the beginning of an emotionally challenging journey for our family. It brought us together in many ways, but it was hard as we needed to adjust to a new way of living. Like Erez, there are over 1 billion people in the world living with some kind of cognitive or physical disability, striving to live a better, inclusive life, and fulfill their dreams. There are solutions and opportunities around the world that can help, so no one feels alone in their search for relevant advice and a more inclusive life. That is why we created yoocan!
+                </p>
+                <div style="float: right; text-align: center; margin-left: 20px;" width="250">
+                    <img src="/images/moshe-lecture.jpg" style="display:block" />
+                </div>
+                <p>
+                    We invite you to
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <a asp-controller="Account" asp-action="Register">register</a>
+                        <text>for free and</text>
+                    }
+                    <a asp-controller="Story" asp-action="Create">share</a> your experience and knowledge and take part in our global collaborative community.
+                </p>
+                <p>
+
+                </p>
+                <p>
+                    @*<div style="float: left; margin-right: 20px;">
+                            <iframe id="video-iframe" width="250" height="140" src="https://www.youtube.com/embed/e8qugmMkQq0?showinfo=0&rel=0&autohide=1&modestbranding=1&vq=medium&enablejsapi=1" frameborder="0" allowfullscreen></iframe>
+                        </div>*@
+                </p>
+                <p>
+                    I would love to hear from you with any questions, ideas or even <a href="mailto:moshe@yoocantech.com?subject=Hi Moshe!" target="_Blank">just to say hi</a>!
+                </p>
+
+            </div>
+            <p style="text-align: center; margin: 0 0 100px 0;" class="clearfix">
+                <img id="moshe-signatute" width="150" src="/images/moshe-signature.png" asp-append-version="true" />
+                Moshe Gaon
+                <br />
+                CEO & Co-Founder
+                <br />
+                <a href="mailto:moshe@yoocantech.com" target="_Blank">moshe@yoocantech.com</a>
+            </p>
+        </div>
+    </div>
+</div>

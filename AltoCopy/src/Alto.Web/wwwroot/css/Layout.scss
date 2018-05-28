@@ -1,0 +1,117 @@
+﻿@import "_variables.scss";
+@import "Grid.scss";
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    font-family: Montserrat, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+#body-content {
+    flex: 1 0 auto;
+}
+
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.card {
+    overflow: hidden;
+    margin: 0;
+    border: solid 1px #bcbcbc;
+}
+
+#modal-container {
+    max-width: 985px;
+    max-height: 90%;
+
+    .modal-content {
+        padding: 0;
+    }
+
+    #spinner-container {
+        margin: 50px;
+
+        > div {
+            text-align: center;
+        }
+    }
+}
+
+#html {
+
+    @media #{$medium-and-down} {
+        .modal {
+            width: 95%;
+        }
+    }
+
+
+    .container {
+        width: 100%;
+    }
+
+    b {
+        font-weight: bold;
+    }
+
+    @media #{$small-and-up} {
+        $small-container-width: 750px;
+
+        .container {
+            max-width: $small-container-width;
+            width: unset;
+        }
+    }
+
+    @media #{$medium-and-up} {
+        $medium-container-width: 970px;
+
+        .container {
+            max-width: $medium-container-width;
+        }
+    }
+
+    @media #{$large-and-up} {
+        $large-container-width: 1170px;
+
+        .container {
+            max-width: $large-container-width;
+        }
+    }
+
+    @media #{$extra-large-and-up} {
+        $large-container-width: 1370px;
+
+        .container {
+            width: 100%;
+            max-width: 100%;
+            padding: 0 5.4%;
+            /*max-width: $large-container-width;*/
+        }
+    }
+    //some styling to form validation
+    .field-validation-error {
+        color: #f44336;
+    }
+
+    .input-field :not(.select-wrapper):not([type="checkbox"]) ~ label {
+        font-size: 0.8rem;
+        -webkit-transform: translateY(-140%);
+        -moz-transform: translateY(-140%);
+        -ms-transform: translateY(-140%);
+        -o-transform: translateY(-140%);
+        transform: translateY(-140%);
+    }
+    //materialize bug, fixed in 0.97.8
+    .input-field label {
+        left: 0;
+    }
+}

@@ -1,0 +1,282 @@
+﻿@using Yooocan.Models.Vendors
+@model MyProductsPageModel
+@section Top{
+    <style>
+        .logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 7px;
+            vertical-align: top;
+            font-size: 18px;
+            margin-top: 10px;
+            background-image: url('@Model.VendorLogoUrl');
+        }
+
+        #logo-name-container {
+            display: inline-block;
+        }
+
+        .vendor-info-title-container {
+            margin-left: 20px;
+            display: inline-block;
+            margin-right: 100px;
+        }
+
+        #title-name-container {
+            display: inline-block;
+            width: 100%;
+            position: absolute;
+            top: 45px;
+            left: 0;
+        }
+
+
+        .vendor-info-title {
+            margin: 0;
+        }
+
+        #vendor-info-container {
+            text-align: center;
+        }
+
+        #yooocan-vendor-No, #vendor-name, #compoany-registration-No {
+            text-align: center;
+            text-align: center;
+            padding: 4px;
+            border-radius: 7px;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        #vendor-my-products img {
+            width: 150px;
+        }
+
+        #product-table th {
+            min-width: 107px;
+        }
+
+        .bg-image {
+            background-image: url('/images/first-timer-header.jpg');
+        }
+
+        #show-picture-modal-window {
+            border: solid gray;
+            border-radius: 7px;
+            background-color: white;
+            width: 200px;
+            height: 200px;
+            position: absolute;
+            z-index: 1000;
+            display: none;
+        }
+
+        #show-picture-modal-window > img {
+            max-height: 100%;
+            max-width: 100%;
+        }
+        .status-btn, .delete-btn, .item-edit-button {
+            margin-bottom: 5px;
+            width: 100%;
+        }
+    </style>
+}
+<section id="vendor-my-products">
+    <div>
+        <div>
+            <div id="logo-name-container">
+                <div class="logo">
+                </div>
+            </div>
+            <div id="title-name-container">
+                <div style="text-align:center">
+                    <h1>MY CATALOG</h1>
+                </div>
+            </div>
+            <div class="row" id="vendor-info-container">
+                <div class="col-sm-4">
+                    <h4 class="vendor-info-title">
+                        yoocan vendor #
+                    </h4>
+                    <h4 id="yooocan-vendor-No">@Model.VendorId</h4>
+                </div>
+                <div class="col-sm-4">
+                    <h4 class="vendor-info-title">
+                        Company vendor name
+                    </h4>
+                    <h4 id="vendor-name">@Model.VendorName</h4>
+                </div>
+                <div class="col-sm-4">
+                    <h4 class="vendor-info-title">
+                        Company registration #
+                    </h4>
+                    <h4 id="compoany-registration-No">@Model.CompanyCode</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table table-hover table-striped table-bordered" id="product-table">
+        <thead>
+        <tr style="background-color: #fff;">
+            <th>
+                <a asp-action="Upload" asp-controller="Product" asp-route-id="@(User.IsInRole("Admin") ? Model.VendorId.ToString() : "")" target="_blank" class="btn btn-primary btn-sm" style="width: 100%;">Upload new product</a>
+            </th>
+            <th>
+                Yoocan<br />product ID#
+            </th>
+            <th>
+                Vendor's UPC
+            </th>
+            <th>
+                Product <br /> name
+            </th>
+            <th>
+                Product <br /> brand
+            </th>
+            <th>
+                Main <br /> picture
+            </th>
+            <th>
+                Price
+            </th>
+            @if (Model.Commission != null)
+            {
+                <th>
+                    yoocan commission
+                </th>
+                <th>
+                    Net vendor<br /> price
+                </th>
+            }
+            <th>
+                Product <br /> activities
+            </th>
+            <th>
+                Product <br /> disabilities
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Products)
+            {
+                <tr>
+                    <td class="text-center">
+                        <a asp-action="Edit" asp-controller="Product" asp-route-id="@item.Id" target="_Blank" class="btn btn-default btn-sm item-edit-button">
+                            <span class="glyphicon glyphicon-edit"></span> Edit
+                        </a>
+                        <button type="button" class="btn btn-danger btn-sm delete-btn">
+                            <span class="glyphicon glyphicon-remove"></span> Delete
+                        </button>
+                        @if (item.IsPublished)
+                        {
+                            <button type="button" class="btn btn-success btn-sm status-btn">Published</button>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-warning btn-sm status-btn">On hold</button>
+                        }
+                    </td>
+                    <td class="product-id">
+                        <a asp-controller="Product" asp-action="Index" asp-route-id="@item.Id" target="_blank">@item.Id</a>                        
+                    </td>
+                    <td>
+                        @if (string.IsNullOrEmpty(item.AmazonId))
+                        {
+                            @Html.DisplayFor(modelItem => item.Upc)
+                        }
+                        else
+                        {
+                            <a href="https://www.amazon.com/exec/obidos/ASIN/@item.AmazonId/yoocan-20" target="_blank">@item.AmazonId</a>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BrandName)
+                    </td>
+                    <td>
+                        <a class="item-image" href="@item.PrimaryImageUrl" target="_Blank">Main Picture</a>
+                    </td>
+                    <td>$@item.Price</td>
+                    @if (Model.Commission != null)
+                {
+                        <td>$@(item.Price * Model.Commission / 100) </td>
+                        <td>$@(item.Price - item.Price * Model.Commission / 100) </td>
+                    }
+                    <td>
+                        @Html.Raw(item.Categories)
+                    </td>
+                    <td>
+                        @Html.Raw(item.Limitations)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>
+<div id="show-picture-modal-window">
+    <img />
+</div>
+@section Scripts {
+    <script src="/libold/stickytableheaders/jquery.stickytableheaders.min.js"></script>
+    <script>
+        $(function () {
+            $('#product-table').stickyTableHeaders();
+
+            $('footer').remove();
+            $('#mainBody').removeClass('container').css('margin', '0 5%');
+
+            var $showPictureModal = $('#show-picture-modal-window');
+            $(".item-image").mouseover(function () {
+                var position = $(this).parent().next().position();
+                var x = position.left + 1;
+                var y = position.top + 1;
+                $showPictureModal
+                    .css('top', y)
+                    .css('left', x)
+                    .find("img")
+                    .attr("src", this.href);
+                $showPictureModal.show(300);
+            }).mouseout(function() {
+                $showPictureModal.hide(100);
+            });
+
+            var isUpading = false;
+
+            $(".status-btn").click(function() {
+                if (isUpading)
+                    return false;
+
+                var $button = $(this);
+                var isPublished = $button.hasClass('btn-success');
+                var productId = $button.closest('tr').children('td.product-id').text().trim();
+                
+                $.post('@Url.Action("Publish", "Product")', {
+                    publish: !isPublished,
+                    id: productId
+                }, function () {                    
+                    if (isPublished) {
+                        $button.html('On hold').addClass('btn-warning').removeClass('btn-success');
+
+                    } else {
+                        $button.html('Published').addClass('btn-success').removeClass('btn-warning');
+                    }
+                });
+            });
+
+            $(".delete-btn").click(function () {
+                var that = this;
+                if (isUpading)
+                    return false;
+
+                var productId = $(this).closest('tr').children('td.product-id').text().trim();
+                $.post('@Url.Action("Delete", "Product")', {
+                    id: productId
+                }).done(function() {
+                    $(that).closest('tr').remove();
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,1055 @@
+﻿@using Yooocan.Enums
+@model Yooocan.Models.Products.CreateProductModel
+@{
+    ViewBag.Title = $"Edit Product {Model.Name}";
+}
+@section Head{
+    <link rel="stylesheet" href="/lib/croppie/croppie.css" />
+    <link rel="stylesheet" href="/lib/dropzone/dist/min/dropzone.min.css" />
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/themes/smoothness/jquery-ui.css">
+    <style>
+        #upload-form {
+            padding: 5px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+            #upload-form .has-error .form-control {
+                border: 2px solid #a94442;
+            }
+
+            #upload-form sub {
+                bottom: 0;
+            }
+
+        .categories-container > h3 {
+            padding-bottom: 14px;
+        }
+
+        .category-checkbox-label, .limitation-checkbox-label {
+            color: #A9A9A9;
+        }
+
+        .limitation-checkbox:checked + .limitation-checkbox-label,
+        .category-checkbox:checked + .category-checkbox-label {
+            color: black;
+        }
+
+        .categories-container .checkbox-container .category-group {
+            width: 100%;
+            display: inline-block;
+        }
+
+        .categories-container .checkbox-container {
+            -webkit-column-count: 5;
+            -moz-column-count: 5;
+            column-count: 5;
+        }
+
+        .limitations-container .checkbox-container {
+            -webkit-column-count: 4;
+            -moz-column-count: 4;
+            column-count: 4;
+        }
+
+        #status-bar-container {
+            width: 100%;
+            height: 70px;
+            background-color: #a8a9ad;
+            border-radius: 7px;
+            position: relative;
+        }
+
+        #step-position-wrapper {
+            padding: 10px 40px;
+        }
+
+        .step-pos {
+            display: inline-block;
+        }
+
+            .step-pos > div {
+                width: 246px;
+            }
+
+        .step-ball {
+            width: 50px;
+            height: 50px;
+            background-color: #808285;
+            border-radius: 25px;
+            position: relative;
+        }
+
+            .step-ball > div {
+                position: absolute;
+                left: 0;
+                right: 0;
+                text-align: center;
+                line-height: 47px;
+                color: black;
+                display: block;
+            }
+
+        .step-pipe {
+            width: 201px;
+            height: 30px;
+            border-bottom: solid 8px #808285;
+            display: inline-block;
+            margin-left: 50px;
+            position: absolute;
+            top: 9px;
+            text-align: center;
+            line-height: 23px;
+            font-size: 16px;
+        }
+
+        .step-ball-active {
+            background-color: #a6ce39;
+            border: solid 3px white;
+            position: relative;
+        }
+
+            .step-ball-active > div {
+                position: absolute;
+                left: 0;
+                right: 0;
+                text-align: center;
+                line-height: 47px;
+                color: white;
+                display: block;
+            }
+
+        .step-pipe-active {
+            border-bottom-color: white;
+            color: white;
+        }
+
+        .product-image-container {
+            border-radius: 7px;
+            width: 120px;
+            min-height: 120px;
+            display: inline-block;
+            margin-right: 15px;
+        }
+
+        #step-container {
+            position: relative;
+            display: inline-flex;
+            width: 400%;
+        }
+
+            #step-container > div {
+                padding: 0 45px;
+                flex: 1;
+                overflow-y: auto;
+                height: 687px;
+                position: relative;
+            }
+
+                #step-container > div > div.step {
+                    overflow: visible;
+                    padding-bottom: 80px;
+                }
+
+        .product-attribute {
+            display: inline-block;
+            width: 15%;
+            margin-right: 35px;
+        }
+
+        #RRP-container, #MSRP-container {
+            display: inline-block;
+            width: 47%;
+            margin-right: 13px;
+        }
+
+        #product-attributes .input-group-addon {
+            font-weight: bold;
+        }
+
+        #more-images-button {
+            width: 100%;
+            padding-bottom: 100%;
+            margin: 0;
+            cursor: pointer;
+            border: 2px dashed #c1c1c1;
+            position: relative;
+            background-color: #a9a9a9;
+            background-image: url("/images/white-plus.png");
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .upload-image {
+            position: relative;
+        }
+
+            .upload-image .delete-image-button {
+                display: none;
+                position: absolute;
+                top: 5px;
+                right: 5px;
+                border: 1px solid rgba(93, 93, 93, 0.5);
+                background-color: rgba(200, 200, 200, 0.6);
+                color: #000;
+                text-align: center;
+                height: 25px;
+                border-radius: 25px;
+                width: 25px;
+                cursor: pointer;
+                font-size: 13px;
+            }
+
+        label.with-image ~ .delete-image-button {
+            display: block;
+        }
+
+        .upload-image .delete-image-button::before {
+            vertical-align: middle;
+            content: 'X';
+        }
+
+        .upload-image .delete-image-button:hover {
+            border: 2px solid rgb(93, 93, 93);
+        }
+
+            .upload-image .delete-image-button:hover::before {
+                color: rgb(93, 93, 93);
+                font-weight: bold;
+            }
+
+        .upload-image > label {
+            width: 100%;
+            display: inline-block;
+            padding-bottom: 100%;
+            margin: 0;
+            cursor: pointer;
+            border: 2px solid #c1c1c1;
+            background-color: #a9a9a9;
+            background-image: url("/images/camera.png");
+            background-repeat: no-repeat;
+            background-position: 45px 55px;
+            background-size: 40%;
+        }
+
+            .upload-image > label.with-image {
+                border: 0.5px solid #c1c1c1;
+                background-position: 0 0;
+                background-size: 100% 100%;
+                background-color: transparent;
+            }
+
+        .upload-document > label {
+            background-image: url('http://www.myiconfinder.com/uploads/iconsets/a55cff87045ef37b6ceb274a33d92aeb-document.png');
+            background-position: 45px 45px;
+            width: 100%;
+            padding-bottom: 100%;
+            margin: 0;
+            cursor: pointer;
+            border: 2px solid #c1c1c1;
+            background-color: #a9a9a9;
+            background-repeat: no-repeat;
+            background-size: 40%;
+            position: relative;
+        }
+
+        .upload-document .fa-stack {
+            top: 2px;
+            right: 2px;
+            position: absolute;
+            display: none;
+        }
+
+        #step2-row2-input-fields-container {
+            display: inline-block;
+        }
+
+        #vendor-net-price + .step2-row2-sign {
+            position: absolute;
+            right: 50px;
+            top: 54px;
+        }
+
+        #step2-row2-info-fields-container {
+            position: relative;
+            display: inline-block;
+            height: 119px;
+            vertical-align: top;
+            width: 44%;
+        }
+
+        .next-btn-anabled {
+            cursor: pointer;
+            border: dashed 2px red;
+        }
+
+        footer {
+            display: none;
+        }
+
+        @@media (max-width: 1200px) {
+
+            .step-pos > div {
+                width: 200px;
+            }
+
+            .step-pipe {
+                width: 150px;
+            }
+        }
+
+        #steps-con {
+            display: flex;
+            justify-content: center;
+        }
+
+        #steps-con {
+            height: 100px;
+            background-color: #624c85;
+        }
+
+            #steps-con .circle {
+                width: 159px;
+                height: 40px;
+                line-height: 40px;
+                border-radius: 100px;
+                border: solid 1.5px #fff;
+                color: #fff;
+                font-size: 18px;
+                font-weight: 500;
+                text-align: center;
+            }
+
+                #steps-con .circle.active {
+                    color: #624c85;
+                    background-color: #fff;
+                }
+
+            #steps-con .line {
+                width: 39px;
+                border: solid 1.5px #fff;
+            }
+    </style>
+
+}
+<div class="hide-on-med-and-up" style="margin-top: 60px;">
+    <h3>Currently uploads are not support from mobile and tablet devices.</h3>
+    <h4>Please revisit from a desktop.</h4>
+</div>
+<section id="upload-product-container" class="hide-on-small-and-down">
+    <div id="steps-con" class="valign-wrapper hide">
+        <div class="circle">
+            Product
+        </div>
+        <div class="line"></div>
+        <div class="circle active">
+            IMAGES
+        </div>
+        <div class="line"></div>
+        <div class="circle">
+            CATEGORIES
+        </div>
+    </div>
+    <div id="status-bar-container">
+        <div id="step-position-wrapper">
+            <div class="step-pos" id="step_1">
+                <div>
+                    <div class="step-ball step-ball-active">
+                        <div>1</div>
+                    </div>
+                    <div class="step-pipe step-pipe-active">Product</div>
+                </div>
+            </div>
+            <div class="step-pos" id="step_2">
+                <div>
+                    <div class="step-ball">
+                        <div>2</div>
+                    </div>
+                    <div class="step-pipe">Pricing</div>
+                </div>
+            </div>
+            <div class="step-pos" id="step_3">
+                <div>
+                    <div class="step-ball">
+                        <div>3</div>
+                    </div>
+                    <div class="step-pipe">Activity</div>
+                </div>
+            </div>
+            <div class="step-pos" id="step_4">
+                <div>
+                    <div class="step-ball">
+                        <div>4</div>
+                    </div>
+                    <div class="step-pipe">Disablility</div>
+                </div>
+            </div>
+            <div class="step-pos">
+                <div style="width: 0">
+                    <div class="step-ball">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h1 style="text-align: center; font-weight: bold; font-size: 30px;">PRODUCT LISTING FORM (@Model.Id)</h1>
+    <div class="modal" id="image-preview-modal" tabindex="-1">
+        <div class="modal-dialog modal-lg" style="width: 800px;">
+            <div class="modal-content">
+                <div id="image-pic-preview"></div>
+                <div class="text-center" style="padding-bottom: 15px">
+                    <button id="image-take-picture" type="button" class="btn btn-primary">Looks good</button>
+                    <button id="image-close-modal" type="button" class="btn btn-default">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form id="upload-form" asp-action="Edit" asp-controller="Product" method="post">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="CompanyId" />
+        <div id="step-container">
+            <div>
+                <div id="product-description-step_1" class="step">
+                    <div class="row">
+                        <div class="col m2">
+                            <div class="input-field">
+                                <input asp-for="Sku" />
+                                <label asp-for="Sku"></label>
+                            </div>
+                        </div>
+                        <div class="col m2">
+                            <div class="input-field">
+                                <input asp-for="Upc" />
+                                <label asp-for="Upc"></label>
+                            </div>
+                        </div>
+                        <div class="col m4">
+                            <div class="input-field">
+                                <input class="form-control" asp-for="Name" required placeholder="Product name" />
+                                <label asp-for="Name"></label>
+                            </div>
+                        </div>
+                        <div class="col m4">
+                            <div class="input-field">
+                                <input asp-for="Brand" placeholder="Brand name" />
+                                <label asp-for="Brand"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col m12">
+                            <div class="input-field">
+                                <textarea asp-for="About" class="materialize-textarea" placeholder="Product description"></textarea>
+                                <label asp-for="About"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 m6">
+                            <div class="input-field">
+                                <input asp-for="Url" type="url" class="form-control" placeholder="http://myWebsite.com/Product/123" />
+                                <label asp-for="Url">Product page URL on <b>vendor's</b> website</label>
+                            </div>
+                        </div>
+                        <div class="col m2">
+                            <div class="input-field">
+                                <input asp-for="CouponCode" placeholder="Coupon code" />
+                                <label asp-for="CouponCode"></label>
+                            </div>
+                        </div>
+                        <div class="col m4">
+                            <div class="checkbox">
+                                <input type="checkbox" asp-for="CouponNotNeeded">
+                                <label asp-for="CouponNotNeeded"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col m4">
+                            <div class="input-field">
+                                <input asp-for="Price" placeholder="Price" />
+                                <label asp-for="Price">List Price</label>
+                            </div>
+                        </div>
+                        <div class="col m2">
+                            <div class="input-field">
+                                <input asp-for="DiscountRate" placeholder="Discount" />
+                                <label asp-for="DiscountRate"></label>
+                            </div>
+                        </div>
+                        <div class="col m2">
+                            <div class="input-field">
+                                <select asp-for="DiscountType" asp-items="@Html.GetEnumSelectList(typeof(RateType))">
+                                    <option selected disabled value=""></option>
+                                </select>
+                                <label asp-for="DiscountType"></label>
+                            </div>
+                        </div>
+                        <div class="col m4">
+                            <div class="checkbox">
+                                <input type="checkbox" asp-for="IsSoldOnSite">
+                                <label asp-for="IsSoldOnSite"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col m12">
+                            <div class="input-field">
+                                <input asp-for="RedirectPageComment" placeholder="Comment" />
+                                <label asp-for="RedirectPageComment"></label>
+                            </div>
+                        </div>                       
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div id="product-price-step_2" class="step">
+                    <div class="row">
+                        <div class="col s12 m6">
+                            <div class="input-field">
+                                <input asp-for="YouTubeId" type="hidden" />
+                                <input type="text" id="youTubeUrl" placeholder="Paste your YouTube video link here" value="@(!string.IsNullOrEmpty(Model.YouTubeId) ? "https://www.youtube.com/watch?v="+Model.YouTubeId :"")">
+                                <label for="youTubeUrl">YouTube URL</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="hiddenImages">
+                        @foreach (var image in Model.Images)
+                        {
+                            <input type="hidden" name="@nameof(Model.Images)" value="@image" class="hidden-image" />
+                        }
+                        <input type="hidden" name="@nameof(Model.Images)" class="hidden-image" />
+                    </div>
+                    <div id="dZUpload" class="dropzone" data-url="@Url.Action("UploadImages", "Image")">
+                        <div class="dz-message needsclick">
+                            <img src="/images/upload-icon.svg" asp-append-version="true" />
+                            <div class="hide-on-small-and-down">
+                                DRAG YOUR IMAGES HERE OR <span>BROWSE</span>
+                            </div>
+                            <div class="hide-on-med-and-up">
+                                TAP TO UPLOAD YOUR IMAGES
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div id="product-catagories-step_3" class="step">
+                    <div class="categories-container">
+                        <h4>Select one or more relevant categories</h4>
+                        <div class="checkbox-container">
+                            @foreach (var category in Model.CategoriesOptions)
+                            {
+                                <div class="category-group">
+                                    <h5> @category.Key</h5>
+                                    @foreach (var subCategory in category.Value)
+                                    {
+                                        <div class="checkbox">
+                                            <input type="checkbox" class="category-checkbox" name="@nameof(Model.Categories)" value="@subCategory.Key" id="category-@subCategory.Key"
+                                                   checked="@Model.Categories.Contains(subCategory.Key)">
+                                            <label for="category-@subCategory.Key" class="category-checkbox-label">@subCategory.Value</label>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div id="product-limitations-step_4" class="step">
+                    <div class="row">
+                        <div class="col m6">
+                            <div class="input-field">
+                                <select asp-for="MainCategoryId" required placeholder="Main category">
+                                    @{ var flatedCategories = Model.CategoriesOptions.SelectMany(x => x.Value).ToDictionary(x => x.Key, x => x.Value);}
+                                    @* Filter inactive categories*@
+                                    @foreach (var category in Model.Categories.Where(id => flatedCategories.ContainsKey(id)))
+                                    {
+                                        <option value="@category" selected="@(category == Model.MainCategoryId)">@flatedCategories[category]</option>
+                                    }
+                                </select>
+                                <label asp-for="MainCategoryId">Main category</label>
+                            </div>
+                        </div>
+                    </div>
+                    @*<h5>Variations</h5>
+                    <input id="VariationRows" name="VariationRows" type="hidden" />
+                    <input asp-for="VariationsChanged" type="hidden" />
+                    <div class="row">
+                        <div class="col m4">
+                            <div class="input-field">
+                                <input type="text" id="txt-new-variation-type" placeholder="Name" />
+                                <label for="txt-new-variation-type">NEW VARIATION TYPE</label>
+                            </div>
+                        </div>
+                        <div class="col m4">
+                            <button class="btn red" id="btn-new-variation-type">ADD VARIATION TYPE</button>
+                        </div>
+                    </div>
+                    <button class="btn" id="btn-new-variation-row">ADD VARIATION ROW</button>
+                    <div class="row">
+                        <table class="bordered striped" id="variation-table">
+                            <thead>
+                                <tr>
+                                    @foreach (var variationKey in Model.VariationRows.SelectMany(x => x.Combinations.Select(c => c.Key)).Distinct().OrderBy(x => x))
+                                    {
+                                        <th contenteditable="true" class="var">@variationKey</th>
+                                    }
+                                    <th class="price">Price</th>
+                                    <th class="sku">SKU</th>
+                                    <th class="upc">UPC</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var variation in Model.VariationRows)
+                                {
+                                    <tr>
+                                        @foreach (var variationKeyValue in variation.Combinations.OrderBy(x => x.Key))
+                                        {
+                                            <td contenteditable="true" class="var" data-variation="@variationKeyValue.Key">@variationKeyValue.Value</td>
+                                        }
+                                        <td contenteditable="true" class="price">@variation.Price</td>
+                                        <td contenteditable="true" class="sku">@variation.Sku</td>
+                                        <td contenteditable="true" class="upc">@variation.Upc</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+        <div style="position: absolute; height: 80px; bottom: 0; width: 100%; background-color: #f1f1f1; opacity: 0.9; z-index: 10; padding: 10px 0">
+            <button id="back" type="button" class="btn brown btn-default left hide" style="width: 180px; height: 60px; font-size: 20px; margin-left: 45px;">BACK</button>
+            <button id="next" type="button" class="btn green right" style="width: 180px; height: 60px; font-size: 20px; margin-right: 45px;">NEXT</button>
+            <button id="submit" class="btn blue darken-2 right hide" style="width: 180px; height: 60px; font-size: 20px; margin-right: 45px;">SUBMIT</button>
+            @*<button id="preview" type="button" class="btn btn-warning pull-right hide" style="width: 180px; height: 60px; font-size: 20px; margin-right: 45px;">PREVIEW</button>*@
+        </div>
+    </form>
+</section>
+@Html.Partial("_DropzoneTemplate")
+<embedcss Href="/css/Product/Create.css"></embedcss>
+@section Scripts {
+    @*<script src="/lib/croppie/croppie.js"></script>
+        <script src="/scripts/Utils/pictureUploader.js" asp-append-version="true"></script>*@
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.5.2/jquery.fileupload.min.js"></script>
+    <script src="/lib/dropzone/dist/min/dropzone.min.js"></script>
+    <script>
+        Dropzone.autoDiscover = false;
+        var $dZUpload = $("#dZUpload");
+        var uploadImagesUrl = $dZUpload.data('url');
+        $dZUpload
+            .dropzone({
+                url: uploadImagesUrl,
+                previewTemplate: $('#dropzone-preview-template').html(),
+                addRemoveLinks: false,
+                paramName: "images",
+                maxFiles: 10,
+                dictMaxFilesExceeded: "Maximum 10 images",
+                maxFilesize: 5,
+                removedfile: function (file) {
+                    var response = (file).xhr && (file).xhr.response;
+                    if (response) {
+                        try {
+                            $('.hidden-image')
+                                .filter(function () { return this.value === eval(response)[0] })
+                                .remove();
+                        } catch (e) {
+                        }
+                    } else {
+                        $('.hidden-image')
+                            .filter(function () { return this.value.indexOf((file).name) > -1 })
+                            .remove();
+                    }
+                    $(document).find(file.previewElement).remove();
+                },
+                sending: function (file, width, formData) {
+                    formData.append("containerName", "product-images");
+                    (window).ga('send', 'event', 'Upload Product', 'Upload image');
+                },
+                acceptedFiles: "image/*",
+                success: function (file, imageUrl) {
+                    file.previewElement.classList.add("dz-success");
+                    $(file.previewElement).data('url', imageUrl.toString());
+
+                    if ($('.dz-preview').length === 0)
+                        file.previewElement.classList.add("main");
+
+                    $('#hiddenImages .hidden-image:last')
+                        .val(imageUrl)
+                        .clone()
+                        .val('')
+                        .insertAfter($('#hiddenImages .hidden-image:last').last());
+                    return false;
+                },
+                error: function (file, response) {
+                    file.previewElement.classList.add("dz-error");
+                    $(file.previewElement).find('.dz-error-message').text(response);
+                }
+            });
+
+        var dropzone = Dropzone.forElement("#dZUpload");
+
+        var images = $('#hiddenImages .hidden-image').filter(function () {
+            return this.value;
+        }).map(function () {
+            return this.value;
+        }).get();
+        var cloudinaryPrefix = "https://res.cloudinary.com/yooocan/image/fetch/f_auto,q_80,w_150,h_150,c_limit/";
+        for (var image of images) {
+            var mockFile = { name: image, size: 123 };
+            dropzone.emit("addedfile", mockFile);
+            dropzone.emit("thumbnail", mockFile,
+                cloudinaryPrefix + image);
+            dropzone.emit("complete", mockFile);
+        }
+
+        $('.dz-preview').addClass('dz-success').eq(0).addClass('main');
+        $('#dZUpload .dz-preview .dz-image img').each(function () {
+            $(this).closest('.dz-preview').data('url', this.src.split(cloudinaryPrefix)[1]);
+        });
+
+        $('#dZUpload').on('click', '.set-as-main', function () {
+            var $previewElement = $(this).closest('.dz-preview');
+            var url = $previewElement.data('url');
+
+            $('#hiddenImages input').filter(function () {
+                return this.value === url;
+            }).prependTo('#hiddenImages');
+            $previewElement.addClass('main').siblings().removeClass('main');
+
+            return false;
+        });
+
+        $('#dZUpload').on('hover', '.dz-preview', function () {
+            return false;
+        });
+
+        // Go to hell sucker.
+        $('footer, #header-first-line').remove();
+
+        var $mainCategory = $('#MainCategoryId');
+        $('.categories-container').change(function () {
+            var $options = $(this).find('input:checked').map(function () {
+                return $('<option>', {
+                    value: this.value,
+                    selected: $mainCategory.val() === this.value
+                }).text($(this).next().text());
+            });
+            var $defaultOption = $('<option>', { disabled: true, selected: !$mainCategory.val() })
+                .text('Choose Category');
+            $mainCategory.empty();
+            $mainCategory.append($defaultOption);
+
+            for (var i = 0; i < $options.length; i++) {
+                $mainCategory.append($options[i]);
+            }
+
+            $mainCategory.material_select();
+        });
+
+        var page = 1;
+        var isAnimating;
+
+        var canNavigate = function () {
+            return true;
+            if (isAnimating)
+                return false;
+            var $emptyRequireds = $('#step-container .step:eq(' + (page - 1) + ') [required]')
+                .filter(function () { return this.value == null || this.value === "" });
+            if ($emptyRequireds.length > 0) {
+                $emptyRequireds.closest('.form-group').addClass('has-error');
+                alert("Please fill all required fields");
+                return false;
+            }
+
+            return true;
+        }
+
+        $('#step-container').on('keyup', ' .has-error .form-control', function () {
+            $(this).closest('.has-error').removeClass('has-error');
+        });
+
+        $("#next")
+            .click(function () {
+
+                if (!canNavigate())
+                    return false;
+
+                page++;
+                isAnimating = true;
+                switch (page) {
+                    case 2:
+                        {
+                            $('#back').removeClass('hide');
+                            $("#step_2").addClass("step-activated");
+                            $("#step_2 .step-ball").addClass("step-ball-active");
+                            $("#step_2 .step-pipe").addClass("step-pipe-active");
+                            $("#step-container").animate({ left: '-100%' }, function () {
+                                $('#step-container > div:nth-child(' + (page) + ') input:first').focus();
+                                isAnimating = false;
+                            });
+                            break;
+                        }
+                    case 3:
+                        {
+                            $("#step_3").addClass("step-activated");
+                            $("#step_3 .step-ball").addClass("step-ball-active");
+                            $("#step_3 .step-pipe").addClass("step-pipe-active");
+                            $("#step-container").animate({ left: '-200%' }, function () {
+                                $('#step-container > div:nth-child(' + (page) + ') input:first').focus();
+                                isAnimating = false;
+                            });
+                            break;
+                        }
+                    case 4:
+                        {
+                            $('#preview').removeClass('hide');
+                            $('#submit').removeClass('hide');
+
+                            $("#step_4").addClass("step-activated");
+                            $("#step_4 .step-ball").addClass("step-ball-active");
+                            $("#step_4 .step-pipe").addClass("step-pipe-active");
+                            $("#step-container").animate({ left: '-300%' }, function () {
+                                $('#step-container > div:nth-child(' + (page) + ') input:first').focus();
+                                isAnimating = false;
+                            });
+                            $(this).addClass('hide');
+
+                            break;
+                        }
+                }
+            });
+
+
+        $("#back")
+            .click(function () {
+                switch (page) {
+                    case 2:
+                        {
+                            $("#step-container").animate({ left: '0%' });
+                            $("#step_2 .step-ball").removeClass("step-ball-active");
+                            $("#step_2 .step-pipe").removeClass("step-pipe-active");
+                            $(this).addClass('hide');
+                            break;
+                        }
+                    case 3:
+                        {
+                            $("#step-container").animate({ left: '-100%' });
+                            $("#step_3 .step-ball").removeClass("step-ball-active");
+                            $("#step_3 .step-pipe").removeClass("step-pipe-active");
+                            break;
+                        }
+                    case 4:
+                        {
+                            $("#step-container").animate({ left: '-200%' });
+                            $("#step_4 .step-ball").removeClass("step-ball-active");
+                            $("#step_4 .step-pipe").removeClass("step-pipe-active");
+                            $('#next').removeClass('hide');
+                            $('#back').removeClass('hide');
+                            $('#preview').addClass('hide');
+                            $('#submit').addClass('hide');
+                            break;
+                        }
+                }
+
+                page--;
+            });
+
+
+        $('#step_1')
+            .click(function () {
+                if (!canNavigate())
+                    return false;
+
+                page = 1;
+                $('#back,#preview,#submit').addClass('hide');
+                $('#next').removeClass('hide');
+                $("#step-container").animate({ left: '0%' });
+                $("#step_4 .step-ball").removeClass("step-ball-active");
+                $("#step_4 .step-pipe").removeClass("step-pipe-active");
+                $("#step_3 .step-ball").removeClass("step-ball-active");
+                $("#step_3 .step-pipe").removeClass("step-pipe-active");
+                $("#step_2 .step-ball").removeClass("step-ball-active");
+                $("#step_2 .step-pipe").removeClass("step-pipe-active");
+            });
+        $('#step_2')
+            .click(function () {
+                if ($("#step_2").hasClass("step-activated")) {
+                    page = 2;
+
+                    $('#preview,#submit').addClass('hide');
+                    $('#back,#next').removeClass('hide');
+
+                    $("#step-container").animate({ left: '-100%' });
+                    $("#step_4 .step-ball").removeClass("step-ball-active");
+                    $("#step_4 .step-pipe").removeClass("step-pipe-active");
+                    $("#step_3 .step-ball").removeClass("step-ball-active");
+                    $("#step_3 .step-pipe").removeClass("step-pipe-active");
+                    $("#step_2 .step-ball").addClass("step-ball-active");
+                    $("#step_2 .step-pipe").addClass("step-pipe-active");
+                }
+            });
+        $('#step_3')
+            .click(function () {
+
+                if ($("#step_3").hasClass("step-activated")) {
+                    page = 3;
+
+                    $('#preview,#submit').addClass('hide');
+                    $('#back,#next').removeClass('hide');
+
+                    $("#step-container").animate({ left: '-200%' });
+                    $("#step_4 .step-ball").removeClass("step-ball-active");
+                    $("#step_4 .step-pipe").removeClass("step-pipe-active");
+                    $("#step_3 .step-ball").addClass("step-ball-active");
+                    $("#step_3 .step-pipe").addClass("step-pipe-active");
+                    $("#step_2 .step-ball").addClass("step-ball-active");
+                    $("#step_2 .step-pipe").addClass("step-pipe-active");
+                }
+            });
+        $('#step_4')
+            .click(function () {
+                if ($("#step_4").hasClass("step-activated")) {
+                    page = 4;
+                    $('#preview,#submit,#back').removeClass('hide');
+                    $('#next').addClass('hide');
+
+                    $("#step-container").animate({ left: '-300%' });
+                    $("#step_4 .step-ball").addClass("step-ball-active");
+                    $("#step_4 .step-pipe").addClass("step-pipe-active");
+                    $("#step_3 .step-ball").addClass("step-ball-active");
+                    $("#step_3 .step-pipe").addClass("step-pipe-active");
+                    $("#step_2 .step-ball").addClass("step-ball-active");
+                    $("#step_2 .step-pipe").addClass("step-pipe-active");
+                }
+            });
+
+        function getYoutubeId(url) {
+            var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            var match = url.match(regExp);
+
+            if (match && match[2].length >= 5) {
+                return match[2];
+            } else {
+                return 'error';
+            }
+        }
+
+        $('#youTubeUrl')
+            .change(function () {
+                if (!this.value.trim()) {
+                    $('#YoutubeId').val('');
+                    $("#youtubeContainer").hide();
+                    return false;
+                }
+
+                var id = getYoutubeId(this.value);
+                if (id === "error") {
+                    $('#@nameof(Model.YouTubeId)').val('');
+                    $("#youtubeContainer").hide();
+                    alert('Invalid YouTube Url');
+                    return false;
+                }
+
+                $('#@nameof(Model.YouTubeId)').val(id);
+            });
+
+        // Validate and animate moving to next slide with tab.
+        // It catches "Tab" clicks on each VISIBLE inputs of every slide.
+        $('#step-container > div > div.step').each(function () {
+            $(this).find('input:visible:last').keydown(function (e) {
+                if (e.which === 9 && !e.shiftKey) {
+                    $('#next').click();
+                    return false;
+                }
+            });
+        });
+
+        $('#btn-new-variation-type').click(function () {
+            var variationType = $('#txt-new-variation-type').val().trim();
+            if (!variationType.length) {
+                Materialize.toast('Empty variation type', 5000);
+                return false;
+            }
+
+            var $table = $('#variation-table');
+            $table.find('thead tr').prepend($(`<th contenteditable="true" class="var">${variationType}</th>`));
+            $table.find('tbody tr').each(function () {
+                $(this).prepend(`<td contenteditable="true" class="data-variation="${variationType}"></th>`);
+            });
+            return false;
+        });
+        $('#btn-new-variation-row').click(function () {
+
+            var $theadThs = $('#variation-table thead th');
+            var $row = $('<tr>');
+            for (var i = 0; i < $theadThs.length; i++) {
+                $row.append('<td contenteditable="true">');
+            }
+            var tbody = $('#variation-table tbody');
+            $row.appendTo(tbody);
+
+            return false;
+        });
+
+
+        var $TABLE = $('#variation-table');
+
+        // A few jQuery helpers for exporting only
+        jQuery.fn.pop = [].pop;
+        jQuery.fn.shift = [].shift;
+        serializeVariations = function () {
+            var $rows = $TABLE.find('tr');
+            var headers = [];
+            var data = [];
+
+            // Get the headers (add special header logic here)
+            $($rows.shift()).find('th:not(:empty)').each(function () {
+                headers.push($(this).text().toLowerCase());
+            });
+
+            // Turn all existing rows into a loopable array
+            $rows.each(function () {
+                var $td = $(this).find('td');
+                var h = {};
+
+                // Use the headers from earlier to name our hash keys
+                headers.forEach(function (header, i) {
+                    h[header] = $td.eq(i).text();
+                });
+
+                data.push(h);
+            });
+            data = data.map(function (row) {
+                var results = {};
+                results.price = row.price;
+                results.sku = row.sku;
+                results.upc = row.upc;
+                results.combinations = {};
+                for (var key in row) {
+                    var lowerKey = key.toLowerCase();
+                    if (lowerKey !== "price" && lowerKey !== "sku" && lowerKey !== "upc") {
+                        results.combinations[key] = row[key];
+                    } else {
+                        results[key] = row[key];
+                    }
+                }
+                return results;
+            });
+
+            return JSON.stringify(data);
+        };
+        $('#VariationRows').val(serializeVariations());
+        $('#submit').click(function () {
+            var serializedVariations = serializeVariations();
+            var $variationRows = $('#VariationRows');
+            if ($variationRows.val() !== serializedVariations) {
+                $('#VariationsChanged').val('true');
+                $variationRows.val(serializedVariations);
+            }
+        });
+    </script>
+}

@@ -1,0 +1,19 @@
+﻿@model Yooocan.Models.Products.ProductCardModel
+<div class="featured-product small card horizontal big hoverable">
+    <div class="card-image" style="background-image: url('@Model.PrimaryImageUrl')">
+        <img src="@Model.PrimaryImageUrl" alt="product image">
+    </div>
+    <div class="card-stacked">
+        <div class="card-content">
+            <a asp-action="Index" asp-controller="Product" asp-route-id="@Model.Id">
+                <div class="name">@Model.Name</div>
+                <div class="description">@Model.About.Truncate(250)</div>
+            </a>
+            <div class="bottom">
+                <div class="price">@Model.Price.ToString("C")</div>
+                <a class="waves-effect waves-teal btn-flat buy"
+                   asp-action="Index" asp-controller="Product" asp-route-id="@Model.Id">BUY</a>
+            </div>
+        </div>
+    </div>
+</div>

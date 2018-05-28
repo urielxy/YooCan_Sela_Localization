@@ -1,0 +1,212 @@
+﻿@using Yooocan.Logic.Extensions
+@using Yooocan.Web.Utils
+@model Yooocan.Models.Feeds.FeedCategoryModel
+@{
+    ViewBag.Title = $"{Model.Name} feed";
+    var image = Model.HeaderImageUrl;
+    var canonicalUrl = Url.RouteUrl("Feed", new { id = Model.Id, categoryName = Model.Name.ToCanonical() }, "https");
+}
+@section head {
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="yooocan" />
+    <meta property="og:image" content="@Html.Raw(Model.HeaderImageUrl)" />
+    <meta property="og:image:secure_url" content="@Html.Raw(Model.HeaderImageUrl)" />
+    @*<meta property="og:image:width" content="1140" />
+        <meta property="og:image:height" content="250" />*@
+    <meta name="twitter:title" property="og:title" itemprop="title name" content="@($"yoocan {Model.Name} feed")" />
+    <meta name="twitter:description" property="og:description" itemprop="description" content="@($"Browse stories, videos and tips related to {Model.Name}")" />
+    <meta name="description" content="@($"Browse stories, videos and tips related to {Model.Name}")" />
+    <meta property="og:url" content="@canonicalUrl" />
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="canonical" href="@canonicalUrl" id="canonicalUrl" />
+    <embedCss href="/css/feed/Category.css" />
+}
+@Html.Partial("_StickyShare")
+<input asp-for="Id" type="hidden" />
+<div id="category-header" style="background-image: url('@(ClientHelper.IsMobileDevice(Context.Request.Headers["User-Agent"].ToString()) ?  Model.MobileHeaderImageUrl : Model.HeaderImageUrl)')">
+    <div id="category-title">
+        <h2 id="category-name">@Model.Name</h2>
+        @if (!string.IsNullOrEmpty(Model.Description))
+        {
+            <h3>@Model.Description</h3>
+        }
+    </div>
+    <form asp-controller="Category" asp-action="FollowCategory" class="follow-category-form @(Model.IsFollowed ? "hide" : "")" data-action="Follow">
+        <input type="hidden" name="id" value="@(Model.ParentCategoryId ?? Model.Id)"/>
+        <button class="btn" id="follow-category-btn">+ FOLLOW</button>
+    </form>
+    <form asp-controller="Category" asp-action="UnfollowCategory" class="unfollow-category-form @(!Model.IsFollowed || !User.Identity.IsAuthenticated ? "hide" : "")" data-action="Unfollow">
+        <input type="hidden" name="id" value="@(Model.ParentCategoryId ?? Model.Id)"/>
+        <button class="btn" id="unfollow-category-btn" title="Click to unfollow">✔ FOLLOWING</button>
+    </form>
+</div>
+<div class="container">
+    <div class="row" id="breadcrumbs-container">
+        <div class="breadcrumbs offset-s3 col s9">
+            <a href="/" class="breadcrumb">Homepage</a>
+            @if (Model.ParentCategoryId != null)
+            {
+                <a asp-route="Feed" asp-route-id="@Model.ParentCategoryId" asp-route-categoryName="@Model.ParentCategoryName.ToCanonical()" class="breadcrumb">@Model.ParentCategoryName</a>
+            }
+            <a asp-route="Feed" asp-route-id="@Model.Id" asp-route-categoryName="@Model.Name.ToCanonical()" class="breadcrumb">@Model.Name</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col m3 hide-on-small-and-down">
+            <div class="side-nav" id="side-nav">
+                <h2>Menu</h2>
+                <ul class="collapsible" data-collapsible="accordion">
+                    @*<li>
+                            <a href="#!">
+                                <div class="menu-item">
+                                    <span class="menu-icon valign-wrapper">
+                                        <img src="/images/categories/menu/featured-events.svg" class="valign" />
+                                    </span>
+                                    <span class="menu-text">Featured Events</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a href="#!">
+                                <div class="menu-item">
+                                    <span class="menu-icon valign-wrapper">
+                                        <img src="/images/categories/menu/recommended.svg" class="valign" />
+                                    </span>
+                                    <span class="menu-text">Recommended</span>
+                                </div>
+                            </a>
+                        </li>*@
+                    @foreach (var category in Model.Categories)
+                    {
+                        var isActive = category.Id == (Model.ParentCategoryId ?? Model.Id);
+                        <li class="@(isActive? "active": "")">
+                            <span class="collapsible-header @(isActive? "active": "")">
+                                <div class="menu-item">
+                                    <span class="menu-icon valign-wrapper">
+                                        <img src="@category.IconUrl" class="valign" />
+                                    </span>
+                                    <span class="menu-text">
+                                        @category.Name
+                                    </span>
+                                    @*<span class="badge">99</span>*@
+                                </div>
+                            </span>
+                            <ul class="subcategories collapsible-body">
+                                <li>
+                                    <a asp-route="Feed" asp-route-id="@category.Id" asp-route-categoryName="@category.Name.ToCanonical()">
+                                        <div class="menu-item">
+                                            <span class="menu-text">ALL</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                @foreach (var subCategory in category.SubCategories)
+                                {
+                                    <li>
+                                        <a asp-route="Feed" asp-route-id="@subCategory.Id" asp-route-categoryName="@subCategory.Name.ToCanonical()">
+                                            <div class="menu-item">
+                                                <span class="menu-text">@subCategory.Name</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="col s12 m9">
+            <div id="feed">
+                @if (Model.Stories.Any())
+                {
+                    <span class="hide-on-small-and-down">
+                        @Html.Partial("../Home/_FeaturedStoryCard", Model.Stories.First())
+                    </span>
+                }
+
+                <embedCss href="/css/feed/storyCard.css" />
+                <div class="row feed">
+                    <div class="col l4 m6 s12 hide-on-med-and-up">
+                        @Html.Partial("_StyledStoryCard", Model.Stories.First())
+                    </div>
+                    @foreach (var story in Model.Stories.Skip(1))
+                    {                        
+                        <div class="col l4 m6 s12">
+                            @Html.Partial("_StyledStoryCard", story)
+                        </div>
+                    }
+                </div>
+                @Html.Partial("_LoadMoreButton", Url.Action("CategoryMore", "Feed", new {categoryId = Model.Id}))
+            </div>            
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="/dist/Feed/category.js" asp-append-version="true"></script>
+    <script src="/dist/Shared/FollowCategory.js" asp-append-version="true"></script>
+    <script>
+        var canonicalUrl = encodeURIComponent($('#canonicalUrl').attr('href'));
+        $('a.pinterest').click(function () {
+            var width = 750,
+                height = 540,
+                left = getLeft(width),
+                top = getTop(height);
+
+            window.open("//www.pinterest.com/pin/create/button/" +
+                "?url=" + canonicalUrl +
+                "&media=@image",
+                "pinterest-share-dialog",
+                `width=${width},height=${height},top=${top},left=${left})`);
+            return false;
+        });
+        var name = encodeURIComponent($('#category-name').text());
+        $('a.facebook').click(function () {
+            var width = 553,
+                height = 510,
+                left = getLeft(width),
+                top = getTop(height);
+            window.open('http://www.facebook.com/sharer/sharer.php?u=' + canonicalUrl,
+                'facebook-share-dialog',
+                `width=${width},height=${height},top=${top},left=${left}`);
+            return false;
+        });
+
+        $('a.twitter').click(function () {
+            var width = 500,
+                height = 636,
+                left = getLeft(width),
+                top = getTop(height);
+            window.open('https://twitter.com/home?status=Check out ' + name + ' on yoocanfind.com ' + canonicalUrl,
+                'twitter-share-dialog',
+                `width=${width},height=${height},top=${top},left=${left})`);
+
+            return false;
+        });
+
+        $('a.google-plus').click(function () {
+            var width = 500,
+                height = 636,
+                left = getLeft(width),
+                top = getTop(height);
+            window.open('https://plus.google.com/share?url=' + canonicalUrl,
+                'google-plus-share-dialog',
+                `width=${width},height=${height},top=${top},left=${left})`);
+            return false;
+        });
+
+        $('.share-widget a').click(function () {
+            var source = $(this).closest('.share-widget').data('source');
+            var platform = $(this).data('platform');
+            window.ga('set', 'dimension1', '@Model.Id');
+            window.ga('send', {
+                hitType: 'event',
+                eventCategory: 'Story',
+                eventAction: 'Share',
+                eventLabel: platform,
+                dimension4: source
+            });
+        });
+    </script>
+}

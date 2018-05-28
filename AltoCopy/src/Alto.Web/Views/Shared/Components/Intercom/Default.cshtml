@@ -1,0 +1,22 @@
+﻿@model Alto.Models.Account.IntercomModel
+<script>
+    window.intercomSettings = {
+        app_id: "@Model.AppId",
+        custom_launcher_selector: ".intercom-launcher"
+        @if(!string.IsNullOrEmpty(Model.Email))
+        {
+            <text>,name: "@Model.Name",</text>
+            if(Model.MembershipExpiryDate.HasValue)
+            {
+                <text>
+                    "membership_expiry_at": @Model.MembershipExpiryDate?.ToUnixTimeSeconds(),
+                </text>
+            }
+            <text>
+                email: "@Model.Email",
+                user_hash: "@Model.Token"
+            </text>
+        }
+    };
+</script>
+<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/@Model.AppId';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>

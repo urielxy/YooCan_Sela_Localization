@@ -1,0 +1,25 @@
+﻿@*
+    Taken from Alto
+*@
+@model Yooocan.Models.Products.ProductCardModel
+<span class="discount">
+    @if (!string.IsNullOrEmpty(Model.AmazonId))
+    {        
+    }
+    else if (Model.Price == 0 && Model.DiscountPercentage == 100)
+    {
+        <text>FREE</text>
+    }
+    else if (Model.DiscountPercentage > 0)
+    {
+        <text>
+        @Model.DiscountPercentage.ToString("0\\%") Off
+        </text>
+    }
+    else if (Model.DiscountAbsolute > 0)
+    {
+        <text>
+        SAVE @(Model.DiscountAbsolute.ToString("C"))
+        </text>
+    }
+</span>

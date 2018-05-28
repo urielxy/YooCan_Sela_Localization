@@ -1,0 +1,44 @@
+﻿@import '../_variables.scss';
+
+@mixin socialform {
+    #social-form {
+        button {
+            background-color: transparent;
+            border: none;
+            border-radius: 0;
+
+            padding: 0;
+            line-height: 0;
+            width: 100%;
+
+            &:first-of-type {
+                margin-bottom: 20px;
+            }
+
+            @media #{$small-and-up} {
+                & {
+                    margin-bottom: 0;
+                    width: unset;
+                }
+
+                &:first-of-type {
+                    margin-right: 30px;
+                }
+            }
+
+            img {
+                height: 41px;
+                width: 180px;
+            }
+        }
+        /*.facebook.btn {
+            background-color: #3b5998;
+        }
+
+        .google.btn {
+            background-color: #ddd;
+            color: #000;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+        }*/
+    }
+}

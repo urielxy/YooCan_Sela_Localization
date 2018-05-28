@@ -1,0 +1,19 @@
+﻿@model SearchResultModel
+@{
+    Layout = string.IsNullOrEmpty(ViewBag.Title) ? "_LayoutEmbed" : "";
+}
+@if (!Model.ServiceProviders.Any())
+{
+    <div class="no-results">We couldn't find any service providers.</div>
+}
+else
+{
+    <div class="row feed">
+        @foreach (var serviceProvider in Model.ServiceProviders)
+        {
+            <div class="col s12 m6 l3">
+                @Html.Partial("../Feed/_BackgroundImageServiceProviderCard", serviceProvider)
+            </div>
+        }
+    </div>
+}

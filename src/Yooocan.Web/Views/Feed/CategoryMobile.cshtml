@@ -1,0 +1,41 @@
+﻿@using Yooocan.Logic.Extensions
+@model Yooocan.Models.Feeds.FeedCategoryModel
+@{
+    Layout = "_MasterLayout";
+    ViewBag.Title = $"{Model.Name} feed";
+    var canonicalUrl = Url.RouteUrl("Feed", new { id = Model.Id, categoryName = Model.Name.ToCanonical() }, "https");
+}
+@section head {
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="yooocan" />
+    <meta property="og:image" content="@Html.Raw(Model.HeaderImageUrl)" />
+    <meta property="og:image:secure_url" content="@Html.Raw(Model.HeaderImageUrl)" />
+    @*<meta property="og:image:width" content="1140" />
+        <meta property="og:image:height" content="250" />*@
+    <meta name="twitter:title" property="og:title" itemprop="title name" content="@($"yoocan {Model.Name} feed")" />
+    <meta name="twitter:description" property="og:description" itemprop="description" content="@($"Browse stories, videos and tips related to {Model.Name}")" />
+    <meta name="description" content="@($"Browse stories, videos and tips related to {Model.Name}")" />
+    <meta property="og:url" content="@canonicalUrl" />
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="canonical" href="@canonicalUrl" id="canonicalUrl" />
+    <embedCss href="/css/feed/CategoryMobile.css" />
+    <embedCss href="/css/feed/storyCard.css" />
+}
+<div id="feed-items" data-load-more-url="@Url.Action("CategoryMore", "Feed", new {categoryId = Model.Id})" data-category-id="@Model.Id">
+    <div class="pages">
+        @Html.Partial("_CategoryMobileCards")
+    </div>
+    <div class="footer" style="background-color: #@Model.CategoryColor">
+        @Model.Name
+        <a asp-controller="Home" asp-action="Stories" class="back"><i class="material-icons">arrow_back</i></a>
+    </div>
+</div>
+@section scripts {
+    <environment names="Development">
+        <script src="/lib/hammerjs/hammer.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+    </environment>
+    <script src="/dist/Feed/CategoryMobile.js" asp-append-version="true"></script>
+}

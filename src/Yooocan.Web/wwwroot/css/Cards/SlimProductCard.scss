@@ -1,0 +1,68 @@
+﻿.slim-product.card {
+    height: 354px;
+    color: #4a4a4a;
+    margin: 0;
+
+    .save-container {
+        padding-left: 26px;
+        margin-top: 20px;
+    }
+
+    .save-text {
+        font-size: 18px;
+        margin: 0;
+    }
+
+    .saved-raw {
+        font-size: 40px;
+        font-weight: bold;
+        margin: 0;
+    }
+
+    .discount-small {
+        font-size: 13px;
+        margin-top: 0;
+        margin-bottom: 15px;
+    }
+
+    .discount {
+        font-size: 40px;
+        font-weight: bold;
+        padding-left: 27px;
+        margin-bottom: 0;
+        margin-top: 20px;
+        line-height: 1;
+    }
+
+    .off {
+        margin-top: 0;
+        margin-bottom: 13px;
+        font-size: 22px;
+        padding-left: 27px;
+    }
+
+    .card-image {
+        height: 185px;
+        width: 185px;
+        margin: auto;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+
+        img {
+            visibility: hidden;
+        }
+    }
+
+    .card-content {
+        text-align: center;
+        padding: 0 27px;
+    }
+
+    .name {
+        font-size: 18px;
+        font-weight: bold;
+        line-height: 0.78;
+        margin: 12px 0 6px 0;
+    }
+}

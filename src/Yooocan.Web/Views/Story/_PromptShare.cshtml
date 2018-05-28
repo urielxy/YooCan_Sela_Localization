@@ -1,0 +1,41 @@
+﻿@using System.Net
+@model Tuple<bool, string, string>
+<embedcss href="/css/story/promtShare.css"></embedCss>
+@{ var source = Model.Item1 ? "After-story-published" : "Daily-promt-share";}
+<div class="center-align" id="promt-share">
+    @if (Model.Item1)
+    {
+        <h3>HELP EMPOWER OTHERS!</h3>
+    }
+    else
+    {
+        <h3>EMPOWER OTHERS!</h3>
+
+    }
+    @if (Model.Item1)
+    {
+        <h4>Share your story</h4>
+    }
+    else
+    {
+        <h4>Share this story to help change someone's life</h4>
+    }
+    @* https://davidwalsh.name/remove-whitespace-inline-block Why I put the annoying <!-- stuff --> *@
+    <div id="after-story-published" class="share-widget" data-source="@source"><!--
+        --><a class="facebook center-align valign-wrapper" rel="nofollow" href="#" data-platform="facebook"><!--
+            --><img src="/images/facebook-icon-white.svg" asp-append-version="true" class="valign"/>
+        </a><!--
+        --><a class="whatsapp hide-on-med-and-up valign-wrapper" rel="nofollow" data-platform="whatsapp" href="whatsapp://send?text=You must read @Model.Item1 @WebUtility.UrlEncode(Model.Item2)" data-action="share/whatsapp/share"><!--
+            --><img src="/images/whatsapp-logo.svg" asp-append-version="true" class="valign"/>
+        </a><!--
+        --><a class="twitter valign-wrapper" rel="nofollow" href="#" data-platform="twitter"><!--
+            --><img src="/images/twitter-icon-white.svg" asp-append-version="true" class="valign"/>
+        </a><!--
+        --><a class="pinterest valign-wrapper" rel="nofollow" href="#" data-platform="pinterest"><!--
+            --><img src="/images/pinterest-icon-white.svg" asp-append-version="true" class="valign"/>
+        </a><!--
+        --><a class="google-plus valign-wrapper hide-on-small-and-down" rel="nofollow" href="#" data-platform="google-plus"><!--
+            --><img src="/images/gplus-icon-white.svg" asp-append-version="true" class="valign"/>
+        </a>
+    </div>
+</div>

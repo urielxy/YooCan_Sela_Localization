@@ -1,0 +1,97 @@
+﻿@model Yooocan.Models.CreateCategoryModel
+
+@{
+    ViewData["Title"] = "Create Category";
+}
+
+<h2>@ViewData["Title"]</h2>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <section>
+            <form asp-controller="Category" asp-action="Create" method="post" class="form-horizontal">
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="Name" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="Name" class="form-control" required/>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ParentCategoryId" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <select asp-for="ParentCategoryId" asp-items="ViewBag.ParentCategories" class="form-control"></select>
+                        <span asp-validation-for="ParentCategoryId" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="PictureUrl" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="PictureUrl" class="form-control"/>
+                        <span asp-validation-for="PictureUrl" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="HeaderPictureUrl" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="HeaderPictureUrl" class="form-control"/>
+                        <span asp-validation-for="HeaderPictureUrl" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ShopBackgroundColor" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="ShopBackgroundColor" class="form-control"/>
+                        <span asp-validation-for="ShopBackgroundColor" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="IsActiveForFeed" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="IsActiveForFeed" class="form-control"/>
+                        <span asp-validation-for="IsActiveForFeed" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="IsActiveForShop" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="IsActiveForShop" class="form-control"/>
+                        <span asp-validation-for="IsActiveForShop" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="IsChoosableForStory" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="IsChoosableForStory" class="form-control"/>
+                        <span asp-validation-for="IsChoosableForStory" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="IsChoosableForProduct" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="IsChoosableForProduct" class="form-control" />
+                        <span asp-validation-for="IsChoosableForProduct" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <input type="submit" value="Create Category" class="btn btn-danger" />
+            </form>
+        </section>
+    </div>
+</div>
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+    <script>
+        document.body.style.backgroundColor = "#e9e9e9";
+    </script>
+}

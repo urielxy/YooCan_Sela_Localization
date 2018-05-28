@@ -1,0 +1,72 @@
+﻿@{
+    var isAjax = Context.Request.IsAjaxRequest();
+    if (isAjax)
+    {
+        Layout = null;
+    }
+    //So won't go back to the login page after successful login
+    else
+    {
+        ViewBag.ReturnUrl = ViewBag.ReturnUrl ?? "/";
+    }
+    ViewBag.Title = "Login";
+}
+<embedcss href="/css/Account/Login"></embedcss>
+<div id="login-container">
+    <h4 class="header">Sign In</h4>
+    <form id="social-form" asp-action="ExternalLogin" asp-controller="Account" method="post" data-return-url="@ViewBag.ReturnUrl" data-window-url="@Url.Action("ExternalLoginWindow")">
+        <button name="provider" value="Facebook"><img src="/images/Account/facebook-signin.png" asp-append-version="true" /></button>
+        <button name="provider" value="Google"><img src="/images/account/google-signin.png" asp-append-version="true" /></button>
+    </form>
+    <div class="line">
+        <span class="text">OR LOGIN USING</span>
+    </div>
+    <form id="login-form" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@ViewBag.ReturnUrl" method="post">
+        <div class="row">
+            <div class="col s12 m6">
+                <div class="input-field">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input required id="email" name="email" type="email" class="validate">
+                    <label for="email" data-error="Incorrect email">YOUR E-MAIL</label>
+                </div>
+            </div>
+            <div class="col s12 m6">
+                <div class="input-field">
+                    <i class="material-icons prefix">lock</i>
+                    <input required id="password" name="password" type="password" class="validate">
+                    <label for="password">Password</label>
+                </div>
+            </div>
+        </div>
+        <div id="submit-container">
+            <button type="submit" class="btn waves-effect" id="submit">SIGN IN</button>
+        </div>
+    </form>
+    <div>
+        <a asp-action="ForgotPassword" asp-controller="Account" class="forgot-password" id="forgot-password-link">Forgot Password?</a>
+    </div>
+    <div class="create-account">
+        <h4>Don’t have an account?</h4>
+        <a class="waves-effect waves-light btn" id="change-to-signup" asp-action="Register" asp-route-returnUrl="@ViewBag.ReturnUrl">SIGN UP NOW</a>
+    </div>
+</div>
+@if (isAjax)
+{
+    <environment Names="Development">
+        <script src="/Scripts/Account/login.js" asp-append-version="true"></script>
+    </environment>
+    <environment Names="Staging, Production">
+        <script src="/Scripts/Account/login.js" asp-append-version="true"></script>
+    </environment>
+}
+else
+{
+    @section Scripts{
+        <environment Names="Development">
+            <script src="/Scripts/Account/login.js" asp-append-version="true"></script>
+        </environment>
+        <environment Names="Staging, Production">
+            <script src="/Scripts/Account/login.js" asp-append-version="true"></script>
+        </environment>
+    }
+}

@@ -1,0 +1,76 @@
+﻿<style>
+    #first-timer-header-image {
+        position: relative;
+        height: 100%;
+        color: white;
+        text-align: center;
+        background-image: url('/images/categories/header/Track & Field.jpg');
+        height: 320px;
+    }
+    #do-anything-banner-text {
+        margin-top: 60px;
+        margin-bottom: 22px;
+        font-size: 50px;
+    }
+
+    #whatis-yooocan {
+        text-align: center;
+    }
+
+    .btn-first-timer {
+        padding: 6px 30px;
+    }
+
+    #welcome-to-yooocan-beta {
+        text-align: center;
+    }
+    img.registeration:hover {
+        opacity: 0.9;
+    }
+</style>
+
+<div >
+    <div id="first-timer-header-image">
+        <div style="position: absolute; width: 100%;">
+            <h1 id="do-anything-banner-text">DO ANYTHING!</h1>
+            <h4>JOIN US</h4>
+            <h4>Register via social media platform</h4>
+
+            <form asp-controller="Account" asp-action="ExternalLogin" method="post" style="display: inline">
+                <button type="submit" value="Facebook" name="provider" style="background-color: transparent; border: none;">
+                    <img src="/images/Facebook-first-timer.png" alt="Facebook registeration" class="registeration"/>
+                </button>
+                <button type="submit" value="Google" name="provider" style="background-color: transparent; border: none;">
+                    <img src="/images/Google-first-timer.png" alt="Google registeration" class="registeration"/>
+                </button>
+            </form>
+            <img src="/images/email-registeration.png" alt="Email registeration" class="registeration" />
+        </div>
+    </div>
+    <div id="whatis-yooocan">
+        <h3>
+            THE FIRST INSPIRATIONAL COMMUNITY MARKETPLACE FOR PEOPLE WITH DISABILITIES
+        </h3>
+        <div class="row">
+            <div class="col-sm-4">
+                <img src="/images/search.png"/>
+                <p>EXPLORE EMPOWERING<br/>PERSONAL STORIES
+                </p>
+                <h5>Browse stories, videos,<br>photos and activities filtered<br>activity or limitation</h5>
+            </div>
+            <div class="col-sm-4">
+                <img src="/images/person.png"/>
+                <p>CONNECT AND SHARE<br/>YOUR EXPERIENCE WITH OTHERS
+                </p>
+                <h5>Upload and share your own videos and stories,<br> categorize them based on activity and limitation,<br>and give personal tips to help others</h5>
+            </div>
+            <div class="col-sm-4">
+                <img src="/images/cart.png"/>
+                <p>FIND AND BUY ACTIVITIES,<br/>
+                    PRODUCTS AND INNOVATION
+                </p>
+                <h5>Discover what's out there, search ways to get<br>active and find where to buy the newest<br> products and innovation</h5>
+            </div>
+        </div>
+    </div>
+</div>

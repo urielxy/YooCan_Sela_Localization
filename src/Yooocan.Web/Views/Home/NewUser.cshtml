@@ -1,0 +1,119 @@
+﻿@inject Microsoft.AspNetCore.Hosting.IHostingEnvironment HostingEnv
+
+@model NewUserHomeModel
+@{
+    ViewBag.Title = "The #1 collaborative community for people with disabilities";
+}
+@section head{
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://yoocanfind.com" />
+    <meta property="og:image" itemprop="image primaryImageOfPage" content="https://yooocanlive.azureedge.net/static/images/yoocan-share.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:title" property="og:title" itemprop="title name" content="yoocan do anything" />
+    <meta name="twitter:description" property="og:description" itemprop="description" content="We believe that our collaborative community of shared experiences and knowledge from around the world can inspire people with disabilities and change their lives, so no one feels alone. " />
+    <meta name="description" content="We believe that our collaborative community of shared experiences and knowledge from around the world can inspire people with disabilities and change their lives, so no one feels alone. " />  
+}
+<cache expires-after="@TimeSpan.FromHours(1)" enabled="@(HostingEnv.EnvironmentName == "Production")">
+    @*@Html.Partial("_SingleHeaderStrip", Model.HeaderStory)*@
+    @Html.Partial("_ContestHeader", Model.HeaderStory)
+    @Html.Partial("_newUserIntro")
+</cache>
+<embedCss href="/css/feed/storyCard.css" />
+@*<embedcss href="/css/home/featuredProduct.css"></embedcss>*@
+<style>
+    .gray-background > .container > .row {
+        margin: 0 -12px;
+    }
+
+        .gray-background > .container > .row > .col {
+            padding: 0 12px;
+        }
+</style>
+<div class="gray-background" style="background-color: #eee; padding-top: 70px;">
+    <div class="container">
+        <div class="row feed">
+            <embedCss href="/css/Home/altoPromoCard.css"></embedCss>
+            @*<div class="col s12 m4 l3">                
+                @Html.Partial("Cards/_StoryCompetitionCard")
+            </div>*@
+            <div class="col s12 m4 l3">
+                @await Html.PartialAsync("Cards/_ShopCategoriesCard")
+            </div>
+            <div class="col s12 m4 l3">
+                @await Html.PartialAsync("Cards/_ProductOfTheDayCard")
+            </div>
+            <div class="col s12 m4 l3">
+                @Html.Partial("Cards/_YoocanShirtCard")
+            </div>
+            <div class="col s12 m4 l3">
+                @Html.Partial("../Feed/_StoryCard", Model.StoryCards[0])
+            </div>
+            @*<div class="col s12 m4 l3">
+                    @Html.Partial("../Home/_FeaturedProductCard", Model.ProductCards[0])
+                </div>
+                <div class="col s12 m4 l3">
+                    @Html.Partial("../Home/_FeaturedProductCard", Model.ProductCards[1])
+                </div>*@
+            @for (var i = 1; i < Model.StoryCards.Count - 2; i++)
+            {
+                var cardType = i % 2 == 0 && !Model.StoryCards[i].IsProductsReviewed ? "_StoryCard" : "_BackgroundImageStoryCard";
+                Model.StoryCards[i].IsDarkTheme = i % 3 == 0;
+                <div class="col s12 m4 l3">
+                    @Html.Partial("../Feed/" + cardType, Model.StoryCards[i])
+                </div>
+            }
+        </div>
+        @Html.Partial("_LoadMoreButton", Url.Action("MoreStories", "Home"))
+        <embedcss href="/css/home/featuredCategories.css"></embedcss>
+        <div class="row" id="featured-categories">
+            @for (var i = 0; i < Model.FeaturedCategories.Count; i++)
+            {
+                <div class="col s12 m4 l3 @(i >= 3 ? "hide-on-med-only" : i >= 2 ? "hide-on-small-only" :"")">
+                    @Html.Partial("_FeaturedCategoryCard", Model.FeaturedCategories[i])
+                </div>
+            }
+        </div>
+        @Html.Partial("_MagicalButton")
+        <div class="signup-container">
+            <a asp-action="Register" asp-controller="Account" class="btn waves-effect waves-teal">Sign Up Now</a>
+        </div>
+    </div>
+    @Html.Partial("_SocialNumbers")
+</div>
+@Html.Partial("_PartnersStrip")
+@section Scripts{
+    <script>
+        deferStyleSheet("/lib/flickity/dist/flickity.min.css");
+    </script>
+    <script src="https://unpkg.com/flickity@2.0/dist/flickity.pkgd.min.js" asp-fallback-src="/lib/flickity/dist/flickity.pkgd.min.js" asp-fallback-test="window.Flickity"></script>   
+    <script src="/dist/Home/IndexCommon.js" asp-append-version="true"></script>
+    <script>
+        $('.signup-container a').click(registerModal);
+        var pageUnlike = function (url) {
+            window.ga('send', {
+                hitType: 'event',
+                eventCategory: 'FB',
+                eventAction: 'Unlike',
+                eventLabel: url
+            });
+        }
+
+        var pageLike = function (url) {
+            window.ga('send', {
+                hitType: 'event',
+                eventCategory: 'FB',
+                eventAction: 'Like',
+                eventLabel: url
+            });
+        }
+
+        // In your onload handler
+        $('body').on('fb:load', function () {
+            FB.Event.subscribe('edge.create', pageLike);
+            FB.Event.subscribe('edge.remove', pageUnlike);
+        });
+    </script>
+    <script src="/dist/Shared/AddToHomeButton.js" asp-append-version="true" async></script>
+}

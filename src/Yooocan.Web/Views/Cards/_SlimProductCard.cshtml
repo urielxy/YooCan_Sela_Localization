@@ -1,0 +1,20 @@
+﻿@using Yooocan.Logic.Extensions
+@using Yooocan.Logic.Images
+@model Yooocan.Models.Products.ProductCardModel
+@inject Yooocan.Logic.Images.ImageUrlOptimizer ImageUrlOptimizer
+@if (ViewContext.HttpContext.Items["SlimProductCard"] == null)
+{
+    <embedcss href="/css/Cards/SlimProductCard.css"></embedcss>
+    ViewContext.HttpContext.Items["SlimProductCard"] = true;
+}
+<a no-follow-external href="@Model.ProductPageUrl" class="product-card-link" data-product-name="@Model.Name" data-product-id="@Model.Id">
+    <div class="slim-product card hoverable">
+        @Html.Partial("~/Views/Cards/_ProductDiscount.cshtml")
+        <div class="card-image" style="background-image: url('@(ImageUrlOptimizer.GetOptimizedUrl(Model.PrimaryImageUrl, 300, 200, TransformationMode.Contain))')"></div>
+        <div class="card-stacked">
+            <div class="card-content">
+                <div class="name">@Model.Name.Truncate(30, TruncatorExt.DiscardingIncompleteWord)</div>
+            </div>
+        </div>
+    </div>
+</a>

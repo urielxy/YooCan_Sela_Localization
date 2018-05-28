@@ -1,0 +1,88 @@
+﻿@import '../_variables.scss';
+
+#modal-container {
+    top: 5%;
+}
+
+.modal .modal-content {
+    padding: 0;
+}
+
+#redirect-window {
+    max-width: 985px;
+    margin: auto;
+    position: relative;
+    text-align: center;
+
+    h1 {
+        font-size: 30px;
+        text-align: center;
+        color: #1e2226;
+        margin-top: 32px;
+        margin-bottom: 20px;
+    }
+
+    .line {
+        margin: 0 30px;
+        border-bottom: solid 1.5px #979797;
+    }
+
+    .description {
+        font-size: 18px;
+        line-height: 1.5;
+        text-align: center;
+        color: #1e2226;
+        padding: 40px 9%;
+    }
+
+    .coupon-container {
+        margin-top: 15px;
+        display: block;
+    }
+
+    .coupon {
+        margin-left: 5px;
+        font-size: 30px;
+        font-weight: bold;
+        color: #c30016;
+    }
+
+    .continue-container {
+        padding-bottom: 120px;
+
+        a.continue {
+            font-size: 20px;
+            font-weight: bold;
+        }
+    }
+
+    footer {
+        position: absolute;
+        bottom: 0;
+        height: 80px;
+        padding: 0 44px;
+        width: 100%;
+        background-image: url('/images/product/strip.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        a {
+            font-size: 20px;
+            color: #ffffff;
+        }
+    }
+
+    @media #{$medium-and-down} {
+        h1 {
+            font-size: 35px;
+        }
+
+        .coupon {
+            display: block;
+            margin: 0;
+        }
+    }
+}

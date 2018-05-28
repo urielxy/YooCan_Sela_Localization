@@ -1,0 +1,94 @@
+﻿@model Yooocan.Models.ServiceProviders.AllModel
+@using Yooocan.Logic.Extensions
+@{
+    ViewBag.Title = "Service providers control panel";
+}
+<style>
+    .container {
+        word-break: normal;
+    }
+
+    td {
+        max-width: 400px;
+    }
+</style>
+<div class="container">
+    <form asp-action="All" method="get">
+        <h5>Filters</h5>
+        <ul>
+            <li>
+                <input type="checkbox" asp-for="OnlyPending" onChange="this.form.submit()" />
+                <label asp-for="OnlyPending"></label>
+            </li>
+            <li>
+                <input type="checkbox" asp-for="OnlyWithEmails" onChange="this.form.submit()" />
+                <label asp-for="OnlyWithEmails"></label>
+            </li>
+            <li>
+                <input type="checkbox" asp-for="OnlyDeleted" onChange="this.form.submit()" />
+                <label asp-for="OnlyDeleted"></label>
+            </li>
+            <li>
+                <input type="checkbox" asp-for="SinglePage" onChange="this.form.submit()" />
+                <label asp-for="SinglePage"></label>
+            </li>
+        </ul>
+    </form>
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Website</th>
+            <th>Email</th>
+            <th>View</th>
+            <th>Edit</th>
+            <th>Publish</th>
+            <th>Delete</th>
+        </tr>
+        @foreach (var result in Model.ServiceProviders)
+        {
+            <tr>
+                <td>@result.Id</td>
+                <td>@result.Name</td>
+                <td><a href="@result.WebsiteUrl" rel="nofollow noopener" target="_blank">@result.WebsiteUrl</a></td>
+                <td>@result.Email</td>
+                <td><a asp-controller="ServiceProvider" asp-action="Index" asp-route-id="@result.Id" asp-route-name="@result.Name.ToCanonical()" target="_blank">View</a></td>
+                <td><a asp-controller="ServiceProvider" asp-action="Edit" asp-route-id="@result.Id" target="_blank">Edit</a></td>
+                <td>
+                    <button data-route="@Url.Action("TogglePublish", new { Id = result.Id })"
+                            class="publish-button btn waves-effect waves-light @(result.IsPublished ? "red" : "green")">
+                        @(result.IsPublished ? "UNPUBLISH" : "PUBLISH")
+                    </button>
+                </td>
+                <td>
+                    <button data-route="@Url.Action("ToggleDelete", new { Id = result.Id })"
+                            class="delete-button btn waves-effect waves-light @(result.IsDeleted ? "green" : "red")">
+                        @(result.IsDeleted ? "UNDELETE" : "DELETE")
+                    </button>
+                </td>
+            </tr>
+        }
+    </table>
+    <nav style="height: auto; padding: 0 20px; margin-bottom: 50px;">
+        <ul class="clearfix">
+            @for (int i = 0; i < Model.PageCount; i++)
+            {
+                <li>
+                    @if (Model.Page == i)
+                    {
+                        <span style="color: #72ee6e">@(i + 1)</span>
+                    }
+                    else
+                    {
+                        <a asp-route-page="@i" asp-route-onlyWithEmails="@Model.OnlyWithEmails" asp-route-onlyDeleted="@Model.OnlyDeleted" asp-route-onlyPending="@Model.OnlyPending">
+                            @(i + 1)
+                        </a>
+                    }
+                </li>
+            }
+        </ul>
+    </nav>
+</div>
+@section Scripts {
+    <script src="~/dist/ServiceProvider/All.js" asp-append-version="true"></script>
+}

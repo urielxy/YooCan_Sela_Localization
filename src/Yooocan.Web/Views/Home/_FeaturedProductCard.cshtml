@@ -1,0 +1,55 @@
+﻿@model Yooocan.Models.Products.ProductCardModel
+@inject Yooocan.Logic.Images.ImageUrlOptimizer ImageUrlOptimizer
+<a no-follow-external href="@Model.ProductPageUrl" class="product-card-link" data-product-name="@Model.Name" data-product-id="@Model.Id">
+    <div class="featured-product card small single hoverable" data-publish-date="@Model.InsertDate" data-id="@Model.Id">
+        <div class="badges">
+            <span class="tag category" style="background-color: #@(Model.CategoryColor ?? "34495e")">
+                @if (string.IsNullOrEmpty(Model.AmazonId))
+                {
+                    <span class="category-name">@Model.CategoryName</span>
+                }
+                else
+                {
+                    <span class="amazon">Buy on Amazon</span>
+                }
+            </span>
+            @*@if (Model.IsNew)
+                {
+                    <span class="tag new">NEW</span>
+                }*@
+        </div>
+        @{ 
+            var imageUrl = ImageUrlOptimizer.GetOptimizedUrl(Model.PrimaryImageUrl, 300, 200, Yooocan.Logic.Images.TransformationMode.Contain);
+        }
+        <div class="card-image" style="background-image: url('@imageUrl')">
+
+            <img src="@imageUrl">
+
+        </div>
+        <div class="card-stacked">
+            <div class="card-content">
+                <div class="name">
+                    @Model.Name
+                    <environment names="Production">
+                        @if (!string.IsNullOrEmpty(Model.AmazonId))
+                        {
+                            <img src="//ir-na.amazon-adsystem.com/e/ir?t=yoocan-20&l=am2&o=1&a=@Model.AmazonId" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+                        }
+                    </environment>
+                </div>
+                @*<div class="category">@Model.SubCategoryName</div>*@
+                <div class="price">@Html.Partial("../Product/_ProductDiscount", Model)</div>
+            </div>
+        </div>
+        <div class="card-buy-button" style="background-color: #@(string.IsNullOrWhiteSpace(Model.CategoryColor) ? "34495e" : Model.CategoryColor)">
+            @if (!string.IsNullOrEmpty(Model.AmazonId))
+            {
+                <text>BUY NOW</text>
+            }
+            else
+            {
+                <text>LEARN MORE</text>
+            }
+        </div>
+    </div>
+</a>

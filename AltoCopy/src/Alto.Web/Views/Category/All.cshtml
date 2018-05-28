@@ -1,0 +1,35 @@
+﻿@model List<Alto.Models.Categories.CategoryModel>
+@{
+    ViewBag.Title = "Admin All Categories";
+}
+<div class="container">
+    <div style="margin-top: 30px">
+        <a asp-controller="Category" asp-action="Create" class="btn-flat">CREATE NEW CATEGORY</a>
+    </div>
+    <table class="bordered striped" style="margin-top: 30px;">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Parent Id</th>
+            <th>Parent Name</th>
+            <th>Active?</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var category in Model)
+        {
+            <tr>
+                <td>@category.Id</td>
+                <td>@category.Name</td>
+                <td>@category.ParentCategoryId</td>
+                <td>@category.ParentCategoryName</td>
+                <td>@category.IsActive</td>
+                <td><a asp-controller="Category" asp-action="Edit" asp-route-id="@category.Id"
+                       class="btn-flat">Edit</a></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

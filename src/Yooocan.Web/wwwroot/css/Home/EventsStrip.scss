@@ -1,0 +1,28 @@
+﻿@import "../_variables.scss";
+
+.events-strip {
+    &.not-init {
+        display: flex;
+        overflow-x: hidden;
+
+        .carousel-cell {
+            display: inline-block;
+        }
+    }
+
+    .carousel-cell {
+        width: 33.5%;
+        border-right: 2px solid #fff;
+        border-left: 2px solid #fff;
+        border-top: 4px solid #fff;
+        text-align: center;
+
+        img {
+            max-width: 100%;
+        }
+
+        @media #{$medium-and-down} {
+            width: 100%;
+        }
+    }
+}

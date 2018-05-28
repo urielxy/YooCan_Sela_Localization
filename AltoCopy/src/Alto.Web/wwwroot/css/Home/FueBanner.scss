@@ -1,0 +1,52 @@
+﻿@import '../_variables.scss';
+
+#feu-banner {
+    text-align: center;
+    background-color: #f2f2f2;
+
+    > div.column {
+        margin-top: 40px;
+        padding: 27.5px;
+        width: 300px;
+        margin: auto;
+
+        @media #{$medium-and-up} {
+            display: inline-block;
+            width: 23%;
+            vertical-align: top;
+        }
+
+        > img {
+            height: 50px;
+        }
+
+        h3 {
+            margin-top: 30px;
+            margin-bottom: 0;
+
+            @media #{$small-and-up} {
+                height: 62px;
+            }
+
+            font-size: 24px;
+            font-weight: bold;
+            color: #4a4a4a;
+        }
+
+        h5 {
+            font-size: 22px;
+            color: #9b9b9b;
+        }
+    }
+}
+
+@media #{$extra-small-only} {
+    .signup-container {
+        .btn {
+            height: 36px;
+            line-height: 36px;
+            font-size: 14px;
+            width: 145px;
+        }
+    }
+}

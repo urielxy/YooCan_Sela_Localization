@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/e707137b0fe9dcee71d3ab0e1d671b93dfb8896b/google.analytics/index.d.ts",
+    "raw": "registry:dt/google.analytics#0.0.0+20170321212111",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/e707137b0fe9dcee71d3ab0e1d671b93dfb8896b/google.analytics/index.d.ts"
+  }
+}

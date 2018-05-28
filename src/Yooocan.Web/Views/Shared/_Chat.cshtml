@@ -1,0 +1,13 @@
+﻿@{
+    var currentPath = Context.Request.Path.ToString();
+}
+@if (!currentPath.Contains("CustomizeYourFeed") && !currentPath.StartsWith("/Account/Register") && !currentPath.StartsWith("/Account/Login")
+   && !currentPath.StartsWith("/Product/Create") && !currentPath.StartsWith("/Product/Edit"))
+{
+    <embedCss href="/css/Shared/ChatButton.css"></embedCss>
+    <button id="chat-button" class="chat-register-button" data-token-service-url="@Url.Action("GetUserToken", "Chat")">
+        <span class="text">CHAT WITH CARING PEOPLE</span> <i class="material-icons">question_answer</i>
+    </button>
+    @Html.Partial("../User/_NamePrompt")
+    <script src="/dist/Chat/Chat.js" asp-append-version="true"></script>
+}

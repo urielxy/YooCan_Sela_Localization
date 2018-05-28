@@ -1,0 +1,92 @@
+﻿@model Yooocan.Models.Users.CustomizeFeedModel
+<embedcss Href="/css/user/customizeYourFeed.css"> </embedcss>
+<input type="hidden" id="returnUrl" value="@ViewBag.ReturnUrl" />
+<div id="customized-your-feed">
+    <div class="choose-categories-container">
+        <div class="header valign-wrapper">
+            <h4 class="valign">Choose at least 3 categories you wish to see on your feed? (<span class="selected-counter">0</span> selected)</h4>
+        </div>
+        <div class="categories-container">
+            @foreach (var category in Model.Categories)
+            {
+                <div class="category-square" data-id="@category.Id">
+                    <div class="category-img">
+                        <img src="@category.RoundIcon" />
+                    </div>
+                    <span>@category.Name</span>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="choose-limitations-container">
+        <div class="header valign-wrapper">
+            <h4 class="valign">Choose what you wish to follow</h4>
+        </div>
+        <div class="limitations-container">
+            @foreach (var limitation in Model.Limitations)
+            {
+                <div class="category-square" data-id="@limitation.Id">
+                    <div class="category-img" style="background-color: #@limitation.Color">
+                    </div>
+                    <span>@limitation.Name</span>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="continue-container">
+        <button class="btn waves-effect continue disabled">3 Remaining</button>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $('.add-story').remove();
+        $('#customized-your-feed .continue').click(function () {
+            if ($(this).data('step1-done')) {
+                var categories = $('.choose-categories-container .selected').map(function () {
+                    return $(this).data('id');
+                }).get();
+
+                var limitations = $('.choose-limitations-container .selected').map(function () {
+                    return $(this).data('id');
+                }).get();
+
+                window.ga('send', 'event', 'Customize feed', 'Picked limitations', limitations.length.toString());
+                window.ga('send', 'event', 'Customize feed', 'Finish');
+                var returnUrl = $('#returnUrl').val();
+                $.ajax({
+                    url: '@Url.Action("CustomizeYourFeed", "User")',
+                    type: 'POST',
+                    data: { limitations: limitations, categories: categories, returnUrl: returnUrl }
+                }).done(function () {
+                    window.location.replace(returnUrl || "/");
+                }).fail(function () {
+                    Materialize.toast('Something went wrong :( our engineers were notified and are working on a solution!', 5000);
+                });
+            } else {
+                var selectedCategories = $('.choose-categories-container .category-square.selected').length.toString();
+                window.ga('send', 'event', 'Customize feed', 'Picked categories', selectedCategories);
+                $('.choose-categories-container').hide();
+                $('.choose-limitations-container').fadeIn();
+                $(this).data('step1-done', true);
+            }
+        });
+        $('#customized-your-feed .category-square').click(function () {
+            $(this).toggleClass('selected');
+            var selected = $('#customized-your-feed .category-square.selected').length;
+            $('#customized-your-feed .selected-counter').text(selected);
+            var $btn = $('#customized-your-feed .continue');
+
+            $btn.toggleClass('disabled', selected < 3);
+            if (selected >= 3) {
+                $btn.text('Continue');
+            } else {
+                $btn.text((3 - selected + ' Remaining'));
+            }
+        });
+        if (!isMobile()) {
+            $('#customized-your-feed').appendTo('#modal-container .modal-content');
+            $('#spinner-container').hide();
+            $('#modal-container').openModal({ opacity: 0.75, dismissible: false });
+        }
+    </script>
+}

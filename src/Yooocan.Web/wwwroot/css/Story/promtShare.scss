@@ -1,0 +1,79 @@
+﻿@import '../_variables.scss';
+
+#promt-share {
+    position: relative;
+
+    h3 {
+        color: #46484b;
+        margin-top: 20px;
+    }
+
+    h4 {
+        color: #46484b;
+        margin-top: 25px;
+        font-size: 45px;
+        font-family: source sans pro;
+    }
+
+    a {
+        margin: 15px 4px;
+        height: 50px;
+        width: 50px;
+        text-align: center;
+        transition: width 0.3s;
+        justify-content: center;
+        display: inline-flex;
+        border-radius: 3px;
+    }
+
+    a.facebook {
+        background-color: #215b9a;
+    }
+
+    a.twitter {
+        background-color: #00adf2;
+    }
+
+    a.pinterest {
+        background-color: #e51616;
+    }
+
+    a.google-plus {
+        background-color: #ce4435;
+    }
+
+    a.whatsapp {
+        background-color: #25D366;
+    }
+
+    a img {
+        height: 34px;
+        width: 34px;
+    }
+}
+
+#modal-container {
+    transform: translateY(-50%);
+    top: 50%;
+}
+
+
+@media #{$small-and-down} {
+    #modal-container {
+        width: 90% !important;
+    }
+
+    #promt-share {
+        h3 {
+            font-size: 28px;
+        }
+
+        h4 {
+            font-size: 34px;
+        }
+
+        a {
+            width: calc(25% - 12px);
+        }
+    }
+}

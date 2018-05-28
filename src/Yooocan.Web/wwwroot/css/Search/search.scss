@@ -1,0 +1,105 @@
+﻿#main {
+    header {
+        max-width: 660px;
+        margin: 50px auto 70px auto;
+
+        h1 {
+            font-size: 32px;
+            font-weight: bold;
+            line-height: 0.63;
+            color: #4a4a4a;
+        }
+
+        #limitations-container {
+            label {
+                left: 3px;
+                transform: none;
+            }
+        }
+
+        .select-wrapper {
+            input[type="text"] {
+                padding-right: 15px;
+                box-sizing: border-box;
+                margin: 0;
+            }
+        }
+
+        .row {
+            margin: 0;
+        }
+
+        #search-line {
+            position: relative;
+
+            > div {
+                position: relative;
+            }
+
+            #search-text {
+                padding: 0 40px 0 0;
+                box-sizing: border-box;
+                margin: 0;
+            }
+
+            #search-button {
+                background: none;
+                border: none;
+                position: absolute;
+                top: 50%;
+                right: 0;
+                transform: translateY(-50%);
+
+                i {
+                    font-size: 30px;
+                }
+            }
+        }
+    }
+
+    .tabs {
+        display: block;
+
+        .tab {
+            width: auto;
+            float: none;
+            display: inline-block;
+
+            a {
+                padding: 0 15px;
+                text-transform: capitalize;
+                font-size: 24px;
+                color: #7f8fa4;
+
+                &:hover {
+                    color: #666;
+                }
+
+                &.active {
+                    font-weight: bold;
+                    color: #4a4a4a;
+                    border-bottom: 2px solid #4a4a4a;
+                }
+            }
+        }
+
+        .indicator {
+            display: none;
+        }
+    }
+
+    hr {
+        height: 1px;
+        background-color: #9b9b9b;
+        border: 0;
+        margin: 0 0 35px 0;
+    }
+
+    .no-results {
+        margin-bottom: 200px;
+    }
+
+    .container {
+        margin-bottom: 100px;
+    }
+}

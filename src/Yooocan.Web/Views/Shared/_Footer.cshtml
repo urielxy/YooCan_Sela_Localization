@@ -1,0 +1,98 @@
+﻿<footer id="page-footer">
+    <div class="row">
+        <div class="col m3 s12">
+            <div id="footer-title">
+                <div class="yoocan-logo">
+                    <img src="~/images/logos/yoocan-white.png" />
+                </div>
+                <p>
+                    The #1 global collaborative community for experiences and knowledge shared by and for people with disabilities, so no one feels alone. Together we can do anything!
+                </p>
+            </div>
+        </div>
+        <div class="col m7 s12">
+            <div class="row">
+                @*<div class="footer-section col l4 hide-on-med-and-down">
+                        <h3>CONTACT US</h3>
+                        <ul>
+                            <li><a href="#!" class="intercom-launcher">Live chat</a></li>
+                        </ul>
+                    </div>*@
+                <div class="footer-section col l3 m6 s12">
+                    <h3>INFORMATION</h3>
+                    <ul>
+                        <environment Names="Development">
+                            <li style="color: green">Development</li>
+                        </environment>
+                        <environment Names="Staging">
+                            <li style="color: orange">Staging</li>
+                        </environment>
+                        <li><a asp-route="About">About us</a></li>
+                        <li><a asp-action="Technologies">Yoocan Technologies</a></li>
+                        @*<li><a asp-route="FAQ">FAQs</a></li>*@
+                        <li><a asp-route="Privacy">Privacy policy</a></li>
+                        <li><a asp-route="TermsOfUse">Terms of use</a></li>
+                        <li><a href="mailto:info@@yoocantech.com">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section col l3 hide-on-med-and-down">
+                    <h3>JOIN US</h3>
+                    <ul>
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <li>
+                                <a asp-action="Login" asp-controller="Account">Login</a>
+                            </li>
+                            <li>
+                                <a asp-action="Register" asp-controller="Account">Register</a>
+                            </li>
+                        }
+                        <li>
+                            <a asp-controller="Company" asp-action="Register">Become a vendor</a>
+                        </li>
+                        <li>
+                            <a asp-controller="ServiceProvider" asp-action="Create">Become a service provider</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-section col m6 s12 disabilities-section">
+                    <h3>SEARCH BY DISABILITY</h3>
+                    @await Component.InvokeAsync("DisabilitiesList")
+                </div>
+            </div>
+        </div>
+        <div class="footer-section col m2 s12">
+            <div id="newsletter-section">
+                <h3>NEWSLETTER</h3>
+                <p>
+                    Subscribe to the newsletter and get some interesting stuff every month
+                </p>
+                <form asp-action="SubscribeToNewsletter" asp-controller="User" method="POST" id="newsletter-form" asp-antiforgery="false">
+                    <div class="input-with-button">
+                        <input id="newsletter-email" name="email" required placeholder="Enter your email here" type="email" data-allow-enter="true" />
+                        <button class="btn waves-effect waves-light black" type="submit" name="action">
+                            <img src="/images/submit-icon.svg" />
+                        </button>
+                    </div>
+                </form>
+                <ul id="footer-social-media">
+                    <li><a href="https://www.facebook.com/yoocandoanything/" target="_blank"><img src="/images/footer/Facebook-white.svg" /></a></li>
+                    <li><a href="https://twitter.com/yoocanconnect" target="_blank"><img src="/images/footer/Twitter-white.svg" /></a></li>
+                    <li><a href="https://www.instagram.com/yoocandoanything/" target="_blank"><img src="/images/footer/Instagram-white.svg" /></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="footer-copyright">
+        <span>
+            © 2018 Yoocan All rights reserved
+            @if (ViewBag.ShowingAmazonProducts == true)
+            {
+                <text>
+                <br /> We are a participant in the Amazon Services LLC Associates Program, an affiliate advertising program designed to provide a means for us to earn fees by linking to Amazon.com and affiliated sites. <br />
+                Amazon is a trademark of Amazon.com, Inc. or its affiliates.
+                </text>
+            }
+        </span>
+    </div>
+</footer>

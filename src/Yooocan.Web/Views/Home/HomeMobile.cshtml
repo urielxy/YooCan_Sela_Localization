@@ -1,0 +1,95 @@
+﻿@inject Yooocan.Logic.Images.ImageUrlOptimizer ImageUrlOptimizer
+@using Yooocan.Logic.Extensions
+@model MobileHomeModel
+@{
+    ViewBag.Title = "Explore Stories";
+    var imagesWidth = 300;
+    var imagesHeight = 350;
+}
+@section head{
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:type" content="website" />
+    <meta property="og:image" itemprop="image primaryImageOfPage" content="https://yooocanlive.azureedge.net/static/images/yoocan-share.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />    
+    <embedcss href="/css/Home/HomeMobile.css"></embedcss>
+}
+<ul id="cards" class="clearfix">
+    <li>
+        <a asp-controller="Story" asp-action="Index" asp-route-id="@Model.FeaturedStory.Id" asp-route-title="@Model.FeaturedStory.Title?.ToCanonical()">
+            <div class="mobile-card" style="background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+                                             url('@ImageUrlOptimizer.GetOptimizedUrl(Model.FeaturedStory.ImageUrl, imagesWidth, imagesHeight)');
+                                             background-position: @(Model.FeaturedStory.HotAreaLeft ?? 50)% @(Model.FeaturedStory.HotAreaTop ?? 50)%">
+                <h2>STORY OF THE DAY</h2>
+                <h6><span class="note">@Model.FeaturedStory.Title</span></h6>
+            </div>
+        </a>
+    </li>
+    @foreach (var story in Model.LatestStoriesPerCategory.Take(3))
+    {
+        <li>
+            <a asp-controller="Feed" asp-action="Category" asp-route-id="@story.CategoryId" asp-route-categoryName="@story.Category?.ToCanonical()">
+                <div class="mobile-card" style="background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+                                                 url('@ImageUrlOptimizer.GetOptimizedUrl(story.ImageUrl, imagesWidth, imagesHeight)');
+                                                 background-position: @(story.HotAreaLeft ?? 50)% @(story.HotAreaTop ?? 50)%">
+                    <h2>@story.Category</h2>
+                </div>
+            </a>
+        </li>
+    }
+    @if (Model.FeatureBlogPost != null)
+    {
+        <li>
+            <a asp-controller="Blog" asp-action="Index" asp-route-id="@Model.FeatureBlogPost.Id" asp-route-title="@Model.FeatureBlogPost.Title?.ToCanonical()">
+                <div class="mobile-card" style="background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+                                                 url('@ImageUrlOptimizer.GetOptimizedUrl(Model.FeatureBlogPost.PrimaryImageUrl, imagesWidth, imagesHeight)');
+                                                 background-position: center">
+                    <h2>YOOCAN BLOG</h2>
+                    <h6><span class="note">@Model.FeatureBlogPost.Title?.ToUpper()</span></h6>
+                </div>
+            </a>
+        </li>
+    }
+    @*<li>
+            <a no-follow-external href="@Model.FeaturedProduct.ProductPageUrl" class="product-card-link" data-product-name="@Model.FeaturedProduct.Name"
+               data-product-id="@Model.FeaturedProduct.Id">
+                <div class="mobile-card shop" style="background-color: #fff">
+                    <h2>PRODUCT OF THE DAY</h2>
+                    <img src="@ImageUrlOptimizer.GetOptimizedUrl(Model.FeaturedProduct.PrimaryImageUrl, imagesWidth, imagesHeight)" />
+                </div>
+            </a>
+        </li>
+        <li id="shop-categories-tile">
+            @foreach (var category in Model.ShopCategories)
+            {
+                <a asp-controller="Shop" asp-action="Index" class="@(category.Id == Model.ShopCategories.First().Id ? "" : "hide")">
+                    <div class="mobile-card shop category" style="background-color: #@category.ShopBackgroundColor">
+                        <h2>@category.Name</h2>
+                        <h6 style="background-color: #@category.ShopBackgroundColor">YOOCAN SHOP</h6>
+                    </div>
+                </a>
+            }
+        </li>*@
+    @foreach (var story in Model.LatestStoriesPerCategory.Skip(3))
+    {
+        <li>
+            <a asp-controller="Feed" asp-action="Category" asp-route-id="@story.CategoryId">
+                <div class="mobile-card" style="background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+                                                 url('@ImageUrlOptimizer.GetOptimizedUrl(story.ImageUrl, imagesWidth, imagesHeight)');
+                                                 background-position: @(story.HotAreaLeft ?? 50)% @(story.HotAreaTop ?? 50)%">
+                    <h2>@story.Category</h2>
+                </div>
+            </a>
+        </li>
+    }
+</ul>
+@Html.Partial("_SocialNumbers")
+<a asp-controller="Story" asp-action="Create" asp-route-template="tips">
+    <div id="add-story-button-container">
+        <h6>SHARE A STORY OR TIPS</h6>
+        <div id="add-story-button">+</div>
+    </div>
+</a>
+@section Scripts{
+    <script src="/dist/Home/HomeMobile.js" asp-append-version="true"></script>
+}

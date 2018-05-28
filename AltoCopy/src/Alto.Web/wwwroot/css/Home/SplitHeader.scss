@@ -1,0 +1,124 @@
+﻿@import "../_variables.scss";
+
+#home-split-header {
+    $header-height: 350px;
+
+    .row {
+        margin-bottom: 0;
+    }
+
+    .col {
+        height: 350px;
+        color: #fff;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .content {
+        color: #fff;
+        height: $header-height;
+        padding: 0 5.8%;
+        position: relative;
+    }
+
+    .title {
+        margin-top: 40px;
+        margin-bottom: 0;
+        line-height: 1;
+        font-size: 40px;
+        font-weight: 800;
+    }
+
+    .sub-title {
+        font-size: 25px;
+        margin-top: 40px;
+        margin-bottom: 0;
+        line-height: 1;
+    }
+
+    .read-more {
+        text-align: center;
+        text-shadow: 0 1px 0 #000000;
+        width: 145px;
+        height: 36px;
+        line-height: 36px;
+        position: absolute;
+        bottom: 58px;
+        border-radius: 6px;
+        background-color: #1366da;
+        border: solid 1px #ffffff;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .deal-of-the-month {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://altolife.azureedge.net/products/0aa6faeb61724cb292433aaaa211a37a');
+        background-position: center;
+    }
+
+    .left-banner {
+        padding: 0;
+
+        #benefits-header-slider {
+            .content {
+                max-width: 700px;
+                height: unset;
+            }
+        }
+
+        .title {
+            text-transform: uppercase;
+        }
+
+        .sub-title {
+            text-transform: uppercase;
+        }
+
+        .carousel-cell {
+            width: 100%;
+            height: $header-height;
+            //http://stackoverflow.com/a/2890369/2464167
+            overflow: auto;
+            background-position: center;
+            background-size: cover;
+
+            &.san-francisco-tours {
+                background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/images/home/header/san-francisco-comprehensive-shuttle-tours.jpg');                              
+            }
+
+            &.devils-tower {
+                background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/images/home/header/devils-tower-national-monument.jpg');
+                background-position: bottom;
+            }
+
+            &.disneyland {
+                background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/images/home/header/disney.jpg');
+                background-position: bottom;
+            }
+        }
+
+        .flickity-page-dots {
+            bottom: 75px;
+            display: block !important;
+        }
+
+        .flickity-page-dots .dot {
+            width: 19px;
+            height: 19px;
+            opacity: 1;
+            background: transparent;
+            border: 1px solid #fff;
+        }
+
+        .flickity-page-dots .dot.is-selected {
+            background: white;
+        }
+    }
+
+    @media #{$small-and-down} {
+        .left-banner {
+            margin-bottom: 10px;
+        }
+    }
+}

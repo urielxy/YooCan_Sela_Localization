@@ -1,0 +1,17 @@
+﻿@using Yooocan.Models.New.Stories
+@model Yooocan.Models.New.Stories.StoryModel
+<div id="quote">
+    <div class="card">
+        <blockquote>
+            <h4>Quote</h4>
+            <img src="/images/quote.svg"/>
+            <p>
+                @Model.Quote
+            </p>
+            <div class="separator"></div>
+            <footer>                
+                    @Model.AuthorName
+            </footer>
+        </blockquote>
+    </div>
+</div>

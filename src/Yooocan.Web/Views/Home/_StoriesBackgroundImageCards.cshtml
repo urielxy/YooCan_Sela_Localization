@@ -1,0 +1,7 @@
+﻿@model List<StoryCardModel>
+@foreach (var story in Model)
+{
+    <div class="col l3 m6 s12" data-query-result="1">
+        @Html.Partial("../Feed/_BackgroundImageStoryCard", story)
+    </div>
+}

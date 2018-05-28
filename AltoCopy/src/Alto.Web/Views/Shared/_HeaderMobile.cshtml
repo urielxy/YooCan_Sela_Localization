@@ -1,0 +1,24 @@
+﻿<header id="page-header-mobile" class="hide-on-med-and-up" style="@(ViewBag.IsSearchBarInPage == true ? "" : "margin-bottom: 37px;")">
+    <span class="left-col">
+        @if (ViewBag.IsMenu == true)
+        {
+            <a href="javascript:window.history.back()"><i class="material-icons left-sign">keyboard_arrow_left</i>BACK</a>
+        }
+        else
+        {
+            <a asp-action="Menu" asp-controller="Home" asp-route-showProducts="@(ViewBag.ShowProducts != false ? "" : "false")">MENU</a>
+        }
+    </span>
+    <a href="/"><img class="logo" src="/images/logo-purple.png" /></a>
+    <span class="right-col">
+        @if (User.FindFirstValue("picture") != null)
+        {
+            <a href="#"><img class="avatar" src="@User.FindFirstValue("picture")"/></a>
+        }
+        else
+        {
+            <a href="#"><i class="material-icons">account_circle</i></a>
+        }
+    </span>
+    @(ViewBag.IsSearchBarInPage == true ? null : Html.Partial("_SearchControl"))
+</header>

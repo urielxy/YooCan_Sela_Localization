@@ -1,0 +1,9 @@
+﻿@model List<StoryCardModel>
+@for (var i = 0; i < Model.Count; i++)
+{
+    var cardType = i % 2 == 0 && !Model[i].IsProductsReviewed ? "_StoryCard" : "_BackgroundImageStoryCard";
+    Model[i].IsDarkTheme = i % 3 == 0;
+    <div class="col l4 m6 s12" data-query-result="1">
+        @Html.Partial("../Feed/" + cardType, Model[i])
+    </div>
+}

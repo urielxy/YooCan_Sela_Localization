@@ -1,0 +1,47 @@
+﻿<embedcss href="/css/Account/SmallRegister.css"></embedcss>
+<embedCss href="/lib/flickity/dist/flickity.css"></embedCss>
+<div id="small-register-template" class="hide">
+    <div class="small-register">
+        <div>
+            <div class="logos">
+                <img src="/images/yoocan-logo-small.png" />
+                <img src="/images/yoocan-logo.png" />
+            </div>
+            <div class="family">
+                <img src="/images/yoavanderezround1.jpg" />
+            </div>
+            <h2>WELCOME TO YOOCAN</h2>
+            <h5>
+                THE GLOBAL COLLABORATIVE COMMUNITY FOR SHARING EXPERIENCES AND KNOWLEDGE BY AND FOR PEOPLE WITH DISABILITIES, SO NO ONE FEELS ALONE.
+            </h5>
+            <form class="social-form social" asp-action="ExternalLogin" asp-controller="Account" method="post" data-return-url="@Context.Request.Path.Value"
+                  data-window-url="@Url.Action("ExternalLoginWindow")" asp-antiforgery="false">
+                <button name="provider" value="Facebook" class="facebook btn waves-effect">
+                    <img src="/images/logos/facebook-round.png" asp-append-version="true" />FACEBOOK
+                </button>
+                <button name="provider" value="Google" class="google btn waves-effect">
+                    <img src="/images/logos/google-round.png" asp-append-version="true" />GOOGLE
+                </button>
+            </form>
+            <a asp-controller="Account" asp-action="Register" asp-route-returnUrl="@Context.Request.Path.Value"
+               class="btn waves-effect email-register-button">EMAIL</a>
+            <a class="login-button" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Context.Request.Path.Value">
+                <div class="existing-account">
+                    ALREADY HAVE AN ACCOUNT? <span class="link">LOG IN</span>
+                </div>
+            </a>
+            <a href="#!" class="modal-close hide-on-small-only">
+                <div class="skip">
+                    <span class="link">SKIP</span> AND CONTINUE TO YOOCAN
+                </div>
+            </a>
+            <p class="statement">
+                BY CREATING AN ACCOUNT YOU AGREE TO THE <a asp-route="TermsOfUse" target="_Blank">TERMS OF SERVICE</a>
+                AND <a asp-route="Privacy" target="_Blank">PRIVACY POLICY</a>.
+            </p>
+        </div>
+        @Html.Partial("../Home/_SocialNumbers")
+    </div>
+</div>
+<script src="https://unpkg.com/flickity@2.0/dist/flickity.pkgd.min.js" asp-fallback-src="/lib/flickity/dist/flickity.pkgd.min.js" asp-fallback-test="window.Flickity"></script>
+<script asp-append-version="true" src="~/dist/Account/SmallRegister.js"></script>

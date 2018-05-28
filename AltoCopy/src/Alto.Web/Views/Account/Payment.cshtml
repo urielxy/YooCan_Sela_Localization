@@ -1,0 +1,116 @@
+﻿@using Alto.Logic.PayPal
+@using Microsoft.Extensions.Options
+@model Alto.Models.Account.PaymentModel
+@inject IOptions<PayPalOptions> PayPalOptions
+@{
+    ViewBag.Title = "Alto Membership Payment";
+}
+
+<embedcss Href="/css/Account/Payment"></embedcss>
+<section id="payment-step" class="step">
+    <div id="payment-container">
+        <div id="payment-options">
+            @if (Model.ExtendedTrialDuration == 0 || !Model.IsTrialAvailable)
+            {
+                <div class="payment-option">
+                    @if (Model.DiscountAmount > 0)
+                    {
+                    <div class="discount-details">
+                        <h3>@(Model.DiscountAmount)% off <span class="white-text">*</span></h3>
+                        <h4>your yearly membership</h4>
+                    </div>
+                    }
+                    <div class="option-type">
+                        <h3>1 YEAR</h3>
+                        <h4>Member Plan</h4>
+                    </div>
+                    <div class="option-price">
+                        <h3>@Model.PerMonthPrice.ToString("0.00")</h3>
+                        <h4>/month*</h4>
+                        <h5>* $@Model.FullYearPrice.ToString("0.00") total payment</h5>
+                        <h6>Membership Fee</h6>
+                    </div>
+                    <div class="paypal-button-container">
+                        <div class="paypal-registration-preloader">
+                            <div class="preloader-wrapper big active">
+                                <div class="spinner-layer spinner-blue-only">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="gap-patch">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="circle-clipper right">
+                                        <div class="circle"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="paypal-button-yearly"
+                             data-membership-type="yearly" data-membership-price="@Model.FullYearPrice.ToString("0.00")"
+                             class="paypal-button-registration" data-create-url="@Url.Action("CreateMembershipPayment", "Account")"
+                             data-execute-url="@Url.Action("ExecuteMembershipPayment", "Account")"
+                             data-environment="@(PayPalOptions.Value.PayPalIsProduction ? "production" : "sandbox")"></div>
+                        <div class="credit-card-note">*Option to pay by credit card</div>
+                    </div>
+                    @if (Model.DiscountAmount > 0)
+                    {
+                        <p class="remarks">
+                            <strong>*Important:</strong> This is a special offer for you and your family because of the organization you are a part of. This exclusive membership entitles you to a @(Model.DiscountAmount)% discount from Alto's standard membership fee.
+                        </p>
+                    }
+                </div>
+            }
+            @if (Model.IsTrialAvailable)
+            {
+                <div class="payment-option">
+                    <div class="option-type">
+                        <h3>30 DAYS</h3>
+                        <h4>@(Model.ExtendedTrialDuration == 0 ? "Trial" : $"+ {Model.ExtendedTrialDuration} Months Free")</h4>
+                    </div>
+                    <div class="option-price">
+                        <h3>@Model.MonthTrialPrice<span class="white-text">*</span></h3>
+                    </div>
+                    <div class="paypal-button-container">
+                        <div class="paypal-registration-preloader">
+                            <div class="preloader-wrapper big active">
+                                <div class="spinner-layer spinner-blue-only">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="gap-patch">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="circle-clipper right">
+                                        <div class="circle"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="paypal-button-trial"
+                             data-membership-type="trial"  data-membership-price="@Model.MonthTrialPrice.ToString("0.00")"
+                             class="paypal-button-registration" data-create-url="@Url.Action("CreateMembershipPayment", "Account", new {IsTrial = true})"
+                             data-execute-url="@Url.Action("ExecuteMembershipPayment", "Account")"
+                             data-environment="@(PayPalOptions.Value.PayPalIsProduction ? "production" : "sandbox")"></div>
+                        <div class="credit-card-note">*Option to pay by credit card</div>
+                    </div>
+
+                    <p class="remarks">
+                        <strong>*Important:</strong>
+                        @if (Model.DiscountAmount > 0)
+                        {
+                            <strong class="red-text">By signing up for this trial, you will no longer be able to get the yearly 20% off discount.</strong>
+                        }
+                        Our 30-day trial @(Model.ExtendedTrialDuration > 0 ? $"with an additional {Model.ExtendedTrialDuration} months free" : "") is a one-time benefit available to learn more about Alto, and not combinable with our special introductory offers or other discounted member plans. Member plans require a non-refundable $@Model.MonthTrialPrice fee to process your member application, including the 30-Day Trial. If you wish to continue with a 1 Year Plan, you will need to sign a full 1 year term at the yearly membership cost of $59.90.
+                    </p>
+                </div>
+            }
+        </div>
+        @if (ViewBag.IsCompletionNeeded != true)
+        {
+            <div class="skip-button-container">
+                <a href="#!" class="finish-button">skip for now</a>
+            </div>
+        }
+    </div>
+</section>

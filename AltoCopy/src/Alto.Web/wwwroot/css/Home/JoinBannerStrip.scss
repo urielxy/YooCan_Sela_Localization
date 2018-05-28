@@ -1,0 +1,33 @@
+﻿@import '../_variables.scss';
+
+#join-banner-container {
+    height: 66px;
+    background-color: $main-color;
+    text-align: center;
+
+    > h3 {
+        $font-size: 30px;
+
+        font-size: $font-size;
+        color: #d6d6d6;
+        margin: auto;
+
+
+        > a {
+            margin-left: 10px;
+            height: $font-size;
+            line-height: $font-size;
+            border-radius: 6px;
+            background-color: #1366da;
+            font-size: 14px;
+        }
+
+        > span {
+            vertical-align: middle;
+        }
+    }
+
+    .discounts {
+        color: #fff;
+    }
+}

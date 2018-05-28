@@ -1,0 +1,28 @@
+﻿@using Yooocan.Logic.Extensions
+@model Yooocan.Models.Categories.AltoCategoryFeedModel
+<div class="menu">
+    <h3 class="parent @(Model.ParentCategoryId == null ? "active" : "")">
+        <a asp-route="BenefitCategory" asp-route-id="@(Model.ParentCategoryId ?? Model.Id)" asp-route-categoryName="@((Model.ParentCategoryName ?? Model.CategoryName).ToCanonical())">
+            @(Model.ParentCategoryName ?? Model.CategoryName)
+        </a>
+    </h3>
+    <ul>
+        @foreach (var subCategory in Model.SubCategories.OrderBy(x => x.Value))
+        {
+            if (subCategory.Key == Model.Id)
+            {
+                <li class="active">
+                    <span>@Model.CategoryName</span>
+                </li>
+            }
+            else
+            {
+                <li>
+                    <a asp-route="BenefitCategory" asp-route-id="@subCategory.Key" asp-route-categoryName="@subCategory.Value.ToCanonical()">
+                        @subCategory.Value
+                    </a>
+                </li>
+            }
+        }
+    </ul>
+</div>

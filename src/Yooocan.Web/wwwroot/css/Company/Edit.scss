@@ -1,0 +1,68 @@
+﻿h1 {
+    font-size: 46px;
+    text-align: center;
+    margin: 70px auto;
+}
+
+h2 {
+    font-size: 30px;
+}
+
+#image-uploader {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .picture-preview {        
+        border: 1px solid rgba(#9e9e9e, 0.5);
+        width: 100px;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .upload-picture-button {
+            line-height: normal;
+            opacity: 0.7;
+
+            i {
+                font-size: 40px;
+                color: #9e9e9e;
+            }
+        }
+    }
+
+    .upload-label {
+        margin-left: 15px;
+        color: #9e9e9e;
+        max-width: 200px;
+    }
+
+    .field-validation-error {
+        margin-top: 5px;
+    }
+}
+
+.input-group {
+    padding: 10px 20px;
+    background-color: #f9f9f9;
+}
+
+#html {
+    .dropdown-content li > span {
+        font-size: inherit;
+        color: inherit;
+
+        > label {
+            left: 0;
+        }
+    }
+
+    .container {
+        padding: 0 20px;
+    }
+}
+
+button.submit {
+    margin-top: 30px;
+}

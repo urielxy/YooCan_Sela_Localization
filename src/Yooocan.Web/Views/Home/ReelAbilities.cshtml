@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "ReelAbilites Story Competition";
+}
+<embedcss href="/css/Home/reelAbilities.css"></embedcss>
+<div id="reel-abilities">
+    <header>
+        <img src="https://yooocanlive.azureedge.net/static/images/ReelBanner.jpg" alt="ReelAbilities Film Festival: March 8-14 New York. yoocan competition." />
+    </header>
+    <div class="container">
+        <div class="row">
+            <main class="col l8 offset-l2 m10 offset-m1 s12">
+                <a asp-controller="Story" asp-action="Create" asp-route-competition="true" class="btn new-story"><span>ADD NEW STORY</span></a>
+                <h1>SHARE YOUR EMPOWERING STORY TO JOIN THE COMPETITION</h1>
+                <p class="intro">
+                    Following the success of the 2017 story competition in partnership with ReelAbilites and AdaptLab Productions, we are announcing
+                    <br /><strong>The 2018 Annual "Film My Story" Competition.</strong>
+                </p>
+                <p class="intro">
+                    We are looking for empowering stories that will give hope or encouragement to someone else with a disability. The winner of the competition will have the chance to share their story and have it filmed by a professional videographer. The short film will then be showcased at the <strong>2019 ReelAbilities Film Festival: New York.</strong>
+                </p>
+                <p class="intro">
+                    Check out last year’s winners, <a href="https://yoocanfind.com/Story/708/our-little-love-story-spina-bifida-and-sci">Mara & Pete!</a>
+                </p>
+
+                <h4>WHAT IS YOOCAN?</h4>
+                <p>
+                    yoocan is the #1 global collaborative community for sharing experiences and knowledge for and by people with disabilities, so no one feels alone.
+                    Click <a asp-controller="Home" asp-action="About">here</a> for more info.
+                </p>
+
+                <h4>HOW CAN I ENTER THE COMPETITION?</h4>
+                <p>Share your own story or a family member's story on <a href="https://yoocanfind.com/ReelAbilities">https://yoocanfind.com/ReelAbilities</a> until March 14th.</p>
+
+                <h4>WHAT SHOULD MY STORY BE ABOUT?</h4>
+                <p>Stories can be about anything that will empower someone else: daily life, sports, activities, hobbies, special moments etc.</p>
+
+                <h4>HOW LONG SHOULD MY STORY BE?</h4>
+                <p>Stories can be a maximum of 500 words.</p>
+
+                <h4>HOW WILL I KNOW IF I WIN?</h4>
+                <p>Stories are being judged by the yoocan, ReelAbilites & AdaptLab Productions teams. Winners will be notified via email the first week of March.</p>
+            </main>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+﻿@{
+    Layout = "_MasterLayout";
+}
+@section head
+{
+    <base target="_blank" />
+    <embedCss href="/css/feed/storyCard.css"/>
+}
+<body>
+    <div>
+        @RenderBody()
+    </div>
+    @section scripts {
+        <script>
+            $(window).on("load", notifySize);
+            $(window).on("resize", notifySize);
+
+            function notifySize() {
+                window.parent.postMessage({
+                    'height': $(document).height(),
+                    'location': window.location.href
+                }, "*");
+            }
+        </script>
+    }
+</body>

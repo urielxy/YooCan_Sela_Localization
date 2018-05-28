@@ -1,0 +1,7 @@
+﻿@model Dictionary<int, string>
+<ul class="limitations-list">
+    @foreach (var limitation in Model)
+    {
+        <li><a asp-controller="Search" asp-action="Search" asp-route-LimitationIds="@limitation.Key">@limitation.Value</a></li>
+    }    
+</ul>

@@ -1,0 +1,48 @@
+﻿@using Yooocan.Logic.Extensions
+@inject Yooocan.Logic.Images.ImageUrlOptimizer ImageUrlOptimizer
+@model StoryCardModel
+@{
+    var optimizedImageUrl = ImageUrlOptimizer.GetOptimizedUrl(Model.ImageUrl, 450, ViewBag.FullScreenStoryCards == true ? 700 : 350);
+}
+<div class="image-story-card">
+    <a asp-route="story" asp-route-id="@Model.Id" asp-route-title="@Model.Title.ToCanonical()">
+        <div class="card hoverable" data-publish-date="@Model.PublishDate" data-id="@Model.Id"
+             style="background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)), url('@optimizedImageUrl'); background-position: @(Model.HotAreaLeft??50)% @(Model.HotAreaTop??50)%">
+            @if (!Model.ShouldShowLimitation && !Model.IsProductsReviewed)
+            {
+                <ul class="author-details">
+                    @if (!string.IsNullOrEmpty(Model.AuthorPictureUrl))
+                    {
+                        <li class="author-avatar">
+                            <img alt="@(Model.UserFirstName)'s picture'" src="@ImageUrlOptimizer.GetOptimizedUrl(Model.AuthorPictureUrl, 50, 50)" />
+                        </li>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.CountryCode))
+                    {
+                        <li class="author-country">
+                            <img alt="@Model.Country" src="~/lib/flag-icon-css/flags/4x3/@(Model.CountryCode).svg" />
+                        </li>
+                    }
+                    <li class="author-name">
+                        @Model.UserFirstName
+                    </li>
+                </ul>
+            }
+            <div class="card-content">
+                <div class="tag-container">
+                    <span class="tag" style="background-color: #@Model.CategoryColor">
+                        @(Model.ShouldShowLimitation ? Model.LimitationName ?? Model.CategoryName : Model.CategoryName)
+                    </span>
+                </div>
+                <h3>@Model.Title</h3>
+            </div>
+            @if (Model.IsProductsReviewed)
+            {
+                <div class="product-recommendation-tag">
+                    <div class="hook-hole"></div>
+                    <div class="tag-text">PRODUCT RECOMMENDATION</div>
+                </div>
+            }
+        </div>
+    </a>
+</div>

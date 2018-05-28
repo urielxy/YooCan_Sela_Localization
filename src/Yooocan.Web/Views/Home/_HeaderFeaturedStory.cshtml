@@ -1,0 +1,17 @@
+﻿@using Yooocan.Logic.Extensions
+@model FeaturedStoryHeader
+<div class="zoom-container">
+    <a asp-route="story" asp-route-id="@Model.Id" asp-route-title="@Model.Title.ToCanonical()">
+        <div class="image-container" style="background-image: url('@Model.ImageUrl'); background-position: @(Model.HotAreaLeft??50)% @(Model.HotAreaTop??50)%">
+            <div class="details">
+                <span class="tag" style="background-color: #@Model.CategoryColor">
+                    <span>@Model.Category</span>
+                </span>
+                <div class="title">
+                    @Model.Title
+                </div>
+                <span class="by">By: </span><span class="author">@Model.Author</span>
+            </div>
+        </div>
+    </a>
+</div>

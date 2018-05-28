@@ -1,0 +1,235 @@
+﻿@import '../_variables.scss';
+
+#product-page {
+    .container {
+        padding: 0 12px;
+    }
+
+    .discount {
+        font-size: 35px;
+        font-weight: bold;
+        color: #4a4a4a;
+    }
+
+    .off {
+        color: #7f8fa4;
+        padding-left: 15px;
+    }
+
+    .name {
+        font-size: 17px;
+        font-weight: bold;
+        line-height: 1.29;
+        color: #000000;
+        margin: 12px 0;
+    }
+
+    .company-name {
+        font-size: 16px;
+        line-height: 1.13;
+        color: #9b9b9b;
+        margin-top: 0;
+        margin-bottom: 12px;
+    }
+
+    .images-carousel {
+        margin-bottom: 55px;
+
+        .flickity-page-dots {
+            bottom: -40px;
+            display: block;
+        }
+
+        .carousel-cell {
+            height: 200px;
+            width: 100%;
+
+            img {
+                background-size: cover;
+                background-position: center;
+                max-height: 100%;
+                height: auto;
+                max-width: 100%;
+                display: block;
+                margin: auto;
+            }
+        }
+
+        &.video {
+
+            .dot {
+                $dot-size: 14px;
+                width: $dot-size;
+                height: $dot-size;
+
+                &:last-child {
+                    background: 0 0;
+                    border-bottom: $dot-size / 2 solid transparent;
+                    border-left: $dot-size solid #333;
+                    border-right: 0;
+                    border-top: $dot-size / 2 solid transparent;
+                    border-radius: 0;
+                }
+            }
+        }
+    }
+
+    .saving-container {
+        margin-top: 15px;
+
+        .you-save {
+            font-size: 20px;
+            color: #4a4a4a;
+        }
+
+        .saved-raw {
+            font-size: 20px;
+            margin-left: 5px;
+            font-weight: bold;
+            color: #c30016;
+        }
+
+        .saved-percentage {
+            font-size: 20px;
+            color: #c30016;
+        }
+    }
+
+    .list-price-container {
+        font-size: 16px;
+        color: #1e2226;
+    }
+
+    .list-price-deleted {
+        color: #d0011b;
+        text-decoration: line-through;
+    }
+
+    .price-container {
+        font-size: 16px;
+        color: #1e2226;
+        line-height: 1;
+    }
+
+    .select-container {
+        margin: 20px 0;
+        display: flex;
+
+        label {
+            width: 130px;
+            text-align: right;
+            padding-right: 13px;
+            font-size: 13px;
+            max-width: 28%;
+            overflow-wrap: break-word;
+
+            &::after {
+                content: ' *';
+                color: crimson;
+            }
+        }
+    }
+
+    select.browser-default {
+        max-width: 190px;
+        padding: 3px;
+        border: 1px #ddd solid;
+        height: 35px;
+
+        &:focus {
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6);
+            border-color: #66afe9;
+        }
+
+        &.error {
+            border: 2px solid #E8281E;
+        }
+    }
+
+    .shipping {
+        margin-top: 20px;
+        font-size: 14px;
+        color: #1e2226;
+
+        h6 {
+            font-weight: bold;
+            margin-top: 0;
+            margin-bottom: 7px;
+            line-height: 1;
+        }
+    }
+
+    .btn.buy-button {
+        width: 100%;
+        font-size: 28px;
+        text-transform: none;
+        height: 48px;
+        line-height: 48px;
+        background-color: #1366da;
+        margin: 33px 0 20px 0;
+    }
+
+    .price-conversion-message {
+        margin-bottom: 20px;
+    }
+
+    #paypal-button {
+        text-align: center;
+        margin-top: 20px;        
+
+        iframe {
+            margin: auto;
+        }
+    }
+
+    .credit-card-note {
+        font-size: 12px;
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+    .content {
+        font-size: 16px;
+        line-height: 18px;
+        color: #4a4a4a;
+        white-space: pre-wrap;
+
+        ul {
+            padding-left: 18px;
+        }
+
+        li {
+            list-style: disc;
+        }
+    }
+
+    .line {
+        width: 100%;
+        margin-top: 15px;
+        margin-bottom: 20px;
+        border-bottom: solid 2px #dcdcdc;
+    }
+
+    .not-member {
+        text-align: center;
+
+        h5 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 15px;
+        }
+
+        h6 {
+            font-size: 18px;
+            color: #1e2226;
+            line-height: 1.2;
+
+            strong {
+                font-size: 24px;
+                font-weight: bold;
+                color: #900025;
+            }
+        }
+    }
+}

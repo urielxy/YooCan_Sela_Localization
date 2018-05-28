@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Yooocan.Models.New.NotificationModel>
+<embedcss Href="/css/Notification/popup.css"></embedcss>
+<div id="notifications-popup-content">
+    @if (Model.Any())
+    {
+        <ul>
+            @foreach (var notification in Model)
+            {
+                <li class="@(notification.ReadDate == null ? "unread" : "")">
+                    <a href="@notification.NotificationLink">
+                        <div class="avatar">
+                            <img src="@notification.NotificationImageUrl" />
+                            <span class="avatar-badge">
+                                <i class="material-icons @notification.NotificationType"></i>
+                            </span>
+                        </div>
+                        <div class="notification-info">
+                            <h3>
+                                @Html.Raw(notification.NotificationText)
+                            </h3>
+                            <h4 class="time">@notification.InsertDate.Humanize()</h4>
+                        </div>
+                    </a>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <div class="empty">No notifications</div>
+    }
+</div>

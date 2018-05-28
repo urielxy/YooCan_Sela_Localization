@@ -1,0 +1,110 @@
+﻿@using Yooocan.Enums
+@model Yooocan.Models.Company.CompanyEditTermsModel
+@{
+    ViewBag.Title = "Set company commercial terms";
+}
+@section Head
+{
+    <style>
+        #html h1 {
+            font-size: 40px;
+            margin-top: 70px;
+        }
+    </style>
+}
+<div class="container">
+    <div class="row">
+        <div class="offset-s3 col s6">
+            <h1>
+                Edit commercial terms - @Model.Name
+            </h1>
+            <form method="post">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <select asp-for="ReferralRateType" asp-items="@Html.GetEnumSelectList(typeof(RateType))">
+                            <option selected disabled>Choose rate type</option>
+                        </select>
+                        <label asp-for="ReferralRateType"></label>
+                        <span asp-validation-for="ReferralRateType"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input asp-for="ReferralRate">
+                        <label asp-for="ReferralRate">Referral / Commission</label>
+                        <span asp-validation-for="ReferralRate"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <select asp-for="DiscountRateType" asp-items="@Html.GetEnumSelectList(typeof(RateType))">
+                            <option selected disabled>Choose rate type</option>
+                        </select>
+                        <label asp-for="DiscountRateType"></label>
+                        <span asp-validation-for="DiscountRateType"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input asp-for="MembersDiscountRate">
+                        <label asp-for="MembersDiscountRate"></label>
+                        <span asp-validation-for="MembersDiscountRate"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input asp-for="CouponCode">
+                        <label asp-for="CouponCode"></label>
+                        <span asp-validation-for="CouponCode"></span>
+                    </div>
+                </div>
+                <div>
+                    <button id="add-shipping-rule-button" class="btn">Add shipping rule</button>
+                    <button id="delete-last-shipping-rule-button" class="btn">Delete last shipping rule</button>
+                    <table id="shipping-rules">
+                        <tr>
+                            <th>Min product price</th>
+                            <th>Max product price</th>
+                            <th>Shipping price</th>
+                            <th>Min shipping duration</th>
+                            <th>Max shipping duration</th>
+                            <th>Shipping method</th>
+                        </tr>
+                        @if (Model.ShippingRules != null)
+                        {
+                            for (var i = 0; i < Model.ShippingRules.Count; i++)
+                            {
+                                <tr class="shipping-rule">
+                                    <td><input asp-for="@Model.ShippingRules[i].MinProductPrice"/></td>
+                                    <td><input asp-for="@Model.ShippingRules[i].MaxProductPrice"/></td>
+                                    <td><input asp-for="@Model.ShippingRules[i].ShippingPrice"/></td>
+                                    <td><input asp-for="@Model.ShippingRules[i].MinShippingDuration"/></td>
+                                    <td><input asp-for="@Model.ShippingRules[i].MaxShippingDuration"/></td>
+                                    <td><input asp-for="@Model.ShippingRules[i].ShippingMethod"/></td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <button class="btn">Save</button>
+                    </div>
+                </div>
+            </form>
+            <table class="hide shipping-rule-template">
+                <tr class="shipping-rule">
+                    <td><input type="text" data-val="true" data-val-number="The field MinProductPrice must be a number." data-val-required="The MinProductPrice field is required." id="ShippingRules_0__MinProductPrice" name="ShippingRules[0].MinProductPrice" /></td>
+                    <td><input type="text" data-val="true" data-val-number="The field MaxProductPrice must be a number." data-val-required="The MaxProductPrice field is required." id="ShippingRules_0__MaxProductPrice" name="ShippingRules[0].MaxProductPrice" /></td>
+                    <td><input type="text" data-val="true" data-val-number="The field ShippingPrice must be a number." data-val-required="The ShippingPrice field is required." id="ShippingRules_0__ShippingPrice" name="ShippingRules[0].ShippingPrice" /></td>
+                    <td><input type="number" id="ShippingRules_0__MinShippingDuration" name="ShippingRules[0].MinShippingDuration" value="" /></td>
+                    <td><input type="number" id="ShippingRules_0__MaxShippingDuration" name="ShippingRules[0].MaxShippingDuration" value="" /></td>
+                    <td><input type="text" id="ShippingRules_0__ShippingMethod" name="ShippingRules[0].ShippingMethod" value="" /></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="/dist/Company/EditCommercialTerms.js"></script>
+}

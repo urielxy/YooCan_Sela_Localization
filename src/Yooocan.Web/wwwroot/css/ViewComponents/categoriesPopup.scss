@@ -1,0 +1,48 @@
+﻿@import "../_variables.scss";
+
+#html {
+    .popup-categories {
+        $left-padding-unit: 15px;
+        $item-width: 220px;
+        padding-left: $left-padding-unit;
+        padding-bottom: $left-padding-unit;
+        width: $item-width + $left-padding-unit + 30px;
+        display: flex;
+        flex-wrap: wrap;
+
+        li {
+            $line-height: 25px;
+            line-height: $line-height;
+            min-height: $line-height;
+            overflow-x: hidden;
+            padding: 0;
+            width: $item-width;
+            float: none;
+
+            a {
+                width: $item-width;
+                display: inline-flex;
+                align-items: center;
+                line-height: $line-height;
+                padding: 5px;
+
+                .icon-container {
+                    margin-right: 5px;
+                    height: $line-height;
+                    width: 30px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                .category-name {
+                    flex: 1;
+                    font-size: 12px;
+                    font-weight: 700;
+                    color: #354052;
+                    letter-spacing: 0;
+                }
+            }
+        }
+    }
+}

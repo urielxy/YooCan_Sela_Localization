@@ -1,0 +1,257 @@
+﻿@using System.Security.Claims
+@model Yooocan.Models.UploadStoryModels.UploadStoryModel
+@{
+    ViewBag.Title = "Add your story";
+    ViewBag.AddStoryClass = "hide";
+}
+@section head {
+    <link rel="stylesheet" href="/lib/dropzone/dist/min/dropzone.min.css" />
+    <link rel="stylesheet" href="/lib/croppie/croppie.css" />
+    <embedCss href="/css/story/create.css" />
+    <link rel="prefetch" href="/css/vectorMap.css" />
+}
+    <form id="create-story-container" asp-action="Create" method="post">       
+        <div class="hide-on-small-and-down">
+            @Html.Partial("_PublishStrip")
+        </div>
+        <input type="hidden" asp-for="IsProductsReviewed" />
+        <input type="hidden" asp-for="HeaderImageUrl" />
+        <div class="profile-basic-info" id="header-image-uploader" data-upload-url="@Url.Action("UploadDataUriImages", "Image")">
+            <div class="header picture-preview">
+                <input type="hidden" class="picture-data-uri" id="headerImageDataUri" />
+                <div class="content">
+                    <h3 class="title"></h3>
+                    <button class="waves-effect waves-teal btn upload-picture-button" type="button" id="choose-cover">CHOOSE COVER</button>
+                    <input type="file" class="picture-upload" accept="image/*" style="display: none;" />
+                    <div id="story-meta">
+                        @*<i class="material-icons">watch_later</i><span class="date">@DateTime.UtcNow.ToString("MMMM dd yyyy hh:mm tt")</span>
+                        <i class="material-icons fav">favorite</i>
+                        <span class="fav-count">0</span>
+                        <img src="/images/chat-story.svg" asp-append-version="true" id="chat-icon" />
+                        <span class="comments-count">0</span>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col s12 m8">
+                    <div class="note red-text">* Please only submit original content</div>
+                </div>
+            </div>
+            <div class="col s12 m8">
+                <div>
+                    <label id="template-label">I WANT TO ADD A</label>
+                </div>
+                <div class="radio-buttons-container">
+                    <input class="with-gap" name="Template" type="radio" id="story-radio" value="story" checked />
+                    <label for="story-radio">Story</label>
+                    <input class="with-gap" name="Template" type="radio" id="tips-radio" value="tips" />
+                    <label for="tips-radio">10 Tips Article</label>
+                    <input class="with-gap" name="Template" type="radio" id="product-radio" value="product" data-toggle-id="@nameof(Model.IsProductsReviewed)" />
+                    <label for="product-radio">Product Recommendation</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m8">
+                    <div class="input-field">
+                        <input required asp-for="Title" class="validate" length="65" maxlength="65" placeholder="Give your story a title: something catchy or empowering">
+                        <label asp-for="Title" data-error="The title is too long">YOUR STORY TITLE *</label>
+                    </div>
+                    <div id="paragraphs-container">
+                        <div class="paragraph-container">
+                            <div class="input-field">
+                                <span class="delete-paragraph-btn"><i class="material-icons">delete</i></span>
+                                <input id="init-id-0" placeholder="Add paragraph title…" />
+                                <label for="init-id-0">PARAGRAPH TITLE</label>
+                            </div>
+                            <div class="editor-container">
+                                <label>PARAGRAPH CONTENT</label>
+                                <textarea class="editor notInit"></textarea>
+                            </div>
+                        </div>
+                        <div id="add-paragraph-container">
+                            <div class="line">
+                                <span>
+                                    <button class="btn" id="add-paragraph">+ADD ANOTHER PARAGRAPH</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-field">
+                        <input type="hidden" asp-for="YoutubeId" id="YoutubeId">
+                        <input id="youtube-link" placeholder="Go to YouTube.com and paste your video link here">
+                        <label for="youtube-link">UPLOAD YOUTUBE VIDEO</label>
+                    </div>
+                    <div id="hiddenImages">
+                        <input type="hidden" name="@nameof(Model.Images)" class="hidden-image" />
+                    </div>
+
+                    <div id="dZUpload" class="dropzone" data-url="@Url.Action("UploadImages", "Image")">
+                        <div class="dz-message needsclick">
+                            <img src="/images/upload-icon.svg" asp-append-version="true" />
+                            <div class="hide-on-med-and-down">
+                                DRAG YOUR IMAGES HERE OR <button type="button">BROWSE</button>
+                            </div>
+                            <div class="hide-on-large-only">
+                                TAP TO UPLOAD YOUR IMAGES
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col m4 l3 offset-l1 right-side hide-on-small-and-down">
+                    <div>
+                        <img id="author-avatar" src="@(User.FindFirstValue("picture") ?? "/images/no-avatar.jpg")" title="my avatar" class="avatar" />
+                    </div>
+                    <div id="author-name" class="name">@(User.FindFirstValue(ClaimTypes.GivenName) ?? "First name") @(User.FindFirstValue(ClaimTypes.Surname) ?? "Last name")</div>
+                    <div class="about-title">ABOUT</div>
+                    <p id="author-about-me" class="about">@(ViewBag.AboutMe ?? "Your about me section is currently empty.")</p>
+                    <a class="waves-effect waves-light btn" id="edit-profile" asp-controller="User" asp-action="Edit" target="_blank">EDIT</a>
+                </div>
+            </div>
+            <h5 id="categories-header">Select one or more categories mentioned in the story *</h5>
+            <div id="categories-container" class="checkboxes-container">
+                @foreach (var category in Model.CategoriesOptions)
+        {
+            <div class="category-container">
+                <span>@category.Key</span>
+                @foreach (var sub in category.Value)
+        {
+            <div class="category">
+                <input type="checkbox" name="@nameof(Model.Categories)" class="filled-in" id="category-@sub.Key" value="@sub.Key" />
+                <label for="category-@sub.Key">@sub.Value</label>
+            </div>
+}
+            </div>
+}
+            </div>
+            <div class="row">
+                <div class="col s12 m6">
+                    <div class="input-field">
+                        <select asp-for="PrimaryCategoryId" class="validate">
+                            <option disabled="disabled">Choose Category</option>
+                        </select>
+                        <label asp-for="PrimaryCategoryId">Select the category where you want your story to appear *</label>
+                    </div>
+                </div>
+                <div class="col s12 m6">
+                    <div class="input-field">
+                        <input asp-for="SuggestedCategory" class="validate" length="30" placeholder="Add it here...">
+                        <label class="hide-on-small-and-down" asp-for="SuggestedCategory">CAN’T FIND A RELEVANT CATEGORY?</label>
+                        <label class="hide-on-med-and-up" asp-for="SuggestedCategory">SUGGEST ANOTHER CATEGORY</label>
+                    </div>
+                </div>
+            </div>
+            <h5 id="limitations-header">Select one or more disabilities or conditions *</h5>
+            <div id="limitations-container" class="row checkboxes-container">
+                @foreach (var limitation in Model.LimitationsOptions)
+        {
+            <div class="col s12 m6 m4">
+                <div class="limitation">
+                    <input type="checkbox" name="@nameof(Model.Limitations)" class="filled-in" id="limitation-@limitation.Key" value="@limitation.Key" />
+                    <label for="limitation-@limitation.Key">@limitation.Value</label>
+                </div>
+            </div>
+}
+            </div>
+            <div class="row">
+                <div class="col s12 m6">
+                    <div class="input-field">
+                        <select asp-for="PrimaryLimitationId" class="validate">
+                            <option disabled="disabled">Choose disability or condition</option>
+                        </select>
+                        <label asp-for="PrimaryLimitationId">Please select one main disability or condition *</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m9">
+                    <div class="input-field">
+                        <input asp-for="UsedProducts" />
+                        <label asp-for="UsedProducts">
+                            Please recommend a specific product that helps you in your daily life (feel free to add a link):
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m9">
+                    <div class="input-field">
+                        <input asp-for="UserInstagramUserName" placeholder="@@username" />
+                        <label asp-for="UserInstagramUserName">My Instagram Name</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m9">
+                    <div class="input-field">
+                        <input asp-for="UserFacebookPageUrl" placeholder="https://facebook.com/..." />
+                        <label asp-for="UserFacebookPageUrl">My Facebook profile or page</label>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" asp-for="IsInCompetition" />
+            @*<div class="row">
+                <div class="col s12 m9">
+                    <input type="checkbox" asp-for="IsInCompetition" class="filled-in" />
+                    <label asp-for="IsInCompetition">
+                        Participate in ReelAbilities Competition?
+                        <a asp-route="ReelAbilities" target="_Blank" style="display: block;">about the competition</a>
+                    </label>
+                </div>
+            </div>*@
+            <div class="row" id="address-input-container">
+                <div class="col s12 m9">
+                    <div class="input-field">
+                        <input asp-for="ActivityLocation" placeholder="Start Typing Address, Country, City…" />
+                        <label asp-for="ActivityLocation">Where do you do this activity?</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <section id="cd-google-map">
+            <input asp-for="GooglePlaceId" type="hidden" />
+            <input asp-for="Longitude" type="hidden" />
+            <input asp-for="Latitude" type="hidden" />
+            <input type="hidden" asp-for="StreetNumber" data-type="street_number" />
+            <input type="hidden" asp-for="StreetName" data-type="route" />
+            <input type="hidden" asp-for="City" data-type="locality" />
+            <input type="hidden" asp-for="State" data-type="administrative_area_level_1" />
+            <input type="hidden" asp-for="PostalCode" data-type="postal_code" />
+            <input type="hidden" asp-for="Country" data-type="country" />
+            <div id="google-container"></div>
+        </section>
+        <div id="address-footer">
+            <i class="material-icons" style="color: #d3d3d3">place</i>
+            Written in
+            <address id="address-text"></address>
+        </div>
+        <div id="publish-footer">
+            @Html.Partial("_PublishStrip")
+        </div>
+    </form>
+<div class="modal" id="preview-header-modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="crop-preview"></div>
+            <div class="center" style="padding-bottom: 15px">
+                <button type="button" class="take-picture btn btn-primary">Looks good</button>
+                <button type="button" class="close-modal btn btn-default">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("_DropzoneTemplate")
+@section scripts{
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        deferStyleSheet("https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css");
+    </script>
+    <script src='https://cdn.tinymce.com/4/tinymce.min.js' asp-fallback-src="/lib/tinymce/tinymce.js" asp-fallback-test="window.tinymce"></script>
+    <script src="/lib/dropzone/dist/min/dropzone.min.js"></script>
+    <script src="/dist/Story/create.js" asp-append-version="true"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7RtYQXdokxTRbfyikcr8wl_wSq4SDGSc&libraries=places&language=en&callback=initAutocomplete" async defer></script>
+    @*<script>
+            hj('tagRecording', ['Create story']);
+        </script>*@
+}

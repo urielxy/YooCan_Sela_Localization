@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "About us";
+    ViewBag.CanonicalUrl = Url.Action("About");
+}
+@section head{
+    <meta property="og:image" itemprop="image primaryImageOfPage" content="/images/home/about-header.jpg" />
+    <meta name="description" content="Learn more about ALTO, how we started, and our vision to change the world of disability." />
+}
+<embedcss Href="/css/Home/About"></embedcss>
+<section id="about-us">
+    <header>
+        <h1>ABOUT ALTO</h1>
+        <div class="video-container-container">
+            <div class="video-container">
+                <iframe src="//www.youtube.com/embed/CSsLGfgFvaY?rel=0&@(Context.Request.Query["autoPlay"] == "1" ? "autoplay=1" : "")" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+        <div class="header-background-image"></div>
+    </header>
+    <h3 class="title">ALTO IS A REAL STORY</h3>
+    <div class="container">
+        <div class="row">
+            <article class="col x12 m8 offset-m2">
+                <p>
+                    Hello! My name is Moshe, and I’d like to personally welcome you to Alto, America's #1 FREE resource for families living with disabilities to search for services, organizations, activities, benefits and savings on products to enjoy a better and more inclusive life.
+                </p>
+                <p>
+                    Alto is powered by <a target="_blank" href="https://yoocanfind.com">yoocan</a>, the world's #1 empowerment site for people with disabilities and their families.
+                </p>
+                <p>
+                    My family has a child named Erez that was born with a rare disease and complex disability. Despite the difficutlies, it is his smile and his challenging journey that has helped our family to learn about never giving up. Erez is inspiring. He is a fighter. And with his incredible zest for life and his endless inner strength, he enriches and empowers the lives of every person that he has ever met.
+                </p>
+                <p>
+                    <img src="/images/home/yoav-erez.jpg" class="left" alt="Yoav with Erez" />
+                    Like us, more than 1 billion families in the world live with some form of disability, 57 million in the U.S alone. Their struggles and challenges are seen daily. Their journey’s have made them and us what we are today and in most cases closer and stronger.
+                </p>
+                <p>
+                    We created Alto to be your personal advantage site for living a better and more inclusive life.
+                </p>
+                <p>
+                    You can save on every purchase when you buy through Alto. If you can't find a product or it is more expensive than somewhere else, contact us through our 24/7 service and one of our team experts will be happy to assist you.
+                </p>
+                <p>
+                    <img class="right" src="/images/home/moshe-lecture.jpg" alt="Moshe lecturing" />                    
+                </p>
+                <p>
+                    Joining Alto means that together, a huge group of unique individuals can become an amazing power of shared needs and interest. A big community that works together to benefit all!
+                </p>
+                <p>
+                    We hope that you and your family enjoy Alto and we can’t wait for you to join us.
+                </p>
+                <div class="signature-container">
+                    <img src="/images/home/moshe-signature.jpg" />
+                    <strong>Moshe Gaon</strong> <br />
+                    CEO & Co-Founder <br />
+                    <a href="mailto:moshe@yoocantech.com" target="_Blank">moshe@yoocantech.com</a>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>

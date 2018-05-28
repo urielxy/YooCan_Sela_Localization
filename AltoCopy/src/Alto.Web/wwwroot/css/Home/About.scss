@@ -1,0 +1,116 @@
+﻿@import '../_variables.scss';
+
+#about-us {
+    header {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        color: #ffffff;
+        text-align: center;
+        padding: 15px;
+        min-height: 434px;
+
+        .header-background-image {
+            z-index: -1000;
+            height: 434px;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/images/Home/about-header.jpg?vs=1');
+            background-position: center;
+            background-size: cover;
+        }
+
+        h1 {
+            font-size: 70px;
+            font-weight: 800;
+            text-align: center;
+            margin: 0;
+        }
+
+        h4 {
+            font-size: 28px;
+            margin-top: 16px;
+            margin-bottom: 0;
+        }
+
+        .video-container-container {
+            max-width: 640px;
+            width: 100%;
+            margin: 30px auto 0 auto;
+            border: 2px solid #fff;
+        }
+    }
+
+    .container {
+        padding: 0 15px;
+    }
+
+    .title {
+        font-size: 28px;
+        font-weight: bold;
+        text-align: center;
+        color: #4a4a4a;
+        margin-top: 40px;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    article {
+        h5.sub-title {
+            color: #4a4a4a;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        p {
+            color: #4a4a4a;
+            font-size: 18px;
+
+            img.left {
+                margin-right: 20px;
+            }
+
+            img.right {
+                margin-left: 20px;
+            }
+        }
+    }
+
+    .signature-container {
+        width: 170px;
+        float: right;
+        font-size: 14px;
+        color: #4a4a4a;
+
+        strong {
+            font-size: 18px;
+            font-weight: bold;
+        }
+    }
+
+    @media #{$small-and-down} {
+        header {
+            h1 {
+                font-size: 43px;
+            }
+
+            h4 {
+                font-size: 22px;
+            }
+        }
+
+        article {
+            p {
+                img, img.right, img.left {
+                    float: unset !important;
+                    display: block;
+                    margin: auto;
+                    margin-bottom: 20px;
+                }
+            }
+        }
+    }
+}

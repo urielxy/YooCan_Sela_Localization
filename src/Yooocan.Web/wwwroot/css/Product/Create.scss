@@ -1,0 +1,85 @@
+﻿@import "../_variables.scss";
+$MainImageMarkerHeight: 22px;
+$MarginBetweenFields: 56px;
+
+#dZUpload {
+    border-radius: 4px;
+    border: dashed 2px #a5aea8;
+    padding: 0;
+    margin-top: $MarginBetweenFields;
+
+    * {
+        cursor: inherit;
+    }
+
+    .dz-preview:hover .dz-image img {
+        -webkit-filter: none;
+        filter: none;
+    }
+
+    .dz-image-preview {
+        text-align: center;
+        cursor: default;
+
+        a {
+            cursor: pointer !important;
+        } 
+         
+        .set-as-main {
+            display: none;
+        }
+
+        &.dz-success:not(.main) .set-as-main {
+            display: block;
+            font-size: 12px;
+            color: #5c8dde;
+        }
+
+        .delete-btn {
+            position: absolute;
+            z-index: 99;
+            top: 10.5px;
+            right: -13.5px;
+            /*border: 2.5px solid #000;
+                border-radius: 50%;*/
+            img {
+                height: 30px;
+                width: 30px;
+            }
+        }
+
+        .dz-details {
+            top: $MainImageMarkerHeight;
+        }
+    }
+
+    .dz-preview.dz-image-preview.main::before {
+        content: "MAIN IMAGE";
+        height: $MainImageMarkerHeight;
+    }
+
+    .dz-preview.dz-image-preview:not(.main)::before {
+        height: $MainImageMarkerHeight;
+        content: "*";
+        visibility: hidden;
+    }
+
+    .dz-message {
+        font-size: 11px;
+        text-align: center;
+        color: #222328;
+        margin: 0;
+
+        img {
+            height: 60px;
+            margin-top: 31px;
+            margin-bottom: 15px;
+        }
+
+        span {
+            cursor: pointer;
+            text-decoration: underline;
+            color: gray;
+        }
+    }
+}

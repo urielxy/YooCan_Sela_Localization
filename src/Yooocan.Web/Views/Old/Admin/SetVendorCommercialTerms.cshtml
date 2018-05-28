@@ -1,0 +1,176 @@
+﻿@model Yooocan.Models.Vendors.VendorModel
+
+@using Yooocan.Enums.Vendors
+<style>
+    h3 {
+        margin: 30px 0;
+    }
+
+    .form-group {
+        margin: 40px 0;
+    }
+</style>
+<section id="vendor-sign-up" class="clearfix">
+    <form asp-controller="Admin" asp-action="SetVendorCommercialTerms">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <input type="hidden" asp-for="Id" value="@Model.Id" />      
+        <input type="hidden" name="RegistrationId" value="@ViewBag.RegistrationId" />
+        <h1 class="text-center text-uppercase">Set Vendor/Seller Commercial terms</h1>
+
+        <div>
+            <h3 class="font-group-header">@Model.Name</h3>
+        </div>
+
+        <fieldset class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Grant access to email</h4>
+                    <input class="form-control" asp-for="ContactPersonEmail" required />
+                    @if (ViewBag.NotRegisteredEmails?.Count > 0)
+                    {
+                        <div class="alert alert-warning">Emails <strong>@(string.Join(",", ViewBag.NotRegisteredEmails))</strong> are not yet registered</div>                       
+                    }
+                    @if (ViewBag.NotConfirmedEmails?.Count > 0) 
+                    {
+                        <div class="alert alert-info">Emails <strong>@(string.Join(",", ViewBag.NotConfirmedEmails))</strong> are registered but not confirmed</div>
+                    }
+                </div>
+            </div>
+        </fieldset>
+
+        <h4>Commercial Terms</h4>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="radio">
+                    <input type="radio" asp-for="CommercialTerms" id="CommercialTerms1" value="@VendorCommercialTerms.Affiliate" required />
+                    <label for="CommercialTerms1">Affiliate</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input type="text" required class="form-control" name="@nameof(Model.CommercialTermsRate)" id="CommercialTermsText1" placeholder="%" />
+                    <span class="input-group-addon">From Price</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="radio">
+                    <input type="radio" asp-for="CommercialTerms" id="CommercialTerms2" value="@VendorCommercialTerms.ReferralFee" />
+                    <label for="CommercialTerms2">Referral Fee</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input type="text" required class="form-control" name="@nameof(Model.CommercialTermsRate)" id="CommercialTermsText2" placeholder="$" />
+                    <span class="input-group-addon">Fixed PPC</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="radio">
+                    <input type="radio" asp-for="CommercialTerms" id="CommercialTerms3" value="@VendorCommercialTerms.Commission" />
+                    <label for="CommercialTerms3">Commission</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input type="text" required class="form-control" name="@nameof(Model.CommercialTermsRate)" id="CommercialTermsText3" placeholder="%" />
+                    <span class="input-group-addon">From Price</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="radio">
+                    <input type="radio" asp-for="CommercialTerms" id="CommercialTerms4" value="@VendorCommercialTerms.SubscriptionFee" />
+                    <label for="CommercialTerms4">Subscription Fee</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input type="text" required class="form-control" name="@nameof(Model.CommercialTermsRate)" id="CommercialTermsText4" placeholder="$" />
+                    <span class="input-group-addon">Per month</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="radio">
+                    <input type="radio" asp-for="CommercialTerms" id="CommercialTerms5" value="@VendorCommercialTerms.Other" />
+                    <label for="CommercialTerms5">Other</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input type="text" required class="form-control" asp-for="CommercialTermsOther" id="CommercialTermsText5" placeholder="Other" />
+                    <span class="input-group-addon">Description</span>
+                </div>
+            </div>
+        </div>
+        <fieldset class="form-group">
+            <input type="submit" class="btn-info btn" value="Save" />
+        </fieldset>
+    </form>
+    @if (ViewBag.SaveSucceeded == true)
+    {
+        <div class="alert alert-success">
+            <strong>
+                Save succeeded. The link for the vendor to sign up is:
+                <a asp-action="SignUp" asp-controller="Vendor" asp-route-id="@Model.Id" target="_blank">@Url.Action("SignUp", "Vendor", new { id = Model.Id }, "https")</a>
+            </strong>
+        </div>
+    }
+</section>
+
+@section Scripts {
+    <script>
+        $(function () {
+            var prefix = "CommercialTermsText";
+
+            var disableAllTexts = function () {
+                $("input[id^='" + prefix + "']").prop('disabled', true);
+            };
+
+            var getIndexFromRadioId = function (id) {
+                var length = id.length;
+                var index = id.substr(length - 1, length - 1);
+                return index;
+            }
+
+            var enableAndInitText = function (index, value) {
+                var selection = $('#' + prefix + index);
+                selection.prop('disabled', false)
+                         .focus();
+
+                if (value !== undefined) {
+                    selection.prop('value', value)
+                }
+            };
+
+            var radiosSelector = "input[name='@nameof(Model.CommercialTerms)']";
+
+            $(radiosSelector)
+                .change(function () {
+                    disableAllTexts();
+
+                    var index = getIndexFromRadioId(this.id)
+                    enableAndInitText(index);
+                });
+
+            disableAllTexts();
+
+            @if (Model.CommercialTerms.HasValue) {
+            <text>
+            var selectedRadioId = $(radiosSelector + "[value='@Model.CommercialTerms']").get(0).id;
+            var selectedIndex = getIndexFromRadioId(selectedRadioId);
+            enableAndInitText(selectedIndex, "@(Model.CommercialTerms == VendorCommercialTerms.Other ?
+                                                                                Model.CommercialTermsOther :
+                                                                                Model.CommercialTermsRate.Value.ToString())");
+            </text>
+            }
+        });
+    </script>
+}

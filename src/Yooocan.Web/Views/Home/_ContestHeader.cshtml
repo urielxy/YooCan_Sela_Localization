@@ -1,0 +1,47 @@
+﻿@using Yooocan.Logic.Extensions
+@inject Yooocan.Logic.Images.ImageUrlOptimizer ImageUrlOptimizer
+@model FeaturedStoryHeader
+<embedCss href="/css/Home/contestHeader.css"></embedCss>
+<div id="main-page-header">
+    <div class="left-col valign-wrapper">
+        <div class="valign" style="margin: 0 auto;">
+            <h1>THE GLOBAL COLLABORATIVE COMMUNITY FOR AND BY PEOPLE WITH DISABILITIES</h1>
+            <h3>SHARING EXPERIENCES AND KNOWLEDGE, SO NO ONE FEELS ALONE</h3>
+        </div>
+    </div>
+    <div class="right-col">
+        <div>
+            <a asp-route="story" asp-route-id="@Model.Id" asp-route-title="@Model.Title.ToCanonical()">
+                <div class="image-container" style="background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                     url('@ImageUrlOptimizer.GetOptimizedUrl(Model.ImageUrl, 1200, 350)'); background-position: @(Model.HotAreaLeft ?? 50)% @(Model.HotAreaTop ?? 50)%">
+                    <h3 class="story-of-day">STORY OF THE DAY</h3>
+                    <div class="details">
+                        <span class="tag" style="background-color: #@Model.CategoryColor">
+                            <span>@Model.Category</span>
+                        </span>
+                        <div class="title">
+                            @Model.Title
+                        </div>
+                        <span class="by">By: </span><span class="author">@Model.Author</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        @*<a href="https://yoocanfind.com/Blog/5/10-texts-to-send-a-loved-one-suffering-from-chronic-illness">
+            <div class="image-container" style="background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                     url('@ImageUrlOptimizer.GetOptimizedUrl("https://yooocanlive.azureedge.net/images/8f8e6affb9ae4243b193f4cb41f9fe3a", 1200, 350)');">
+                <h3>YOOCAN BLOG</h3>
+                <div class="details">
+                    <div class="title">
+                        10 Texts to Send a Loved One Suffering from Chronic Illness
+                    </div>
+                </div>
+            </div>
+        </a>*@
+        @*<div class="youtube-bg-video" data-youtube-id="MY5ZvdFBE94">
+            <div id="youtube-player"></div>
+        </div>*@
+        @*<a href="http://www.wheel-life.org/yoocan-get-empowered/" target="_blank" class="external-article" style="display: none;">
+        </a>*@
+    </div>
+</div>

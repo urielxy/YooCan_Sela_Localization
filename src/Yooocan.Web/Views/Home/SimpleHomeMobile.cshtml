@@ -1,0 +1,101 @@
+﻿@model MobileHomeModel
+@using Yooocan.Logic.Extensions
+@inject Yooocan.Logic.Images.ImageUrlOptimizer ImageUrlOptimizer
+@{
+    ViewBag.Title = "The #1 collaborative community for people with disabilities";
+    var imagesWidth = 300;
+    var imagesHeight = 350;
+}
+@section head{
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:type" content="website" />
+    <meta property="og:image" itemprop="image primaryImageOfPage" content="https://yooocanlive.azureedge.net/static/images/yoocan-share.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:title" property="og:title" itemprop="title name" content="yoocan do anything" />
+    <meta name="twitter:description" property="og:description" itemprop="description" content="We believe that our collaborative community of shared experiences and knowledge from around the world can inspire people with disabilities and change their lives, so no one feels alone. " />
+    <meta name="description" content="We believe that our collaborative community of shared experiences and knowledge from around the world can inspire people with disabilities and change their lives, so no one feels alone. " />
+    <embedcss href="/css/Home/SimpleHomeMobile.css"></embedcss>
+}
+<div id="main-wrapper">
+    <h1>WHAT WOULD YOU LIKE TO DO?</h1>
+    <ul id="main-options">
+        <li>
+            <a asp-controller="Story" asp-action="Create">
+                <div class="option-card" style="background-image:linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url('/images/home/cards/handcycle.jpg?v=1');word-break: normal;">
+                    ADD A STORY, TIPS OR RECOMMEND PRODUCT
+                </div>
+            </a>
+        </li>
+        <li id="explore-stories-card">
+            <a asp-controller="Home" asp-action="Stories">
+                <div class="option-card" style="background-image:linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url('/images/home/cards/turtle.jpg?v=1')">
+                    EXPLORE PERSONAL STORIES
+                </div>
+                @foreach (var story in Model.LatestStoriesPerCategory)
+                {
+                    <div class="option-card hide" style="background-image:linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('@ImageUrlOptimizer.GetOptimizedUrl(story.ImageUrl, 300, 350)')">
+                        EXPLORE PERSONAL STORIES
+                        <ul class="author-details">
+                            @if (!string.IsNullOrEmpty(story.UserPictureUrl))
+                            {
+                                <li class="author-avatar">
+                                    <img alt="@(story.UserFirstName)'s picture'" src="@ImageUrlOptimizer.GetOptimizedUrl(story.UserPictureUrl, 50, 50)" />
+                                </li>
+                            }
+                            @if (!string.IsNullOrEmpty(story.CountryCode))
+                            {
+                                <li class="author-country">
+                                    <img alt="@story.Country" src="~/lib/flag-icon-css/flags/4x3/@(story.CountryCode).svg" />
+                                </li>
+                            }
+                            <li>
+                                @story.UserFirstName
+                            </li>
+                        </ul>
+                    </div>
+                }
+            </a>
+        </li>
+        <li>
+            <a asp-controller="Search" asp-action="Search">
+                <div class="option-card" style="background-image:linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/images/home/cards/search.jpg?v=1')">
+                    <span>SEARCH <i class="material-icons" style="vertical-align: bottom;">search</i><br /> FOR INFORMATION</span>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a asp-controller="Shop" asp-action="Index">
+                <div class="option-card" style="background-image:linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/images/home/cards/shop.jpg?v=1')">
+                    SHOP FOR RELEVANT PRODUCTS
+                </div>
+            </a>
+        </li>
+        <li>
+            @Html.Partial("Cards/_TechnologiesCard")
+        </li>
+        @if (Model.FeatureBlogPost != null)
+        {
+            <li>
+                <a asp-controller="Blog" asp-action="Index" asp-route-id="@Model.FeatureBlogPost.Id" asp-route-title="@Model.FeatureBlogPost.Title?.ToCanonical()">
+                    <div class="option-card" style="background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+                                                 url('@ImageUrlOptimizer.GetOptimizedUrl(Model.FeatureBlogPost.PrimaryImageUrl, imagesWidth, imagesHeight)');
+                                                 background-position: center">
+                        <h3>YOOCAN BLOG</h3>
+                        <h6>@Model.FeatureBlogPost.Title?.ToUpper()</h6>
+                    </div>
+                </a>
+            </li>
+        }
+    </ul>
+    @Html.Partial("_MainPartners")
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <a asp-controller="Account" asp-action="Register" class="register-button" data-source="simple home mobile - join yoocan link">
+            <h2>Join the yoocan community for free now. <br /><strong>Together we can do anything!</strong></h2>
+        </a>
+    }
+</div>
+@section Scripts {
+    <script asp-append-version="true" src="~/dist/Home/SimpleHomeMobile.js"></script>
+}

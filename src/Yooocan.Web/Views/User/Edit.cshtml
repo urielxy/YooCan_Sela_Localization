@@ -1,0 +1,152 @@
+﻿@model UserBioModel
+@{
+    ViewBag.Title = "Edit profile";
+}
+@section head {
+    <link rel="stylesheet" href="/lib/croppie/croppie.css" />
+    <embedCss href="/css/user/edit.css" />
+}
+<div class="picture-uploader" id="background-picture-uploader">
+    <input type="hidden" id="user-id" asp-for="Id" />
+    <input type="hidden" class="picture-data-uri" asp-for="HeaderImageDataUri" />
+    <div class="profile-header picture-preview" style="background: linear-gradient(rgba(127, 143, 164, 0.78), rgba(127, 143, 164, 0.78)),
+                                        url('@(Model.HeaderImageUrl ?? "")') center center / cover">
+        <div class="change-cover">
+            <a class='dropdown-button' href='#' data-activates='background-picture-options'
+               data-constrainwidth="false">
+                <div>
+                    <i class="material-icons">camera_alt</i>
+                </div>
+                <div>
+                    Change Your Background Theme
+                </div>
+            </a>
+            <ul id="background-picture-options" class="dropdown-content picture-options">
+                <li>
+                    <a class="upload-picture-button">Upload Image</a>
+                    <input type="file" class="picture-upload" accept="image/*" style="display: none;" />
+                </li>
+                <li class="divider"></li>
+                <li><a href="#!" class="remove-picture-button" id="remove-header-picture">Remove Image</a></li>
+            </ul>
+        </div>
+        <div>
+            @*<div class="stat">
+                    <div>94</div>
+                    <h6>Stories</h6>
+                </div>
+                <div class="stat">
+                    <div>34</div>
+                    <h6>Following</h6>
+                </div>
+                <div class="stat">
+                    <div>35</div>
+                    <h6>Followers</h6>
+                </div>*@
+        </div>
+        @*<div class="header-buttons">
+                <div>
+                    <a class="waves-effect waves-light btn follow">follow</a>
+                </div>
+                <div>
+                    <a class="waves-effect waves-light btn edit">edit</a>
+                </div>
+            </div>*@
+    </div>
+</div>
+<div class="container">
+    <div class="profile-basic-info" id="profile-picture-uploader">
+        <div class="picture-preview" style="background: linear-gradient(rgba(74, 73, 74, 0.78), rgba(74, 73, 74, 0.78)),
+                                        url('@(User?.FindFirst("picture")?.Value ?? "/images/no-avatar.jpg")') center center / cover">
+            <input type="hidden" class="picture-data-uri" asp-for="PictureDataUri" />
+            <a class='dropdown-button' href='#' data-activates='profile-picture-options'
+               data-constrainwidth="false">
+                <div>
+                    <i class="material-icons">camera_alt</i>
+                </div>
+                <div>
+                    Change Image
+                </div>
+            </a>
+
+            <ul id="profile-picture-options" class="dropdown-content picture-options">
+                <li>
+                    <a class="upload-picture-button">Upload Image</a>
+                    <input type="file" class="picture-upload" accept="image/*" style="display: none;" />
+                </li>
+                <li class="divider"></li>
+                <li><a href="#!" class="remove-picture-button" id="remove-profile-picture">Remove Image</a></li>
+            </ul>
+        </div>
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="row">
+                <div class="input-field col s12">
+                    <input disabled asp-for="Email" />
+                    <label asp-for="Email"></label>
+                </div>
+            </div>
+            @inject Yooocan.Dal.ApplicationDbContext DbContext
+            {
+                var facebookAppScopedId = DbContext.UserLogins.Where(x => x.UserId == Model.Id && x.LoginProvider == "Facebook").SingleOrDefault()?.ProviderKey;
+                if (facebookAppScopedId != null)
+                {
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <a href="https://facebook.com/@facebookAppScopedId" target="_blank">Facebook profile</a>
+                        </div>
+                    </div>
+                }
+            }
+        }
+        <h2>
+            <span id="first-name">@(string.IsNullOrEmpty(Model.FirstName) ? "First name" : Model.FirstName)</span>
+            <span class="input-field">
+                <input asp-for="FirstName" id="first-name-textbox" style="display: none" />
+                <label for="first-name-textbox" style="display: none">First name</label>
+            </span>
+            <span id="last-name"> @(string.IsNullOrEmpty(Model.LastName) ? "Last name" : Model.LastName)</span>
+            <span class="input-field">
+                <input asp-for="LastName" id="last-name-textbox" style="display: none" />
+                <label for="last-name-textbox" style="display: none">Last name</label>
+            </span>
+            <a id="edit-user-name" href="#!" class="user-about"><i class="material-icons">edit</i></a>
+        </h2>
+        <h3>About <a id="edit-user-about" href="#!" class="user-about"><i class="material-icons">edit</i></a></h3>
+        <p id="user-about" class="user-about">@(string.IsNullOrEmpty(Model.AboutMe) ? "About me...." : Model.AboutMe)</p>
+        <textarea class="user-about" id="user-about-textarea" asp-for="AboutMe" style="display:none"
+                  placeholder="About Me"></textarea>
+    </div>
+    <div class="modal" id="preview-profile-modal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="crop-preview"></div>
+                <div class="center" style="padding-bottom: 15px">
+                    <button type="button" class="take-picture btn btn-primary">Looks good</button>
+                    <button type="button" class="close-modal btn btn-default">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="preview-background-modal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="crop-preview"></div>
+                <div class="center" style="padding-bottom: 15px">
+                    <button type="button" class="take-picture btn btn-primary">Looks good</button>
+                    <button type="button" class="close-modal btn btn-default">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="stories hide-on-small-only">
+        @{ ViewBag.EditStory = true; }
+        @foreach (var story in Model.Stories)
+        {
+            @Html.Partial("../Home/_FeaturedStoryCard", story)
+        }
+    </div>
+</div>
+@section Scripts{
+    <script src="/dist/User/edit.js" asp-append-version="true"></script>
+}

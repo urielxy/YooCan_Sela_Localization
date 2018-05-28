@@ -1,0 +1,55 @@
+﻿@using Alto.Enums
+@model Alto.Models.Categories.InsuranceRegisterationModel
+
+<form id="insurance-registeration" asp-controller="Category" asp-action="InsuranceRegisteration" Method="post">
+    <embedcss Href="/css/Category/InsuranceRegisteration"></embedcss>
+    <div class="main">
+        <h2>
+            Alto Insurance Services
+        </h2>
+        <p>We are in the process of collecting tailored offers and discounts related to insurance.</p>
+        <p>Please update me when the following offers are ready, so I can decide if I would like to subscribe:</p>
+
+        @foreach (var enumValue in Html.GetEnumSelectList(typeof(FutureService)))
+        {
+            <div>
+                <input name="FutureServices[]" type="checkbox" id="future-service-@enumValue.Value" value="@enumValue.Value" class="with-gap" />
+                <label for="future-service-@enumValue.Value">@enumValue.Text</label>
+            </div>
+        }
+        <h6 class="leave-details">Leave your details:</h6>
+        <div class="row">
+            <div class="col xs12 m4">
+                <div class="input-field">
+                    <input required asp-for="FirstName" class="validate" />
+                    <label asp-for="FirstName"></label>
+                </div>
+            </div>
+            <div class="col xs12 m4">
+                <div class="input-field">
+                    <input required asp-for="LastName" class="validate" />
+                    <label asp-for="LastName"></label>
+                </div>
+            </div>
+            <div class="col xs12 m4">
+                <div class="input-field">
+                    <input required asp-for="Email" class="validate" />
+                    <label asp-for="Email"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <button type="submit" class="btn done waves-effect">DONE</button>
+    </footer>
+</form>
+@if (ViewBag.IsAjax)
+{
+    <script src="/scripts/Category/InsuranceRegisteration.js"></script>
+}
+else
+{
+    @section scripts{
+        <script src="/scripts/Category/InsuranceRegisteration.js"></script>
+    }
+}

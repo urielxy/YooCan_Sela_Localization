@@ -1,0 +1,45 @@
+﻿@using Yooocan.Models.Categories
+@using Yooocan.Models.Benefits
+@model List<AltoCategoryFeedModel>
+@{
+    ViewBag.Title = "Benefits";
+}
+@section head{
+    <meta property="og:image" itemprop="image primaryImageOfPage" content="/images/benefit/benefits-header.jpg" />
+    <meta property="og:image:width" content="1140" />
+    <meta property="og:image:height" content="250" />
+    <meta name="description" content="Browse discounts, rewards and benefits" />
+    <embedcss href="/css/Shared/WideContainer.css"></embedcss>
+    <embedcss Href="/css/Benefit/Category.css"></embedcss>
+}
+<section id="category-page">
+    <header class="page-header"
+            style="background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/images/benefit/benefits-header.jpg')">
+        <h1>yoocan Benefits</h1>
+    </header>
+    <div class="container wide">
+        <div class="menu-col hide-on-small-and-down">
+            <a href="/"><i class="material-icons left-sign">keyboard_arrow_left</i>HOME</a>
+            <embedcss Href="/css/Benefit/Menu.css"></embedcss>
+            @foreach (var category in Model)
+            {
+                @Html.Partial("_Menu", category)
+            }
+        </div>
+        <div class="content-col">
+            @Html.Partial("_CardStrips", new AltoCategoryFeedModel
+            {
+                BenefitsStrips = Model.SelectMany(x => x.BenefitsStrips).Select(x => new BenefitsStripModel
+                {
+                    Title = x.Title,
+                    TitleLink = Url.Action("Category", new { Id = x.Benefits.FirstOrDefault()?.CategoryId, CategoryName = x.Benefits.FirstOrDefault()?.CategoryName }),
+                    Benefits = x.Benefits.Take(8).ToList()
+                }).ToList()
+            })
+        </div>
+    </div>
+</section>
+@section scripts{
+    <script src="https://unpkg.com/flickity@2.0/dist/flickity.pkgd.min.js" asp-fallback-src="/lib/flickity/dist/flickity.pkgd.min.js" asp-fallback-test="window.Flickity"></script>
+    <script src="/dist/Benefit/Strips.js" asp-append-version="true"></script>
+}

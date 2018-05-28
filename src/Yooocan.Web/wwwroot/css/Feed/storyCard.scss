@@ -1,0 +1,180 @@
+﻿@import "../_common.scss";
+@import "../_variables.scss";
+
+$themes: ( light: ( foreground: #818a8c, title: #3c3d41, background: #fff, separator-opacity: 0.5 ), dark: ( foreground: #bababa, title: #fff, background: #3c3d41, separator-opacity: 0.16 ) );
+
+@mixin title($color) {
+    font-size: 15px;
+    font-weight: bold;
+    color: $color;
+    margin-top: 1px;
+    line-height: 1.2;
+    margin-bottom: 10px;
+}
+
+@mixin story-card-theme($name) {
+    $theme: map-get($themes, $name);
+
+    $foreground: map-get($theme, 'foreground');
+    $title: map-get($theme, 'title');
+    $background: map-get($theme, 'background');
+    $separator-opacity: map-get($theme, 'separator-opacity');
+
+    .story-card-#{$name} {
+        font-family: Montserrat;
+
+        .card {
+            height: 340px;
+            display: flex;
+            flex-direction: column;
+            background-color: $background;
+
+            p.content {
+                font-family: Source Sans Pro;
+                font-size: 14px;
+                line-height: 1.29;
+                color: $foreground;
+            }
+        }
+
+        .card-image {
+            max-height: 200px;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+
+            img {
+                opacity: 0;
+            }
+        }
+
+        .card-description {
+            overflow-y: hidden;
+        }
+
+        .tag-container {
+            position: absolute;
+            top: 20px;
+            left: 30px;
+        }
+
+        @include tag;
+
+        h3 {
+            @include title($title);
+        }
+
+        .line {
+            margin-top: auto;
+            width: 100%;
+            border: solid 1px #eeeeee;
+            opacity: $separator-opacity;
+        }
+
+        .card-content {
+            padding: 5px 20px;
+        }
+
+        .social {
+
+            img {
+                width: 13px;
+                height: 13px;
+                vertical-align: middle;
+            }
+
+            span {
+                font-size: 12px;
+                color: $foreground;
+                margin-right: 7px;
+                vertical-align: middle;
+            }
+        }
+    }
+}
+
+@each $theme in map-keys($themes) {
+    @include story-card-theme($theme);
+}
+
+.image-story-card {
+    @include tag;
+
+    .card {
+        background-position: center;
+        background-size: cover;
+        height: 340px;
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: space-between;
+    }
+
+    .tag-container {
+        margin-bottom: 8px;
+    }
+
+    .card-content {
+        padding-bottom: 0px;
+        text-align: left;
+    }
+
+    .author-details {
+        padding: 20px;
+        margin: 0;
+
+        .author-avatar {
+            img {
+                border: solid 1px #ff9e2f;
+                width: 36px;
+                height: 36px;
+                border-radius: 35px;
+                font-size: 12px;
+            }
+        }
+
+        .author-country {
+            margin: 5px 0;
+
+            img {
+                height: 20px;
+            }
+        }
+
+        .author-name {
+            margin: 0;
+        }
+    }
+
+    .product-recommendation-tag {
+        .hook-hole {
+            margin: 12px auto;
+            width: 27%;
+            padding-bottom: 11.44%;
+            background-size: cover;
+            background-position: center;
+            background-image: url('https://yooocanlive.azureedge.net/static/images/hookhole.png');
+            background-repeat: no-repeat;
+        }
+
+        .tag-text {
+            font-size: 12px;
+            font-weight: 500;
+            text-align: center;
+            color: #fff;
+
+            @media #{$small-and-down} {
+                font-size: 14px;
+            }
+        }
+    }
+
+    h3, .author-name {
+        @include title(#fff);
+    }
+
+    &:hover {
+        .product-recommendation-tag .hook-hole {
+            background-image: url('https://yooocanlive.azureedge.net/static/images/hookholehover.png');
+        }
+    }
+}

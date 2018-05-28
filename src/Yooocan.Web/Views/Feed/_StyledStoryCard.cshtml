@@ -1,0 +1,2 @@
+﻿@model StoryCardModel
+@(Model.IsImageCard || Model.IsProductsReviewed ? Html.Partial("_BackgroundImageStoryCard", Model) : Html.Partial("_StoryCard", Model))

@@ -1,0 +1,74 @@
+﻿@model Yooocan.Models.Feeds.FeedCategoryModel
+@{
+    //prevents negative z-indexes down the road - some browsers misbehave with them
+    const int zIndexConst = 1000;
+    ViewBag.FullScreenStoryCards = true;
+}
+<div class="page" style="z-index: @zIndexConst; transform: rotateX(180deg);">
+    <div class="back">
+        <div class="inner">
+            @Html.Partial("_StyledStoryCard", Model.Stories.First())
+        </div>
+    </div>
+</div>
+@for (var i = 1; i < Model.Stories.Count; i++)
+{
+    <div class="page @(i >= Model.SelectedStoryId - 2 && i <= Model.SelectedStoryId + 2 ? "" : "hide")"
+         style="@(Model.SelectedStoryId >= i ? $"transform: rotateX(180deg); z-index: {i + zIndexConst}" :
+                                     $"z-index: {Model.Stories.Count - i + 1 + zIndexConst};")">
+        <div class="front">
+            <div class="inner">
+                @Html.Partial("_StyledStoryCard", Model.Stories[i - 1])
+            </div>
+        </div>
+        <div class="back">
+            <div class="inner">
+                @Html.Partial("_StyledStoryCard", Model.Stories[i])
+            </div>
+        </div>
+    </div>
+}
+<div class="page" style="z-index: @(zIndexConst + 1)">
+    <div class="front">
+        <div class="inner">
+            @Html.Partial("_StyledStoryCard", Model.Stories[Model.Stories.Count - 1])
+        </div>
+    </div>
+    <div class="back">
+        <div class="inner">
+            <div class="preloader">
+                <div id="load-more-preloader" class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div><div class="gap-patch">
+                            <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page" style="z-index: 0">
+    <div class="front">
+        <div class="error-message red-text" style="display: none;">
+            An error occurred, please try again later.
+        </div>
+        <div class="preloader">
+            <div id="load-more-preloader" class="preloader-wrapper big active">
+                <div class="spinner-layer spinner-blue-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div><div class="gap-patch">
+                        <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

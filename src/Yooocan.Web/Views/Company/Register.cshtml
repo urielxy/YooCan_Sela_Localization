@@ -1,0 +1,241 @@
+﻿@{
+    ViewData["Title"] = "Company Registration";
+    ViewBag.CanonicalUrl = Url.Action("Register");
+}
+@using Yooocan.Enums.Company
+@model Yooocan.Models.Company.CompanyRegisterModel
+@section head {
+    <meta name="description" content="Fill out this form to sell your products or services on yoocan." />
+    <link rel="stylesheet" href="/lib/croppie/croppie.css" />
+    <embedcss href="/css/Shared/WideContainer.css"></embedcss>
+    <embedcss href="/css/Company/Edit.css"></embedcss>
+}
+<div class="container wide">
+    <h1>
+        Welcome to the yoocan vendor registration form
+    </h1>
+    <div class="row">
+        <div asp-validation-summary="ModelOnly"></div>
+        <form class="col offset-m2 m8" method="post" id="company-form">
+            <div class="row">
+                <div class="col m4 s12">
+                    <div id="image-uploader">
+                        <div class="picture-preview">
+                            <input type="hidden" class="picture-data-uri" asp-for="LogoDataUri" />
+                            <a class="upload-picture-button" href="#!"><i class="material-icons">photo_camera</i></a>
+                            <input type="file" class="picture-upload" accept="image/*" style="display: none;" />
+                        </div>
+                        <span class="upload-label">Press the camera to upload your company logo *</span>
+                        <span asp-validation-for="LogoDataUri"></span>
+                    </div>
+                    <div class="modal" id="preview-image-modal" tabindex="-1">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="crop-preview"></div>
+                                <div class="center" style="padding-bottom: 15px">
+                                    <button type="button" class="take-picture btn btn-primary">Looks good</button>
+                                    <button type="button" class="close-modal btn btn-default">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col m4 s12">
+                    <div class="input-field">
+                        <input class="validate" asp-for="Name">
+                        <label asp-for="Name"></label>
+                        <span asp-validation-for="Name"></span>
+                    </div>
+                </div>
+                <div class="col m4 s12">
+                    <div class="input-field">
+                        <input class="validate" asp-for="WebsiteUrl" placeholder="http://example.com">
+                        <label asp-for="WebsiteUrl"></label>
+                        <span asp-validation-for="WebsiteUrl"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <div class="input-field">
+                        <textarea asp-for="About" class="materialize-textarea"></textarea>
+                        <label asp-for="About">Tell yoocan members about your company or brand (Please try to keep it 100 words or less)</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s12">
+                    <div class="input-field">
+                        <select asp-for="CategoryIds" asp-items="@(new SelectList(Model.MainCategories, nameof(CategoryModel.Id), nameof(CategoryModel.Name)))" multiple>
+                            <option value="" disabled>Choose Categories</option>
+                        </select>
+                        <label asp-for="CategoryIds">Choose the most relevant categories to be featured in</label>
+                        <span asp-validation-for="CategoryIds"></span>
+                    </div>
+                </div>
+                <div class="col s12">
+                    <div class="input-field">
+                        <input type="text" asp-for="OtherRequestedCategories">
+                        <label asp-for="OtherRequestedCategories">Recommend a new category that is a better fit</label>
+                        <span asp-validation-for="OtherRequestedCategories"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <div class="input-field">
+                        <select asp-for="BusinessType" asp-items="@Html.GetEnumSelectList(typeof(BusinessType))">
+                            <option value="" selected disabled>Choose business type</option>
+                        </select>
+                        <label asp-for="BusinessType"></label>
+                        <span asp-validation-for="BusinessType"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <h2>Company Contact Details</h2>
+                </div>
+                <div class="col m6 s12">
+                    <div class="input-group">
+                        <div class="input-field">
+                            <input asp-for="TelephoneNumber" type="tel" class="validate">
+                            <label asp-for="TelephoneNumber"></label>
+                            <span asp-validation-for="TelephoneNumber"></span>
+                        </div>
+                        <div class="input-field">
+                            <input asp-for="FaxNumber" type="tel" class="validate">
+                            <label asp-for="FaxNumber"></label>
+                            <span asp-validation-for="FaxNumber"></span>
+                        </div>
+                        <div class="input-field">
+                            <input asp-for="TollFreeNumber" type="tel" class="validate">
+                            <label asp-for="TollFreeNumber"></label>
+                            <span asp-validation-for="TollFreeNumber"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col m6 s12">
+                    <div class="input-group">
+                        <div class="input-field">
+                            <input asp-for="Address">
+                            <label asp-for="Address"></label>
+                            <span asp-validation-for="Address"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s12">
+                    <h2>Contact Person Details</h2>
+                </div>
+                <div class="col s12">
+                    <div class="input-group">
+                        <div class="row">
+                            <div class="col m4 s12">
+                                <div class="input-field">
+                                    <input class="validate" asp-for="@Model.ContactPersons[0].Name">
+                                    <label>Name</label>
+                                    <span asp-validation-for="@Model.ContactPersons[0].Name"></span>
+                                </div>
+                            </div>
+                            <div class="col m4 s12">
+                                <div class="input-field">
+                                    <input class="validate" asp-for="@Model.ContactPersons[0].Position">
+                                    <label>Position</label>
+                                </div>
+                            </div>
+                            <div class="col m4 s12">
+                                <div class="input-field">
+                                    <input type="email" class="validate" asp-for="@Model.ContactPersons[0].Email">
+                                    <label>Email</label>
+                                    <span asp-validation-for="@Model.ContactPersons[0].Email"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col m4 s12">
+                                <div class="input-field">
+                                    <input class="validate" asp-for="@Model.ContactPersons[0].PhoneExtension">
+                                    <label>Telephone Extension</label>
+                                </div>
+                            </div>
+                            <div class="col m4 s12">
+                                <div class="input-field">
+                                    <input type="tel" class="validate" asp-for="@Model.ContactPersons[0].MobileNumber">
+                                    <label>Mobile Number</label>
+                                </div>
+                            </div>
+                            <div class="col m4 s12">
+                                <div class="input-field">
+                                    <input class="validate" asp-for="@Model.ContactPersons[0].Skype">
+                                    <label>Skype Address</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*@if (User.IsInRole("Admin"))
+                {
+                    <input type="hidden" asp-for="Email" value="noneed@@yoocantech.com" />
+                    <input type="hidden" asp-for="Password" value="1" />
+                    <input type="hidden" asp-for="ConfirmPassword" value="1" />
+                }
+                else
+                {
+                    <div class="row">
+                        <div class="col s12">
+                            <h2>Create your account</h2>
+                            <p>Please enter your email and choose a password to log in to the site</p>
+                        </div>
+                        <div class="col s12">
+                            <div class="input-group">
+                                <div class="row">
+                                    <div class="col m4 s12">
+                                        <div class="input-field">
+                                            <input asp-for="Email" type="email" class="validate">
+                                            <label asp-for="Email"></label>
+                                            <span asp-validation-for="Email"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col m4 s12">
+                                        <div class="input-field">
+                                            <input asp-for="Password" type="password" class="validate">
+                                            <label asp-for="Password"></label>
+                                            <span asp-validation-for="Password"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col m4 s12">
+                                        <div class="input-field">
+                                            <input asp-for="ConfirmPassword" type="password" class="validate">
+                                            <label asp-for="ConfirmPassword"></label>
+                                            <span asp-validation-for="ConfirmPassword"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }*@
+            <div class="row">
+                <div class="col s12">
+                    <button class="btn submit">Register</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <span class="grey-text">* indicates required field</span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section scripts
+    {
+    <script src="/lib/croppie/croppie.js" asp-append-version="true"></script>
+    <script src="/dist/Company/Edit.js" asp-append-version="true"></script>
+    @*<script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>*@
+}

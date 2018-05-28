@@ -1,0 +1,85 @@
+﻿@import '../_variables.scss';
+#editors-choice {
+    font-family: Source Sans Pro;
+    margin-top: 14px;
+
+    &:not(.affix) {
+        top: 0 !important;
+    }
+
+    #editors-picks {
+        font-size: 14px;
+        letter-spacing: 0.8px;
+        color: #7f8fa4;
+        line-height: 14px;
+    }
+
+    #stories-worth-talking {
+        font-size: 14px;
+        letter-spacing: 0.7px;
+        color: #4a4a4a;
+    }
+
+    .line {
+        margin-top: 7px;
+        margin-bottom: 20px;
+        width: 100%;
+        border: solid 1px #9b9b9b;
+    }
+
+    .featured-story a {
+        display: flex;
+        margin-bottom: 15px;
+
+        .avatar-container {
+            margin-right: 9px;
+
+            .avatar {
+                width: 32px;
+                height: 32px;
+                border-radius: 16px;
+                margin-top: 3px;
+            }
+        }
+
+        .title {
+            flex: 1;
+            font-size: 14px;
+            line-height: 1.14;
+            letter-spacing: 0.7px;
+            color: #4a4a4a;
+            display: inline-block;
+        }
+
+        .author-name {
+            margin-top: 5px;
+            font-size: 14px;
+            line-height: 1.14;
+            letter-spacing: 0.7px;
+            color: #7f8fa4;
+        }
+
+        .story:hover div {
+            font-weight: bold;
+        }
+    }
+}
+
+#editors-choice.affix {
+    top: 8px;
+    width: 252.6px;
+    width: calc(90%* 0.25 - 48px);
+    position: fixed !important;
+}
+
+@media #{$medium-and-up} {
+    #editors-choice.affix {
+        width: 970px * 0.25 - 48px;
+    }
+}
+
+@media #{$large-and-up} {
+    #editors-choice.affix {
+        width: 1170px * 0.25 - 48px;
+    }
+}

@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Yooocan.Models.PublishStoryModel>
+@using System.Text.Encodings.Web
+@{
+    ViewBag.Title = "Publish story";
+    var isShowDeleted = Context.Request.Query["ShowDeleted"].ToString() == "true";
+    var isShowCompetition = Context.Request.Query["ShowCompetitionEntries"].ToString() == "true";
+}
+<style>
+    #approve-stories-table form {
+        display: inline
+    }
+
+    #approve-stories-table th.btn-header {
+        padding-left: 12px;
+    }
+</style>
+<h1>Publish Story</h1>
+<form asp-action="PublishStory" method="get">
+    <ul>
+        @if (!isShowCompetition)
+        {
+            <li>
+                <input type="checkbox" id="ShowDeleted" name="ShowDeleted" value="true" checked="@isShowDeleted" onChange="this.form.submit()" />
+                <label for="ShowDeleted">Show Deleted</label>
+            </li>
+        }
+        @if (!isShowDeleted)
+        {
+            <li>
+                <input type="checkbox" id="ShowCompetitionEntries" name="ShowCompetitionEntries" value="true" checked="@isShowCompetition" onChange="this.form.submit()" />
+                <label for="ShowCompetitionEntries">Show Competition Entries</label>
+            </li>
+        }
+    </ul>
+</form>
+<table class="table table-hover table-striped table-bordered" id="approve-stories-table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Author</th>
+            @if (!isShowDeleted)
+            {
+                <th>View</th>
+                <th>Edit</th>
+                <th class="btn-header">Publish</th>
+            }
+            <th class="btn-header">DELETE</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var story in Model)
+        {
+            <tr>
+                <th>@story.Id</th>
+                <th>@story.Title</th>
+                <th>@story.AuthorName</th>
+                @if (!isShowDeleted)
+                {
+                    <th><a class="btn btn-secondary" asp-action="Index" asp-route-id="@story.Id" target="_Blank">View</a></th>
+                    <th><a class="btn btn-secondary" asp-action="Edit" asp-route-id="@story.Id" target="_Blank">Edit</a></th>
+                    <th>
+                        @if (!isShowCompetition)
+                        {
+                            <form asp-action="PublishStory" method="post">
+                                <button class="btn btn-info" value="@story.Id" name="storyId">Publish</button>
+                            </form>
+                        }
+                    </th>
+                }
+                <th>
+                    <form asp-action="Delete" method="POST" onsubmit="return @(isShowDeleted ? "true" : "false") || confirm('Do you want to delete story `@(string.IsNullOrEmpty(story.Title) ? story.Id.ToString() : JavaScriptEncoder.Default.Encode(story.Title))`?');">
+                        <button class="btn @(isShowDeleted ? "green" : "red")" value="@story.Id" name="storyId">@(isShowDeleted ? "UNDELETE" : "DELETE!")</button>
+                    </form>
+                </th>
+            </tr>
+        }
+    </tbody>
+</table>

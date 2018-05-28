@@ -1,0 +1,22 @@
+﻿<form asp-action="StoryOfTheDay" method="post">
+    <div asp-validation-summary="All"></div>
+    <h3 class="center">Send story of the day email</h3>
+    <div class="row">
+        <div class="col s12 m4 offset-m4 input-field ">
+            <input id="id" name="id" placeholder="Story id"/>
+            <label for="id">STORY ID</label>
+        </div>
+        <div class="col s12 m4 offset-m4 input-field ">
+            <textarea name="text" class="materialize-textarea" placeholder="Highlight of the story"></textarea>
+        </div>
+        <div class="col s12 m4 offset-m4 input-field ">
+            <input id="recipient" name="recipient" placeholder="Use for test before sending" />
+            <label for="recipient">TEST EMAIL ADDRESS</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col m8">
+            <button type="submit" class="btn right waves-effect waves-light" style="border-radius: 100px; background-color: #5c8dde;">Send Emails</button>
+        </div>
+    </div>
+</form>

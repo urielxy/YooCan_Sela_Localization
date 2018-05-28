@@ -1,0 +1,136 @@
+﻿@using Yooocan.Enums
+@inject Yooocan.Logic.Images.ImageUrlOptimizer ImageUrlOptimizer
+@model Yooocan.Models.Products.ProductModel
+@{
+    ViewBag.Title = Model.Name;
+    var discount = Model.Discount.ToString($"{(Model.DiscountType == RateType.Percentage ? "0\\%" : "C")}");
+    const int fullWidth = 600;
+}
+<embedcss href="/css/Product/IndexMobile.css"></embedcss>
+<section id="product-page" data-product-name="@Model.Name">
+    <div class="container">
+        <h4 class="name">@Model.Name</h4>
+        <h4 class="company-name">@Model.CompanyName</h4>
+
+        <div class="images-carousel @(Model.YouTubeId != null ? "video" :"")">
+            <div class="carousel-cell"><img src="@ImageUrlOptimizer.GetOptimizedUrl(Model.MainImageUrl, fullWidth)" /></div>
+            @foreach (var image in Model.Images)
+            {
+                <div class="carousel-cell"><img src="@ImageUrlOptimizer.GetOptimizedUrl(image, fullWidth)" /></div>
+            }
+            @if (Model.YouTubeId != null)
+            {
+                <div class="carousel-cell">
+                    <div class="video-container">
+                        <iframe src="//www.youtube.com/embed/@Model.YouTubeId?rel=0" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
+            }
+        </div>
+        @*@if (Model.Variations.Any())
+                {
+                <input type="hidden" id="getCombinationsUrl" value="@Url.Action("GetCombinations", "Product", new {id = Model.Id})" />
+            }
+            @foreach (var variation in Model.Variations)
+            {
+                <div class="select-container valign-wrapper">
+                    <label for="var-@variation.Id">@variation.Name</label>
+                    <select required id="var-@variation.Id" name="var-@variation.Id" class="browser-default var">
+                        <option value="">-SELECT-</option>
+                        @foreach (var option in variation.Variations)
+                        {
+                            <option value="@option.Key">@option.Value</option>
+                        }
+                    </select>
+                </div>
+            }*@
+        @if (Model.Price == 0 && Model.DiscountPercentage == 100)
+        {
+            <div class="saving-container">
+                <span class="saved-raw">FREE</span>
+            </div>
+        }
+        else if (Model.Price > 0)
+        {
+            if (Model.DiscountAbsolute > 0 || Model.DiscountPercentage > 0)
+            {
+                <div class="saving-container"
+                     data-discount-percentage="@Model.DiscountPercentage"
+                     data-discount-absolute="@Model.DiscountAbsolute"
+                     data-discount-type="@((int)Model.DiscountType)">
+                    <span class="you-save">YOU SAVE</span>
+                    <span class="saved-raw">@Model.DiscountAbsolute.ToString("C")</span>
+                    <span class="saved-percentage">(@Model.DiscountPercentage.ToString("0\\%"))</span>
+                </div>
+                <div class="list-price-container">
+                    List Price: <span class="list-price-deleted"><span>@Model.Price.ToString("C")</span></span>
+                </div>
+                <div class="price-container">
+                    Member Price: <span id="member-price" data-base-price="@Model.Price">@Model.PriceAfterDiscount.ToString("C")</span>
+                </div>
+            }
+            else
+            {
+                <div class="price-container">
+                    <span id="member-price" data-base-price="@Model.Price">@Model.PriceAfterDiscount.ToString("C")</span>
+                </div>
+            }
+            if (Model.IsSoldOnSite)
+            {
+                <section class="shipping">
+                    <h6>Shipping:</h6>
+                    <div>
+                        <span id="shipping-cost">@(Model.ShippingPrice == 0 ? "FREE Shipping" : Model.ShippingPrice.ToString("C"))</span>
+                    </div>
+                </section>
+            }
+        }
+        else if(Model.DiscountAbsolute > 0 || Model.DiscountPercentage > 0)
+        {
+            <div class="saving-container">
+                <span class="you-save">YOU SAVE</span>
+                <span class="saved-raw">@discount</span>
+            </div>
+        }
+        @if (!Context.User.Identity.IsAuthenticated)
+        {
+            <a target="_Blank" rel="nofollow noopener" class="btn buy-subscribe-button buy-button"
+               href="#!">Register & Buy Now</a>
+            <div class="line"></div>
+        }
+        @*else if (Model.IsSoldOnSite)
+            {
+                <div id="paypal-button" data-create-url="@Url.Action("Create", "Order", new {Model.Id})"
+                     data-execute-url="@Url.Action("Execute", "Order")"
+                     data-environment="@(PayPalOptions.Value.PayPalIsProduction ? "production" : "sandbox")"></div>
+                <div class="credit-card-note">*Option to pay by credit card</div>
+            }*@
+        else
+        {
+            <a target="_Blank" rel="nofollow noopener" class="btn redirect-button buy-button"
+               asp-controller="External" asp-action="Product" asp-route-id="@Model.Id">Buy Now</a>
+            if (Model.CompanyIsForeignCurrency)
+            {
+                <div class="price-conversion-message">
+                    <span class="red-text">* Price is converted from another currency</span>
+                </div>
+            }
+        }
+        <div class="content">@Html.Raw(Model.About)</div>
+        @Html.Partial("_RedirectWindow", Model)
+        @if (!Model.IsTravel)
+        {
+            @Html.Partial("_ProductsStrip", Model.RelatedProducts)
+        }
+    </div>
+</section>
+@section scripts{
+    <script src="https://unpkg.com/flickity@2.0/dist/flickity.pkgd.min.js" asp-fallback-src="/lib/flickity/dist/flickity.pkgd.min.js" asp-fallback-test="window.Flickity"></script>
+    <script src="/dist/Product/Index.js" asp-append-version="true"></script>
+
+    @if (Model.IsSoldOnSite)
+    {
+        <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+        <script src="/dist/Product/IndexPayment.js" asp-append-version="true"></script>
+    }
+}

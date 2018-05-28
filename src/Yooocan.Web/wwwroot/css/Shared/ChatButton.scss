@@ -1,0 +1,41 @@
+﻿@import "../_variables.scss";
+
+#chat-button {
+    position: fixed;
+    bottom: 10px;
+    right: 20px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: 0;
+    background-color: #0071b2;
+    color: #fff;
+    vertical-align: middle;
+    cursor: pointer;
+    font-size: 16px;
+
+    span, i {
+        vertical-align: middle;
+    }
+}
+
+@media #{$small-and-down} {
+    $chat-button-height: 45px;
+    body {
+        //TODO: make the gap disappear or the button to appear for a registered user
+        padding-bottom: 45px;
+    }
+
+    #chat-button {
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 45px;
+        background-color: #ff9e2f;
+        border-radius: 0;
+    }
+}
+
+
+.chat-register-button {
+    display: none;
+}

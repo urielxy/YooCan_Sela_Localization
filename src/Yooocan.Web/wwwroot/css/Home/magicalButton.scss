@@ -1,0 +1,30 @@
+﻿@import '../_variables.scss';
+
+#magical-button-header span {
+    @media #{$large-and-up} {
+        display: block;
+    }
+
+    color: #3a74ff;
+    font-size: 27px;
+    line-height: 33px;
+}
+
+#magical-button {
+    .fb-like {
+        padding: 30px 0 23px 0;
+    }
+
+    iframe {
+        -ms-transform: scale(1.5);
+        -webkit-transform: scale(1.5);
+        -o-transform: scale(1.5);
+        -moz-transform: scale(1.5);
+        transform: scale(1.5);
+        -ms-transform-origin: center;
+        -webkit-transform-origin: center;
+        -moz-transform-origin: center;
+        -webkit-transform-origin: center;
+        transform-origin: center;
+    }
+}

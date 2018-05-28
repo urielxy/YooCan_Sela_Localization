@@ -1,0 +1,65 @@
+﻿@import '../_common.scss';
+
+.activity-card {
+    .card {
+        margin-top: 0;
+    }
+
+
+    .name {
+        font-size: 20px;
+        font-weight: bold;
+        color: #3c3d41;
+        margin-top: 1px;
+    }
+
+    .card-content {
+        p.content {
+            margin-top: 10px !important;
+            font-family: Source Sans Pro;
+            font-size: 14px;
+            line-height: 1.29;
+            color: #818a8c;
+            padding-right: 100px;
+        }
+    }
+
+    .line {
+        width: 66%;
+        opacity: 0.16;
+        margin-top: 16px;
+        margin-bottom: 10px;
+        border: solid 1px #4a4a4a;
+    }
+
+    .details {
+        display: flex;
+        align-content: space-between;
+
+        span {
+            flex:1;
+            i {
+                font-size: 13px;
+                color: #348f50;
+                background: -webkit-linear-gradient(#348f50, #149dca);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            .span {
+                font-family: Source Sans Pro;
+                font-size: 14px;
+                color: #4a4a4a;
+            }
+        }
+    }
+
+    .card-image {
+        background-position: center;
+        max-height: 300px;
+
+        img {
+            visibility: hidden;
+        }
+    }
+}

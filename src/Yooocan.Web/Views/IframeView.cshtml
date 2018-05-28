@@ -1,0 +1,13 @@
+﻿<iframe id="iframe" src="@ViewBag.Url" height="800" width="1000" style="width: 100%; overflow: hidden; margin: 0; padding: 0; border: 0"></iframe>
+@section scripts {
+    <script>
+        var $iframe = $("#iframe");
+        $("#iframe")
+            .on("load", function () {
+                $iframe.height(800);
+                $iframe.height((this.contentWindow.document.body.scrollHeight + 5) + "px");
+                document.title = this.contentDocument.title;
+                window.scrollTo(0, 0);
+            });
+    </script>
+}

@@ -1,0 +1,85 @@
+﻿@using Alto.Models.Account.Claims
+@model Alto.Models.Account.RegisterModel
+@{
+    ViewBag.Title = "Register";
+    ViewBag.IsCompletionNeeded = Context.Request.Query["isCompletionNeeded"] == "true";
+
+    var isAjax = Context.Request.IsAjaxRequest();
+    if (isAjax)
+    {
+        Layout = null;
+    } //So won't go back to the register page after successful login
+    else
+    {
+        ViewBag.ReturnUrl = ViewBag.ReturnUrl ?? "/";
+    }
+}
+<embedcss Href="/css/Account/Register" />
+<div id="registration-container" data-payment-replacement="@Context.Request.Query["paymentReplacement"].ToString()">
+    <div>
+        @if (ViewBag.IsCompletionNeeded == true)
+        {
+            <div class="completion-message">* @(Model.MembershipState == MembershipState.Expired ? "Your membership has expired." : "") In order to buy and receive the discount you must first join the Alto club.</div>
+        }
+        <div class="steps-container">
+            @Html.Partial("Create")
+            @Html.Partial("UserDetails", Model.UserDetailsModel)
+            @Html.Partial("Payment", Model.PaymentModel)
+            @Html.Partial("MembershipConfirmation")
+        </div>
+    </div>
+</div>
+@if (isAjax)
+{
+    <environment Names="Development">
+        <script src="/Scripts/Account/Register.js" asp-append-version="true"></script>
+        <script src="/Scripts/Account/Create.js" asp-append-version="true"></script>
+        <script src="/Scripts/Account/UserDetails.js" asp-append-version="true"></script>
+        <script>
+            $.ajaxSetup({
+                cache: true
+            });
+            $.getScript("https://www.paypalobjects.com/api/checkout.js").done(function () {
+                $.ajaxSetup({
+                    cache: false
+                });
+                $.getScript("/scripts/Account/Payment.js");
+            });
+        </script>
+    </environment>
+    <environment Names="Staging, Production">
+        <script src="/Scripts/Account/Register.js" asp-append-version="true"></script>
+        <script src="/Scripts/Account/Create.js" asp-append-version="true"></script>
+        <script src="/Scripts/Account/UserDetails.js" asp-append-version="true"></script>
+        <script>
+            $.ajaxSetup({
+                cache: true
+            });
+            $.getScript("https://www.paypalobjects.com/api/checkout.js").done(function () {
+                $.ajaxSetup({
+                    cache: false
+                });
+                $.getScript("/scripts/Account/Payment.js");
+            });
+        </script>
+    </environment>
+}
+else
+{
+    @section scripts {
+        <environment Names="Development">
+            <script src="/Scripts/Account/Register.js" asp-append-version="true"></script>
+            <script src="/Scripts/Account/Create.js" asp-append-version="true"></script>
+            <script src="/Scripts/Account/UserDetails.js" asp-append-version="true"></script>
+            <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+            <script src="/scripts/Account/Payment.js" asp-append-version="true"></script>
+        </environment>
+        <environment Names="Staging, Production">
+            <script src="/Scripts/Account/Register.js" asp-append-version="true"></script>
+            <script src="/Scripts/Account/Create.js" asp-append-version="true"></script>
+            <script src="/Scripts/Account/UserDetails.js" asp-append-version="true"></script>
+            <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+            <script src="/scripts/Account/Payment.js" asp-append-version="true"></script>
+        </environment>
+    }
+}

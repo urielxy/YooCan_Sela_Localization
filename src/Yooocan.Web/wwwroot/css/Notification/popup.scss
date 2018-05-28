@@ -1,0 +1,147 @@
+﻿#notifications-popup-content {
+    overflow: visible;
+
+    $arrow-length: 8px;
+
+    &:before {
+        content: '';
+        display: block;
+        width: 0;
+        height: 0;
+        color: transparent;
+        border: $arrow-length solid #CCC;
+        border-color: transparent transparent #FFF;
+        margin-top: -$arrow-length * 2;
+        margin-left: 20px;
+    }
+
+    ul {
+        padding: 10px 0;
+    }
+
+    li {
+
+        a {
+            padding: 0;
+
+            &:hover {
+                background-color: transparent;
+            }
+        }
+
+        &.unread {
+            background-color: rgba(127, 143, 164, 0.07);
+
+            &:hover {
+                background-color: #eee;
+            }
+        }
+
+        padding: 11px 15px;
+        float: none;
+    }
+
+    $avatar-diameter: 30px;
+
+    .avatar {
+        display: inline-block;
+        vertical-align: top;
+        width: $avatar-diameter;
+        height: $avatar-diameter;
+        position: relative;
+        margin-right: 15px;
+        overflow: visible;
+
+        img {
+            width: $avatar-diameter;
+            height: $avatar-diameter;
+            border-radius: $avatar-diameter;
+        }
+
+        $badge-diameter: 16px;
+
+        .avatar-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            transform: translateX(50%);
+            width: $badge-diameter;
+            height: $badge-diameter;
+            border-radius: $badge-diameter;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            border: solid 1px #e6f0f2;
+
+            i {
+                font-size: 10px;
+                background-position: center;
+                display: inline-block;
+
+                &.FollowerNew::before {
+                    content: 'check';
+                    color: #0ba8e0;
+                }
+
+                &.CommentReply::before {
+                    content: 'reply';
+                    color: #02d4b1;
+                }
+
+                &.CommentNew::before {
+                    content: 'comment';
+                    color: #a63096;
+                }
+
+                &.MessageNew::before {
+                    content: 'message';
+                    color: #a63096;
+                }
+
+                &.StoryNew::before {
+                    display: inline-block;
+                    content: '';
+                    width: 10px;
+                    height: 10px;
+                    background-image: url('/images/new-story-notification-badge.svg');
+                }
+            }
+        }
+    }
+
+    .notification-info {
+        display: inline-block;
+        vertical-align: top;
+
+        h3 {
+            font-family: Source Sans Pro;
+            font-size: 14px;
+            line-height: 1.14;
+            color: #a0b2b8;
+            margin: 0;
+            white-space: normal;
+            max-width: 210px;
+
+            strong {
+                font-size: 14px;
+                font-weight: bold;
+                line-height: 1.14;
+                color: #414d54;
+            }
+        }
+
+        .time {
+            margin: 0;
+            font-family: Source Sans Pro;
+            font-size: 12px;
+            line-height: 1.33;
+            color: #6f7e82;
+        }
+    }
+
+    .empty {
+        color: #000;
+        padding: 15px 30px;
+    }
+}

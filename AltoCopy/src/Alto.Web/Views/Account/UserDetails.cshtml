@@ -1,0 +1,86 @@
+﻿@using Alto.Enums
+@model Alto.Models.Account.UserDetailsModel
+@{
+    ViewBag.Title = "Complete your profile";
+}
+<embedcss Href="/css/Account/UserDetails" />
+<form id="user-details-form" asp-action="UserDetails" asp-route-returnUrl="@ViewBag.ReturnUrl" method="post">
+    <section id="user-details" class="step">
+        <div class="container">
+            <div class="main">
+                <header>
+                    <h1>
+                        Account Owner Information
+                    </h1>
+                    <h2>
+                        (Eligible Individual/Designated Beneficiary)
+                    </h2>
+                    <p>
+                        <span class="red-text">*</span> Indicates Required Field
+                    </p>
+                </header>
+                <div class="row">
+                    <div class="col m4 s12">
+                        <div class="input-field">
+                            <input asp-for="FirstName" />
+                            <label asp-for="FirstName"></label>
+                            <span asp-validation-for="FirstName"></span>
+                        </div>
+                    </div>
+                    <div class="col m4 s12">
+                        <div class="input-field">
+                            <input asp-for="LastName" />
+                            <label asp-for="LastName"></label>
+                            <span asp-validation-for="LastName"></span>
+                        </div>
+                    </div>
+                    <div class="col m4 s12">
+                        <div class="input-field">
+                            <input asp-for="BirthDate" class="date-picker" type="date" />
+                            <label asp-for="BirthDate"></label>
+                            <span asp-validation-for="BirthDate"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col m4 s12">
+                        <div class="input-field">
+                            <input asp-for="City" />
+                            <label asp-for="City"></label>
+                            <span asp-validation-for="City"></span>
+                        </div>
+                    </div>
+                    <div class="col m4 s12">
+                        <div class="input-field">
+                            <input asp-for="ZipCode" type="text" />
+                            <label asp-for="ZipCode"></label>
+                            <span asp-validation-for="ZipCode"></span>
+                        </div>
+                    </div>
+                    <div class="col m4 s12">
+                        <div class="input-field">
+                            <select asp-for="State" asp-items="@Html.GetEnumSelectList(typeof(State))" class="browser-default">
+                                <option selected disabled value="">Choose a state</option>
+                            </select>
+                            <label asp-for="State"></label>
+                            <span asp-validation-for="State"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <div class="input-field">
+                            <input asp-for="Referrer" type="text" />
+                            <label asp-for="Referrer" id="referrer-label"></label>
+                            <span asp-validation-for="Referrer"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="center-align">
+                <button type="button" class="next btn waves-effect">NEXT</button>
+            </div>
+        </div>
+    </section>
+    @Html.Partial("LimitationDetails")
+</form>

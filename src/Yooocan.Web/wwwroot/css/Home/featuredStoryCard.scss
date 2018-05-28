@@ -1,0 +1,111 @@
+﻿@import '../_common.scss';
+@import '../_variables.scss';
+
+.home-featured-story-card {
+    .card {
+        margin-top: 0;
+    }
+
+    .top {
+        display: flex;
+
+        .avatar {
+            width: 55px;
+            height: 55px;
+            border-radius: 27.5px;
+            margin-right: 9px;
+        }
+
+        .title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #3c3d41;
+            margin-top: 1px;
+        }
+
+        @include tag;
+    }
+
+    .card-content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 10px;
+
+        > a.content {
+            flex: 2;
+        }
+
+        p.content {
+            margin-top: 10px !important;
+            font-family: Source Sans Pro;
+            font-size: 14px;
+            line-height: 1.29;
+            color: #818a8c;
+            padding-right: 7%;
+            flex: 2;
+            max-height: 100px;
+            overflow: hidden;
+
+            @media #{$large-and-up} {
+                & {
+                    padding-right: 60px;
+                }
+            }
+        }
+    }
+
+    .btn-flat {
+        margin-top: 15px;
+        border-radius: 20px;
+        border: solid 1px #e1e1e1;
+        font-size: 10px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        text-align: center;
+        color: #3c3d41;
+        max-width: 160px;
+
+        &.edit {
+            font-size: 15px;
+
+            i {
+                font-size: 15px;
+                margin-right: 5px;
+            }
+        }
+    }
+
+    .line {
+        width: 66%;
+        opacity: 0.16;
+        margin-top: 16px;
+        margin-bottom: 10px;
+        border: solid 1px #4a4a4a;
+    }
+
+    .social {
+        img {
+            width: 13px;
+            height: 13px;
+        }
+
+        .span {
+            font-size: 12px;
+            color: #b8c6c7;
+        }
+    }
+
+
+    .card-image {
+        background-position: center;
+        background-repeat: no-repeat;
+        max-height: 300px;
+        overflow: hidden;
+        background-size: contain;
+
+        img {
+            visibility: hidden;
+        }
+    }
+}

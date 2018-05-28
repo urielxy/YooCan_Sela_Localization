@@ -1,0 +1,173 @@
+﻿<style>
+    #video-bg {
+        position: relative;
+        margin: auto;
+    }
+
+    video { display: block; }
+    #whatis-yooocan {
+        text-align: center;
+    }
+
+    .btn-first-timer {
+        padding: 6px 30px;
+    }
+
+    img.registeration {
+        opacity: 0.86;
+    }
+    
+    img.registeration:hover {
+        opacity: 1;
+    }
+
+    #textOnImage.new {
+        top: 45%;
+        font-size: 3.2em;
+    }
+
+    #textOnImage.on-video.registered {
+            margin-top: 10px;
+            top: 53%;
+        }
+
+    @@media (min-width: 1200px) {
+        #textOnImage.on-video.registered {
+            top: 60%;
+        }    
+    }
+    
+    #no-video-slogan {
+        font-size: 21px; 
+        font-weight: normal;
+        padding-top: 6px;
+        text-align: center;
+    }
+
+    #whatis-yooocan form button,
+    #whatis-yooocan form img {
+        display: block;
+        margin: auto;
+    }
+    .registeration {
+        cursor: pointer;
+    }
+
+    @@media (max-width: 767px) {
+        #new-user-tips img {
+            width: 65px;
+        }
+        #top {
+            padding: 0;
+        }
+
+        #new-user-tips {
+            margin: 0;
+        }
+    }
+
+</style>
+
+<section style="position: relative;" id="video-background">
+    <div class="search-area">
+        @{ Html.RenderPartial("_SearchForm", ""); }
+        <div id="limitations-list">
+        </div>
+    </div>
+    <div style="height: 320px;" class="hidden-xs">
+        <video class="visible-lg video-bg" autoplay loop poster="/images/posters/background/1140.jpg">
+            <source src="https://yooocanlive.azureedge.net/videos/background1140.mp4"/>
+            <source src="your-video-file.ogg" type="video/ogg"/>
+            <source src="your-video-file.webm" type="video/webm"/>
+            Your browser does not support the videos.
+        </video>
+        <video class="visible-md video-bg" autoplay loop poster="/images/posters/background/940.jpg">
+            <source src="https://yooocanlive.azureedge.net/videos/background940.mp4"/>
+            <source src="your-video-file.ogg" type="video/ogg"/>
+            <source src="your-video-file.webm" type="video/webm"/>
+            Your browser does not support the videos.
+        </video>
+        <video class="visible-sm video-bg" autoplay loop poster="/images/posters/background/720.jpg">
+            <source src="https://yooocanlive.azureedge.net/videos/background720.mp4"/>
+            <source src="your-video-file.ogg" type="video/ogg"/>
+            <source src="your-video-file.webm" type="video/webm"/>
+            Your browser does not support the videos.
+        </video>
+        <h1 id="textOnImage" class="on-video @(User.Identity.IsAuthenticated ? "registered" : "new")"> YOOOCAN DO ANYTHING</h1>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <p class="text-center" style="font-size: 22px; font-weight: normal; color: white; position: absolute; bottom: 10%; left: 0; right: 0; margin: auto; line-height: 1.1;">
+                DISCOVER, EMPOWER, SHARE
+            </p>
+        }
+        else
+        {
+            <form asp-controller="Account" asp-action="ExternalLogin" class="external-login" method="post" style="position: absolute; position: absolute; bottom: 4%; text-align: center; margin-bottom: 6.5px; width: 100%;">
+                <button type="submit" value="Facebook" name="provider" style="background-color: transparent; border: none;">
+                    <img src="/images/Facebook-first-timer.png" asp-append-version="true" alt="Facebook registeration" class="registeration"/>
+                </button>
+                <button class="hidden-xs hidden-sm hidden-md" type="submit" value="Google" name="provider" style="background-color: transparent; border: none;">
+                    <img src="/images/Google-first-timer.png" alt="Google registeration" class="registeration"/>
+                </button>
+                <img src="/images/email-registeration.png" alt="Email registeration" class="registeration email"/>
+            </form>
+        }
+    </div>
+    <div>
+        <h2 id="banner-no-video" class="hidden visible-xs">YOOOCAN DO ANYTHING</h2>
+        @if (User.Identity.IsAuthenticated)
+        {
+
+            <p id="no-video-slogan" class="hidden visible-xs">
+                DISCOVER, EMPOWER, SHARE
+            </p>
+        }
+    </div>
+</section>
+@if (!User.Identity.IsAuthenticated)
+{
+    <div id="whatis-yooocan">
+        <h3 class="hidden-xs" style="font-size: 33px;">
+            DISCOVER, EMPOWER, SHARE
+        </h3>
+        <form asp-controller="Account" asp-action="ExternalLogin" method="post" class="visible-xs external-login">
+            <button type="submit" value="Facebook" name="provider" style="background-color: transparent; border: none;">
+                <img src="/images/Facebook-first-timer.png" asp-append-version="true" alt="Facebook registeration" class="registeration" />
+            </button>
+            <button class="hidden-sm" type="submit" value="Google" name="provider" style="background-color: transparent; border: none;">
+                <img src="/images/Google-first-timer.png" alt="Google registeration" class="registeration" />
+            </button>
+            <img src="/images/email-registeration.png" alt="Email registeration" class="registeration email" />
+        </form>
+        <div class="row" id="new-user-tips">
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <p id="no-video-slogan" class="hidden visible-xs">
+                    DISCOVER, EMPOWER, SHARE
+                </p>
+            }
+            <div class="col-sm-4">
+                <img src="/images/search.png"/>
+                <p>
+                    EXPLORE EMPOWERING<br/>PERSONAL STORIES
+                </p>
+                <h5 class="hidden-xs hidden-sm hidden-md">Browse stories, videos,<br>photos and activities filtered<br>activity or limitation</h5>
+            </div>
+            <div class="col-sm-4">
+                <img src="/images/person.png"/>
+                <p>
+                    CONNECT AND SHARE<br/>YOUR EXPERIENCE WITH OTHERS
+                </p>
+                <h5 class="hidden-xs hidden-sm hidden-md">Upload and share your own videos and stories,<br> categorize them based on activity and limitation,<br>and give personal tips to help others</h5>
+            </div>
+            <div class="col-sm-4">
+                <img src="/images/cart.png"/>
+                <p>
+                    FIND AND BUY ACTIVITIES,<br/>
+                    PRODUCTS AND INNOVATION
+                </p>
+                <h5 class="hidden-xs hidden-sm hidden-md">Discover what's out there, search ways to get<br>active and find where to buy the newest<br> products and innovation</h5>
+            </div>
+        </div>
+    </div>
+}

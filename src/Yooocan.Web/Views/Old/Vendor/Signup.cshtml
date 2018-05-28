@@ -1,0 +1,448 @@
+@model Yooocan.Models.Vendors.VendorModel
+@using Yooocan.Enums.Vendors
+
+@{
+    ViewData["Title"] = "Register";
+}
+@section Top{
+    <link rel="stylesheet" href="/lib/croppie/croppie.css" />
+    @{ Html.RenderPartial("/Views/Old/_ImageBackground.cshtml", new ImageBackgroundModel { Title = "VENDOR/SELLER REGISTRATION FORM", HideSearch = true }); }
+}
+<style>
+    .logo {
+        font-size: 18px;
+        content: "";
+        width: 100px;
+        height: 100px;
+        background-color: #a9a9a9;
+        border-radius: 7px;
+        display: inline-block;
+        background-image: url("/images/camera.png");
+        background-repeat: no-repeat;
+        background-position-x: 32px;
+        background-position-y: 37px;
+        background-size: 40%;
+        border: 1px solid #cccccc;
+        vertical-align: top;
+        margin-bottom: 15px;
+    }
+
+    #logo-text-container {
+        display: inline-block;
+        position: relative;
+        height: 100px;
+    }
+
+    .logo > img {
+        width: 100px;
+        height: 100px;
+        border-radius: 7px;
+    }
+
+    .bg-image {
+        background-image: url('/images/spPlaceholderHeader.jpg');
+    }
+
+    .form-group h3 {
+        margin-top: 0;
+        font-size: 20px;
+    }
+
+    .fields-group {
+        background-color: lightgray;
+        padding: 15px;
+    }
+
+    #vendor-sign-up .form-control {
+        margin-bottom: 0;
+    }
+
+    fieldset {
+        margin: 16px 0;
+    }
+
+    #vendor-sign-up form {
+        margin-left: 15%;
+        margin-right: 15%;
+    }
+</style>
+
+<section id="vendor-sign-up" class="clearfix">
+    <form asp-controller="Vendor" asp-action="Signup" asp-route-id="@Model.Id">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <input type="hidden" asp-for="LogoUrl" />
+        <div style="margin-top:7px;">
+            <div class="logo">
+                <label for="logo-picture-upload" style="width: 100px; height: 100px; margin-bottom: 0; cursor: pointer;">
+                    <input type="file" id="logo-picture-upload" accept="image/*" style="display: none;" />
+                </label>
+                <div class="modal" id="logo-preview-modal" tabindex="-1">
+                    <div class="modal-dialog modal-lg" style="width: 1200px;">
+                        <div class="modal-content">
+                            <div id="logo-pic-preview"></div>
+                            <div class="text-center" style="padding-bottom: 15px">
+                                <button id="logo-take-picture" type="button" class="btn btn-primary">Looks good</button>
+                                <button id="logo-close-modal" type="button" class="btn btn-default">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="logo-text-container">
+                <h2 style="display: inline; margin-left: 6px; position: absolute; bottom: 0; margin-bottom: 0;">Upload Logo</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <fieldset class="form-group">
+                    <h3 class="font-group-header required">Company name</h3>
+                    <input asp-for="Name" class="form-control" placeholder="Company name" value="@Model.Name" required>
+                </fieldset>
+            </div>
+            <div class="col-md-4">
+                <fieldset class="form-group">
+                    <h3 class="font-group-header">Company code</h3>
+                    <input asp-for="CompanyCode" class="form-control" maxlength="50" placeholder="Company code">
+                </fieldset>
+            </div>
+            <div class="col-md-4">
+                <fieldset class="form-group">
+                    <h3 class="font-group-header">Website</h3>
+                    <input asp-for="WebsiteUrl" class="form-control" placeholder="Enter website's URL">
+                </fieldset>
+            </div>
+        </div>
+        <fieldset class="form-group paragraph-container">
+            <h3 class="font-group-header">Tell us about your company or service</h3>
+            <textarea asp-for="About" class="form-control large-input-field" placeholder="Please try to keep it 100 words or less"></textarea>
+        </fieldset>
+
+        <div class="address-container" id="address-container">
+            <fieldset class="form-group">
+                <h3 class="font-group-header">Address</h3>
+                <input asp-for="LocationText" type="text" class="form-control" placeholder="Exact address">
+                <input type="hidden" asp-for="StreetNumber" data-type="street_number" />
+                <input type="hidden" asp-for="StreetName" data-type="route" />
+                <input type="hidden" asp-for="City" data-type="locality" />
+                <input type="hidden" asp-for="State" data-type="administrative_area_level_1" />
+                <input type="hidden" asp-for="PostalCode" data-type="postal_code" />
+                <input type="hidden" asp-for="Country" data-type="country" />
+                <input type="hidden" asp-for="Latitude" data-type="Latitude" />
+                <input type="hidden" asp-for="Longitude" data-type="Longitude" />
+                <input type="hidden" asp-for="GooglePlaceId" />
+            </fieldset>
+        </div>
+        <div style="display: inline-block">
+            <div id="company-address-map" class="company-address-map"></div>
+        </div>
+        <h3>Company Contact Details</h3>
+        <div class="fields-group">
+            <div class="row">
+                <div class="col-sm-6 col-md-4">
+                    <fieldset class="form-group">
+                        <h3 class="font-group-header required">Office number</h3>
+                        <input asp-for="TelephoneNumber" type="tel" class="form-control" placeholder="987-654-3210" required>
+                    </fieldset>
+                </div>
+                <div class="col-sm-6 col-md-4">
+                    <fieldset class="form-group">
+                        <h3 class="font-group-header">Toll-free number</h3>
+                        <input asp-for="TollFreeNumber" type="tel" class="form-control" placeholder="1-800-123-4567">
+                    </fieldset>
+                </div>
+                <div class="col-sm-6 col-md-4">
+                    <fieldset class="form-group">
+                        <h3 class="font-group-header">Fax number</h3>
+                        <input asp-for="FaxNumber" type="tel" class="form-control" placeholder="987-654-3210">
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <h3>Social Media</h3>
+        <div class="fields-group">
+            <div class="row">
+                <div class="col-sm-6 col-md-4">
+                    <fieldset class="form-group">
+                        <h3 class="font-group-header">Facebook</h3>
+                        <input asp-for="Facebook" class="form-control" placeholder="www">
+                    </fieldset>
+                </div>
+                <div class="col-sm-6 col-md-4">
+                    <fieldset class="form-group">
+                        <h3 class="font-group-header">Twitter</h3>
+                        <input asp-for="Twitter" class="form-control" placeholder="@@">
+                    </fieldset>
+                </div>
+                <div class="col-sm-6 col-md-4">
+                    <fieldset class="form-group">
+                        <h3 class="font-group-header">Instagram</h3>
+                        <input asp-for="Instagram" class="form-control" placeholder="@@">
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+
+        <h3>Contact Person Details</h3>
+        <div class="fields-group">
+            <div class="row">
+                <div class="col-md-6">
+                    <fieldset class="form-group">
+                        <h3 class="font-group-header required">Name</h3>
+                        <input asp-for="ContactPersonName" required class="form-control" placeholder="Contact person full name" autocomplete="off">
+                    </fieldset>
+                </div>
+                <div class="col-md-6">
+                    <fieldset class="form-group">
+                        <h3 class="font-group-header">Position</h3>
+                        <input asp-for="ContactPersonPosition" class="form-control" placeholder="Position">
+                    </fieldset>
+                </div>
+                <div class="col-md-4">
+                    <fieldset class="form-group">
+                        <h3 class="font-group-header required">Email address</h3>
+                        <input asp-for="ContactPersonEmail" required type="email" class="form-control" placeholder="JohnDoe@@myCompany.com">
+                    </fieldset>
+                </div>
+                <div class="col-md-4">
+                    <fieldset class="form-group">
+                        <h3 class="font-group-header">Phone number</h3>
+                        <input asp-for="ContactPersonPhoneNumber" type="tel" class="form-control" placeholder="987-654-3210" autocomplete="off">
+                    </fieldset>
+                </div>
+                <div class="col-md-4">
+                    <fieldset class="form-group">
+                        <h3 class="font-group-header">Skype</h3>
+                        <input asp-for="ContactPersonSkype" type="tel" class="form-control" placeholder="Skype">
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <div>
+            <h3 class="required">What is your business type?</h3>
+            <fieldset id="business-group">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="radio">
+                            <input id="business-type-manufacturer" required type="radio" asp-for="BusinessType" value="@VendorBusinessType.ManufacturerVendorSeller">
+                            <label for="business-type-manufacturer">Manufacturer / vendor / seller</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="radio">
+                            <input id="business-type-seller" type="radio" asp-for="BusinessType" value="@VendorBusinessType.ResellerDealer">
+                            <label for="business-type-seller">Reseller / dealer</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="radio">
+                            <input id="business-other" type="radio" asp-for="BusinessType" value="@VendorBusinessType.Other">
+                            <label for="business-other">Other</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <input asp-for="BusinessTypeOther" class="form-control" value="@Model.BusinessTypeOther" placeholder="Which?"
+                                   disabled="@(Model.BusinessType != VendorBusinessType.Other ? "disabled" : null)" />
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <h3>Commercial Terms</h3>
+        <div class="row">
+            @{
+                switch (Model.CommercialTerms)
+                {
+                    case VendorCommercialTerms.Affiliate:
+
+                        <div class="col-md-3">
+                            <h4>Affiliate:</h4>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>@Model.CommercialTermsRate % From price</h4>
+                        </div>
+                        break;
+                    case VendorCommercialTerms.ReferralFee:
+                        <div class="col-md-3">
+                            <h4>Referral Fee:</h4>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>@Model.CommercialTermsRate $ Fixed price per contact</h4>
+                        </div>
+                        break;
+                    case VendorCommercialTerms.Commission:
+                        <div class="col-md-3">
+                            <h4>Commission:</h4>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>@Model.CommercialTermsRate % From price</h4>
+                        </div>
+                        break;
+                    case VendorCommercialTerms.SubscriptionFee:
+                        <div class="col-md-3">
+                            <h4>Subscription Fee:</h4>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>@Model.CommercialTermsRate $ Per month</h4>
+                        </div>
+                        break;
+                    case VendorCommercialTerms.Other:
+                        <div class="col-md-3">
+                            <h4>Other:</h4>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>@Model.CommercialTermsOther</h4>
+                        </div>
+                        break;
+                    default:
+                        <div class="col-md-3">
+                            <h4>Not specified</h4>
+                        </div>
+                        break;
+                }
+            }
+
+        </div>
+        <fieldset class="input-group">
+            <div class="checkbox checkbox-success">
+                <input type="checkbox" @(User.IsInRole("Admin") ? "" : "required") id="agree-terms" @(Model.OnBoardingDate != null ? "checked disabled" : "")>
+                <label for="agree-terms">I agree to the <a asp-action="TermsOfUse" asp-controller="Home" target="_Blank">terms of use</a></label>
+            </div>
+            @if (Model.OnBoardingDate != null)
+            {
+                <div class="alert alert-info">
+                    Terms confirmed by @(Model.OnBoardingContactPersonEmail ?? "vendor") on @Model.OnBoardingDate
+                </div>
+            }
+        </fieldset>
+        <fieldset class="form-group">
+            <input type="submit" class="btn-info btn" value="Sign Up" />
+        </fieldset>
+    </form>
+</section>
+
+@section Scripts {
+    <script src="/lib/croppie/croppie.js"></script>
+    <script>
+        var $logoPicPreview = $('#logo-pic-preview')
+            .croppie({
+                viewport: {
+                    width: 100,
+                    height: 100,
+                },
+                boundary: {
+                    width: 300,
+                    height: 300
+                }
+            });
+
+        function readFileLogo(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    $('#logo-preview-modal').modal('show');
+                    $logoPicPreview.croppie('bind',
+                                            {
+                                                url: event.target.result
+                                            });
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function showLogoPreview(data) {
+            $('.logo')
+            .css({
+                'background-image': 'url("' + data + '")',
+                'background-position-x': '0',
+                'background-position-y': '0',
+                'background-size': '100%'
+            });
+        }
+
+        showLogoPreview("@Model.LogoUrl");
+
+        $('#logo-picture-upload').on('change', function () { readFileLogo(this); });
+        $('#logo-take-picture')
+            .click(function () {
+                $logoPicPreview.croppie('result',
+                    {
+                        size: {
+                            width: 100,
+                            height: 100
+                        },
+                        quality: 0.8,
+                        format: "jpeg"
+                    })
+                    .then(function (data) {
+                        showLogoPreview(data);
+                        $.post('@Url.Action("UploadDataUriImages", "Image")',
+                            {
+                                dataUri: data,
+                                containerName: 'service-providers'
+                            },
+                            function (url) {
+                                $('#@nameof(Model.LogoUrl)').val(url);
+                            });
+
+                        $('#logo-preview-modal').modal('hide');
+                    });
+                return false;
+            });
+
+        $('#logo-close-modal')
+            .click(function () {
+                $('#logo-preview-modal').modal('hide');
+            });
+        function initAutocomplete() {
+            var componentForm = {
+                street_number: 'short_name',
+                route: 'long_name',
+                locality: 'long_name',
+                administrative_area_level_1: 'short_name',
+                country: 'long_name',
+                postal_code: 'short_name'
+            };
+
+            var input = document.getElementById('@nameof(Model.LocationText)');
+            var autocomplete = new google.maps.places.Autocomplete(input, { types: ['geocode'] });
+            var $container = $('#address-container');
+            autocomplete.addListener('place_changed',
+                function () {
+                    var place = autocomplete.getPlace();
+                    $('#@nameof(Model.GooglePlaceId)').val(place.place_id);
+                    $('#@nameof(Model.LocationText)').val(place.formatted_address);
+                    $('#@nameof(Model.Longitude)').val(place.geometry.location.lng());
+                    $('#@nameof(Model.Latitude)').val(place.geometry.location.lat());
+
+                    for (var component in componentForm) {
+                        for (var i = 0; i < place.address_components.length; i++) {
+                            var addressType = place.address_components[i].types[0];
+                            if (componentForm[addressType]) {
+                                var val = place.address_components[i][componentForm[addressType]];
+                                $container.find('input[data-type="' + addressType + '"]').val(val);
+                            }
+                        }
+                    }
+                });
+        }
+
+        $(function () {
+            $('input[name=@nameof(Model.BusinessType)]')
+                .change(function () {
+                    var showBusinessTypeOther = this.value !== '@VendorBusinessType.Other';
+                    $('#@nameof(Model.BusinessTypeOther)')
+                        .prop('disabled', showBusinessTypeOther)
+                        .focus();
+                });
+        });
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7RtYQXdokxTRbfyikcr8wl_wSq4SDGSc&libraries=places&language=en&callback=initAutocomplete" async defer></script>
+}

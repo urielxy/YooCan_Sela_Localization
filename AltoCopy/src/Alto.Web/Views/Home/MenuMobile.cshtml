@@ -1,0 +1,49 @@
+﻿@model List<Alto.Models.Categories.CategoryMenuModel>
+@{
+    ViewData["Title"] = "Menu";
+    ViewBag.CanonicalUrl = Url.Action("Menu", "Home");
+}
+@section head{
+    <meta name="description" content="Browse ALTO's discounts, rewards and benefits." />
+}
+<embedcss href="/css/Shared/MenuMobile"></embedcss>
+<section id="menu-mobile">
+    <h3 class="title">THE ADVANTAGE CLUB</h3>
+    <ul class="collapsible" data-collapsible="accordion">
+        @for (var i = 0; i < Model.Count; i++)
+        {
+            var category = Model[i];
+            var activeClass = i == 0 ? "active" : "";
+            <li>
+                @if (category.AlternativeUrl != null)
+                {
+                    <a href="@category.AlternativeUrl">
+                        <div class="collapsible-header @activeClass no-subcategories">
+                            @category.Name
+                        </div>
+                    </a>
+                }
+                else if (category.SubCategories?.Any() != true)
+                {
+                    <a asp-route="Category" asp-route-id="@category.Id" asp-route-categoryName="@category.Name">
+                        <div class="collapsible-header @activeClass no-subcategories">
+                            @category.Name
+                        </div>
+                    </a>
+                }
+                else
+                {
+                    <div class="collapsible-header @activeClass">@category.Name</div>
+                    <div class="collapsible-body">
+                        <ul>
+                            @foreach (var sub in category.SubCategories)
+                            {
+                                <li><a asp-route="Category" asp-route-id="@sub.Key" asp-route-categoryName="@sub.Value.ToCanonical()">@sub.Value</a></li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </li>
+        }
+    </ul>
+</section>

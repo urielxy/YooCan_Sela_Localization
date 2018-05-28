@@ -1,0 +1,73 @@
+﻿@using Alto.Enums
+@using Alto.Models.Categories
+@model BenefitEditModel
+@{
+    ViewBag.Title = "Edit Benefit";
+}
+@section head {
+    <link rel="stylesheet" href="/lib/croppie/croppie.css" />
+}
+<embedcss Href="/css/Benefit/Edit" />
+<div class="container">
+    <form method="post">
+        <h1>Edit Benefit</h1>
+        <input type="hidden" asp-for="Id" />
+        <div class="input-field">
+            <label asp-for="Title"></label>
+            <input asp-for="Title" />
+        </div>
+        <div class="input-field">
+            <label asp-for="Text"></label>
+            <textarea asp-for="Text"></textarea>
+        </div>
+        <div class="input-field">
+            <label asp-for="Url"></label>
+            <input asp-for="Url" type="url" />
+        </div>
+        <div class="input-field">
+            <label asp-for="Discount">Discount Amount</label>
+            <input asp-for="Discount" />
+        </div>
+        <div class="input-field">
+            <select asp-for="Type" asp-items="@Html.GetEnumSelectList(typeof(BenefitType))">
+                <option selected>Choose benefit type</option>
+            </select>
+        </div>
+        <div class="input-field">
+            <select asp-for="CategoryIds" asp-items="@(new SelectList(Model.CategoriesOptions, nameof(CategoryModel.Id), nameof(CategoryModel.Name)))" multiple>
+                <option selected disabled>Choose categories</option>
+            </select>
+        </div>
+        <div class="input-field">
+            <input asp-for="CompanyId" type="hidden" />            
+            <input asp-for="CompanyName" disabled="disabled"/>
+        </div>
+        <div id="image-uploader" data-initial-image="@Model.Images.FirstOrDefault()">
+            <div class="picture-preview">
+                <input type="hidden" asp-for="ImageDataUri" class="picture-data-uri" id="ImageDataUri" />
+                <button class="waves-effect waves-teal btn upload-picture-button" style="display: none;" type="button">CHOOSE IMAGE</button>
+                <input type="file" class="picture-upload" accept="image/*" style="display: none;" />
+            </div>
+        </div>
+        <div>
+            <input type="submit" class="waves-effect waves-teal btn" />
+        </div>
+    </form>
+    <div class="modal" id="preview-image-modal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="crop-preview"></div>
+                <div class="center" style="padding-bottom: 15px">
+                    <button type="button" class="take-picture btn btn-primary">Looks good</button>
+                    <button type="button" class="close-modal btn btn-default">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script src="/lib/croppie/croppie.js"></script>
+    <script src="/scripts/Utils/pictureUploader.js"></script>
+    <script src="/scripts/Benefit/Edit.js"></script>
+}

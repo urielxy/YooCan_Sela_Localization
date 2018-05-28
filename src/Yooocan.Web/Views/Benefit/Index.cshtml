@@ -1,0 +1,109 @@
+﻿@using Yooocan.Logic.Extensions
+@using Yooocan.Enums
+@model Yooocan.Models.Benefits.BenefitModel
+@{
+    ViewBag.Title = Model.CompanyName + " - " + Model.Title;
+    var canAccessBenefitLink = User.Identity.IsAuthenticated;
+}
+@section head {
+    <embedcss href="/css/Shared/WideContainer.css"></embedcss>
+    <embedcss Href="/css/Benefit/Index.css"></embedcss>
+}
+<div id="benefit-page">
+    @*@Html.Partial("_Header")*@
+    <div class="container wide">
+        <div class="breadcrumbs">
+            @if (Model.ParentCategory != null && Model.Category != null)
+    {
+        <a href="/" class="breadcrumb">Homepage</a>
+        <a asp-route="BenefitCategory" asp-route-id="@Model.ParentCategory.Value.Key" asp-route-categoryName="@Model.ParentCategory.Value.Value.ToCanonical()" class="breadcrumb">@Model.ParentCategory.Value.Value</a>
+        <a asp-route="BenefitCategory" asp-route-id="@Model.Category.Value.Key" asp-route-categoryName="@Model.Category.Value.Value.ToCanonical()" class="breadcrumb">@Model.Category.Value.Value</a>
+}
+        </div>
+
+        <div class="row">
+            <div class="col xs12 m4 left-col">
+                @if (Model.Images.Any())
+                {
+                    <div class="images-container">
+                        <span class="img-container active" style="background-image: url('@Model.MainImageUrl')">
+                        </span>
+                        @foreach (var image in Model.Images)
+                        {
+                            <span class="img-container" style="background-image: url('@image')"></span>
+                        }
+                    </div>
+                }
+                <div class="main-container">
+                    <img src="@Model.MainImageUrl" class="main materialboxed" />
+                </div>
+            </div>
+            <div class="col xs12 m4 main">
+                @if ((Model.Type == BenefitType.FixedDiscount || Model.Type == BenefitType.PercentDiscount) && Model.Discount.HasValue)
+                {
+                    <h3 class="discount">
+                        @if (Model.Type == BenefitType.PercentDiscount)
+                        {
+                            @Model.Discount.Value.ToString("##'%'")
+                        }
+                        else
+                        {
+                            @Model.Discount?.ToString("C")
+                        }<span class="off">Off</span>
+                    </h3>
+                    <h4 class="name">On @Model.Title</h4>
+                }
+                else
+                {
+                    <h4 class="name">@Model.Title</h4>
+                }
+                <h4 class="sub-title">@Model.CompanyName</h4>
+                <p class="content">@Model.Text</p>
+            </div>
+            <div class="col xs12 m4 right-col">
+                <div class="center-align">
+                    @if (!string.IsNullOrEmpty(Model.LogoUrl))
+                    {
+                        <img class="logo" src="@Model.LogoUrl" />
+                    }
+                    <div>
+                        <a class="btn read-more" asp-controller="External" asp-action="Benefit" asp-route-id="@Model.Id"
+                           target="_blank" rel="nofollow noopener" data-benefit-name="@Model.CompanyName">@(canAccessBenefitLink ? "" : "REGISTER TO ")READ MORE</a>
+                        @if (!canAccessBenefitLink)
+                        {
+                            <h4 class="registration-text"><strong>REGISTER FOR FREE</strong><br /> AND SEE MORE BENEFITS</h4>
+                        }
+                    </div>
+                    <div class="details-container left-align">
+                        <div class="line"></div>
+                        <h5 class="save-text">
+                            @if (Model.Type == BenefitType.FixedDiscount)
+                            {
+                                <text>Save @Model.Discount $ On</text>
+                            }
+                            else if (Model.Type == BenefitType.PercentDiscount)
+                            {
+                                <text>Save @Model.Discount % On</text>
+                            }
+                            @Model.Title
+                        </h5>
+                        @if (!string.IsNullOrEmpty(Model.CompanyAddress))
+                        {
+                            <div id="location-container">
+                                <i class="material-icons">place</i> @Model.CompanyAddress
+                            </div>
+                        }
+                        @*<div class="save-container">
+                                <i class="material-icons">favorite_border</i> <span class="save">SAVE</span>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        @Html.Partial("_BenefitsStrip", Model.RelatedBenefits)
+    </div>
+</div>
+@section scripts{
+    <script src="https://unpkg.com/flickity@2.0/dist/flickity.pkgd.min.js" asp-fallback-src="/lib/flickity/dist/flickity.pkgd.min.js" asp-fallback-test="window.Flickity"></script>
+    <script src="/dist/Benefit/Index.js" asp-append-version="true"></script>
+}

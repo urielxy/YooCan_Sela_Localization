@@ -1,0 +1,8 @@
+﻿@using Yooocan.Models.Products
+@model List<ProductCardModel>
+@foreach (var product in Model)
+{
+    <div class="col s12 m6 l3" data-query-result="1">
+        @Html.Partial("../Home/_FeaturedProductCard", product)
+    </div>
+}

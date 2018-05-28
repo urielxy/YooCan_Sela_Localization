@@ -1,0 +1,16 @@
+﻿@model string
+@{
+    Layout = null;
+}
+<html>
+<head><title>Login to yoocan using @Model</title></head>
+<body>
+<form id="form" asp-action="ExternalLogin" asp-route-returnUrl="@ViewBag.ReturnUrl" style="display: none;">
+    <input name="provider" value="@Model"/>
+    <input name="isPopup" value="true"/>
+</form>
+<script>
+    document.getElementById('form').submit();
+</script>
+</body>
+</html>

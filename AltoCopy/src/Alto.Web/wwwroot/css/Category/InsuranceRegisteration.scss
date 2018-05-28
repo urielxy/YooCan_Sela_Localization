@@ -1,0 +1,71 @@
+﻿@import '../_variables.scss';
+
+#insurance-registeration {
+    max-width: 985px;
+    margin: auto;
+    position: relative;
+
+    input:checked + label {
+        color: #000;
+        font-weight: bold;
+    }
+
+    @media #{$extra-small-only} {
+        input[type=radio] + label {
+            margin-top: 10px;
+        }
+    }
+
+    .main {
+        padding-left: 8%;
+        padding-right: 8%;
+        padding-bottom: 85px;
+    }
+
+    label {
+        text-transform: uppercase;
+    }
+
+    h2 {
+        color: #4a4a4a;
+        font-size: 24px;
+        font-weight: bold;
+        margin: 40px 0;
+    }
+
+    p {
+        font-size: 18px;
+        line-height: 1.17;
+        color: #898989;
+    }
+
+    .leave-details {
+        color: #4a4a4a;
+        font-size: 20px;
+        margin: 20px 0;
+    }
+
+    footer {
+        position: absolute;
+        bottom: 0;
+        height: 80px;
+        padding: 0 44px;
+        width: 100%;
+        background-image: url('/images/product/strip.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .btn {
+            width: 214px;
+            height: 40px;
+            line-height: 40px;
+            font-size: 18px;
+            border-radius: 100px;
+            background-color: #1366da;
+            border: solid 1.5px #cccccc;
+        }
+    }
+}

@@ -1,0 +1,6 @@
+﻿@using Yooocan.Web.Utils
+@model Yooocan.Models.ServiceProviders.ServiceProvidersCategoryModel
+<embedCss href="/css/shop/CategoryHeader.css" />
+<div id="category-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('@(ClientHelper.IsMobileDevice(Context.Request.Headers["User-Agent"].ToString()) ?  Model.MobileHeaderImageUrl : Model.HeaderImageUrl)')">
+    <h1>@Model.Name</h1>
+</div>

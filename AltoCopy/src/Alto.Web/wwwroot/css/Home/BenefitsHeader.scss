@@ -1,0 +1,176 @@
+﻿@import "../_variables.scss";
+
+#benefits-header {
+    text-align: left;
+    position: relative;
+    $top-part-height: 525px;
+    $top-part-height-mobile: 394px;
+    $left-margin: 30px;
+
+    .background-slider {
+        height: $top-part-height;
+        width: 100%;
+        padding: 0;
+        z-index: -10;
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        @media #{$small-and-down} {
+            margin-bottom: 10px;
+        }
+
+        #benefits-header-slider {
+            .content {
+                max-width: 700px;
+                height: unset;
+            }
+        }
+
+        .title {
+            text-transform: uppercase;
+        }
+
+        .sub-title {
+            text-transform: uppercase;
+        }
+
+        .carousel {
+            height: unset;
+        }
+
+        .carousel-cell {
+            width: 100%;
+            height: $top-part-height;
+            //http://stackoverflow.com/a/2890369/2464167
+            overflow: auto;
+            background-position: center;
+            background-size: cover;
+
+            &.san-francisco-tours {
+                background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/images/home/header/san-francisco-comprehensive-shuttle-tours.jpg');
+            }
+
+            &.devils-tower {
+                background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/images/home/header/devils-tower-national-monument.jpg');
+                background-position: bottom;
+            }
+
+            &.disneyland {
+                background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/images/home/header/disney.jpg');
+                background-position: bottom;
+            }
+
+            @media #{$small-and-down} {
+                height: $top-part-height-mobile;
+            }
+        }
+
+        .flickity-page-dots {
+            bottom: 75px;
+            display: block !important;
+
+            .dot {
+                width: 19px;
+                height: 19px;
+                opacity: 1;
+                background: transparent;
+                border: 1px solid #fff;
+
+                &.is-selected {
+                    background: white;
+                }
+            }
+        }
+    }
+
+    .left-col {
+        float: left;
+        margin-left: $left-margin;
+        width: $home-left-col-width;
+
+        h3 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+        }
+    }
+
+    .top-part {
+        height: $top-part-height;
+        margin-left: $home-left-col-width + $left-margin;
+        padding-top: 57px;
+        text-align: center;
+        position: relative;
+
+        h1 {
+            margin: 0 auto;
+            font-weight: bold;
+            text-align: center;
+            color: #fff;
+            font-size: 60px;
+            line-height: 1;
+        }
+
+        .subtitle {
+            font-size: 30px;
+            margin: 0 auto 50px auto;
+            font-weight: bold;
+            text-align: center;
+            color: #fff;
+        }        
+
+        .publishers {
+            position: absolute;
+            bottom: 0;
+            width: 100%;            
+            text-align: left;            
+
+            h4 {
+                padding: 0 3%;
+                font-size: 18px;
+                font-weight: bold;
+                color: #c4c4c4;
+                margin-bottom: 13px;
+            }
+
+            ul {
+                padding: 5px 3%;
+                margin: 0;
+                background-color: rgba(#000, 0.3);
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                li {
+                    margin-right: 3%;
+                }
+
+                img {
+                    max-width: 100%;                    
+                }
+            }
+        }
+
+        @media #{$small-and-down} {
+            height: $top-part-height-mobile;
+            padding-top: 30px;
+            margin-left: 0;
+
+            h1 {
+                font-size: 36px;
+                max-width: 70%;
+            }
+
+            .subtitle {
+                font-size: 16px;
+                font-weight: normal;
+                max-width: 95%;
+            }
+
+            .mobile-search-container {
+                margin: 27px 12px;
+            }
+        }
+    }
+}

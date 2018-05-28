@@ -1,0 +1,32 @@
+﻿#modal-container {
+    max-height: 85%;
+    width: 670px;
+}
+
+#registration-container {
+    padding: 24px;
+    max-width: 985px;
+    overflow: hidden;
+    margin: auto;
+    position: relative;
+
+    .completion-message {
+        text-align: center;
+        color: #F44336;
+        margin-bottom: 10px;
+    }
+
+    > div {
+        overflow: hidden;
+    }
+
+    .steps-container {
+        width: 500%;
+        position: relative;
+
+        section.step {
+            width: 20%;
+            float: left;
+        }
+    }
+}

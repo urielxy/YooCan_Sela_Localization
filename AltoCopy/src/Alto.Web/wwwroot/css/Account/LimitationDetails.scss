@@ -1,0 +1,74 @@
+﻿@import '../_variables.scss';
+
+#limitation-details {
+    max-width: 985px;
+
+    .main {
+        padding: 0 12%;
+    }
+
+    input:checked + label {
+        color: #000;
+        font-weight: bold;
+    }
+
+    @media #{$extra-small-only} {
+        input[type=radio] + label {
+            margin-top: 10px;
+        }
+    }
+
+    h2 {
+        margin-top: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #4a4a4a;
+        text-transform: uppercase;
+    }
+
+    h3 {
+        font-size: 18px;
+        font-weight: bold;
+        color: #4a4a4a;
+    }
+
+    h4 {
+        font-size: 16px;
+        color: #898989;
+    }
+
+    p {
+        font-size: 16px;
+        color: #4a4a4a;
+    }
+
+    #other-limitation-text {
+        margin-left: 25px;
+        width: 200px;
+        display: inline-block;
+    }
+
+    .done-container {
+        height: 100px;
+        padding: 30px 0;
+        text-align: center;
+        background-color: #f0f2f7;
+        position: relative;
+    }
+
+    .back {
+        left: 8px;
+        top: 32px;
+        position: absolute;
+        font-size: 20px;
+        text-transform: none;
+    }
+
+    .btn.done {
+        width: 214px;
+        height: 40px;
+        background-color: #1366da;
+        font-size: 18px;
+        border-radius: 100px;
+    }
+}

@@ -1,0 +1,30 @@
+﻿.big-search {
+    border: 10px solid #000;
+    border-radius: 10px;
+    display: inline-flex;
+    min-width: 600px;
+    $search-height: 80px;
+
+    input {
+        height: $search-height;
+        line-height: $search-height;
+        padding: 0 20px;
+        margin: 0;
+        border: 0;
+        font-size: 24px;
+        font-weight: bold;
+        color: #000;
+        background-color: #fff;
+    }
+
+    button {
+        height: $search-height;
+        line-height: $search-height;
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        padding: 0 30px;
+        color: #fff;
+        background-color: #4990e2;
+    }
+}

@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Yooocan.Models.New.Messages.PreviewModel>
+<div id="preview" data-load-url="@Url.Action("LoadConversation")">
+    <div id="search-container">
+        <input id="search-author" placeholder="Search people" autofocus/>
+        <img id="search-icon" src="/images/magnifying.svg"/>
+    </div>
+    <ul class="collection">
+        @foreach (var message in Model)
+        {
+            <li class="collection-item avatar" data-user-id="@message.OtherUserId">
+                <img src="@(message.OtherAvatar ??"/images/no-avatar.jpg")" alt="Avatar" class="circle">
+                <span class="author-name">@message.OtherName</span>
+                <p>@message.Content</p>
+                <br/>
+                <span class="date secondary-content hide-on-med-and-down">@message.LastMessageDate?.Humanize()</span>
+            </li>
+        }
+    </ul>
+</div>

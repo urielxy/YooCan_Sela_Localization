@@ -1,0 +1,90 @@
+﻿#menu-mobile {
+    > .title {
+        font-size: 16px;
+        text-align: center;
+        color: #4a4a4a;
+        margin: 15px 0;
+    }
+
+    .uber-container {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .header-categories {
+        width: 840px;
+        height: 50px;
+
+        a {
+            height: 50px;
+            line-height: 50px;
+            font-size: 10px;
+            text-align: center;
+            color: #4a4a4a;
+            display: inline-block;
+            padding: 0 23px;
+            //padding: 0 6px;
+            //width: 117px; /*Fallback if vw is not supported, old Android phones*/
+            //width: 38vw;
+            border: solid 1px #000000;
+            margin-left: 15px;
+            overflow: hidden;
+            float: left;
+        }
+    }
+
+    .collapsible {
+        @mixin parent-category {
+            min-height: 46px;
+            line-height: 46px;
+            font-size: 14px;
+            background-color: #f3f3f3;
+            color: #4a4a4a;
+            padding: 0 1rem;
+            position: relative;
+        }
+         
+        .category-without-children {
+            @include parent-category;
+        }
+
+        .collapsible-header {
+            @include parent-category;            
+
+            &:not(.no-subcategories)::after {
+                content: " ";
+                background-image: url('/images/menu-arrow-up.png');
+                background-repeat: no-repeat;
+                position: absolute;
+                right: 12px;
+                top: 11px;
+                width: 14px;
+                height: 14px;
+                transition: .3s all;
+            }
+
+            &.active::after {
+                -moz-transform: rotate(180deg);
+                -webkit-transform: rotate(180deg);
+                transform: rotate(180deg);
+                /*top: 0;*/
+            }
+        }
+
+        .collapsible-body {
+            padding: 0 14px;
+
+            li {
+                min-height: 45px;
+                padding: 0 15px;
+                border-bottom: solid 1px #dfdfdf;
+
+                a {
+                    line-height: 45px;
+                    font-size: 14px;
+                    color: #4a4a4a;
+                }
+            }
+        }
+    }
+}

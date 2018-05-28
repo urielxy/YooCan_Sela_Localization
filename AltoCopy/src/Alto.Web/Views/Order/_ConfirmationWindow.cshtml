@@ -1,0 +1,32 @@
+﻿@model Alto.Models.Products.PurchaseConfirmModel
+<embedcss href="/css/product/ConfirmWindow"></embedcss>
+<section id="order-confirmation">
+    <div class="main-container">
+        <h1>Your order is on its way, @User.FindFirstValue(ClaimTypes.GivenName) </h1>
+        <p>Thank you for shopping on ALTO! Your order will be shipped to @Model.ShippingAddress. We hope you enjoy your purchase!</p>
+        <div class="row">
+            <div class="col xs12 m6">
+                <img src="@Model.ImageUrl" alt="product-image" class="main-image" />
+            </div>
+            <div class="col xs12 m6 product-details">
+                <h3 class="product-name">@Model.ProductName</h3>
+                @foreach (var variation in Model.Variations)
+                {
+                    <div class="variation">@variation</div>
+                }
+                <div class="variation">Item ID: @Model.ProductId</div>
+                <div class="variation">Quantity: @Model.Quantity</div>
+                <div class="variation">Paid: @Model.TotalPaid</div>
+                <h4>YOU SAVED @Model.PriceSaved.ToString("C")</h4>
+            </div>
+        </div>
+    </div>
+    <footer class="valign-wrapper">
+        <a href="#" class="btn close valign">BACK TO ALTO</a>
+    </footer>
+</section>
+<script>
+    $('#order-confirmation .close').click(function () {
+        $('#modal-container').closeModal();
+    });
+</script>

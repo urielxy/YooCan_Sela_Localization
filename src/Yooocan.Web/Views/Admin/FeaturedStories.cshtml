@@ -1,0 +1,82 @@
+﻿@using System.Security.Claims
+@using Yooocan.Enums
+@model List<Yooocan.Models.Admin.FeaturedStoryModel>
+<div class="container">
+    @FeaturedType.Header.Humanize() = @((int)FeaturedType.Header)<br />
+    @FeaturedType.EditorPick.Humanize() = @((int)FeaturedType.EditorPick)<br />
+    @FeaturedType.Feed.Humanize() = @((int)FeaturedType.Feed)
+
+    <div>
+        <button class="btn" type="button" id="add-row">ADD ROW</button>
+    </div>
+    <br />
+    <table class="responsive-table striped" id="featured-table">
+        <thead>
+            <tr>
+                <th>Story #ID</th>
+                <th>Title</th>
+                <th>Featured place</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var story in Model)
+            {
+                <tr>
+                    <td data-field="StoryId">@story.StoryId</td>
+                    <td>@story.Title</td>
+                    <td data-field="FeaturedType">@((int)story.FeaturedType)</td>
+                    <td><button type="button" class="btn-flat delete">Remove</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div style="margin-top: 30px;">
+        <button id="save-changes" class="btn right" type="button">SAVE CHANGES</button>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        var newRow = `<tr>
+            <td data-field="StoryId"><input type="number"/></td>
+            <td></td>
+            <td data-field="FeaturedType"><input type="number" min="1" max="3"/></td>
+            <td><button class="btn delete">Remove</button></td>
+        </tr>`;
+        $('#add-row').click(function () {
+            $(newRow).appendTo('#featured-table tbody').find('input:first').focus();
+            return false;
+        });
+
+        $('#featured-table').on('click', '.delete', function () {
+            $(this).closest('tr').remove();
+            return false;
+        });
+
+        $('#save-changes').click(() => {
+            var data = $('#featured-table tbody tr').map(function () {
+                var o = {};
+                $(this).find('td[data-field]').each(function () {
+                    o[$(this).data('field')] = $(this).find('input').val() || this.innerHTML.trim();
+                });
+                return o;
+            }).get();
+            console.log(data);
+            window.x = data;
+            $.ajax({
+                    url: '@Url.Action("FeaturedStories")',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json'
+                })
+                .done(function() {
+                    window.location.reload();
+                })
+                .fail(function() {
+                    Materialize.toast('Sorry @User.FindFirstValue(ClaimTypes.GivenName) :( Something went wrong!, call Doron (not on Shabat!)', 10000);
+                });
+            return false;
+        });
+    </script>
+
+}

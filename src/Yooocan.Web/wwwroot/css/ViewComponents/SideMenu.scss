@@ -1,0 +1,86 @@
+﻿@import "../_variables.scss";
+
+#side-menu {
+    z-index: 9999;
+
+    @mixin menu-font {
+        font-size: 16px;
+        font-weight: 900;
+        color: #fff;
+    }
+
+    li {
+        background-color: #fff;
+
+        a {
+            @include menu-font;
+
+            &.purple-background {
+                background-color: #9685b8;
+            }
+
+            &.orange-background {
+                background-color: #ff9e2f;
+            }
+
+            &.stories {
+                background-color: #1dcd85;
+            }
+
+            &.red-background {
+                background-color: #d94840;
+            }
+        }
+    }
+
+    .collapsible-header {
+        min-height: unset;
+        @include menu-font;
+
+        i {
+            margin: 0 10px 0 0;
+        }
+    }
+
+    .collapsible-body {
+
+        $item-width: 245px;
+        padding-left: 15px;
+        width: $item-width;
+        display: flex;
+
+        li {
+            $line-height: 36px;
+            min-height: $line-height;
+            overflow-x: hidden;
+            padding: 0;
+            width: $item-width;
+            float: none;
+
+            a {
+                width: $item-width;
+                display: inline-flex;
+                align-items: center;
+                line-height: 1;
+                height: auto;
+                padding: 5px;
+                color: #5c5f69;
+
+                .icon-container {
+                    margin-right: 5px;
+                    height: $line-height;
+                    width: 30px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                .category-name {
+                    flex: 1;
+                    @include menu-font;
+                    color: #202020;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,62 @@
+﻿@import '../_variables.scss';
+
+#category-page {
+    .page-header {
+        height: 350px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        color: #fff;
+        text-align: center;
+        background-size: cover !important;
+
+        h1 {
+            font-size: 40px;
+            font-weight: 800;
+            margin: 0;
+            word-wrap: break-word;
+            text-transform: uppercase;
+
+            @media #{$medium-and-up} {
+                font-size: 60px;
+            }
+        }
+
+        h5 {
+            margin: 0 auto;
+            font-size: 28px;
+            line-height: 1.19;
+            max-width: 750px;
+        }
+    }
+
+    .container {
+        display: flex;
+    }
+
+    .menu-col {
+        max-width: 320px;
+        min-width: 300px;
+
+        > a {
+            color: #9b9b9b;
+            font-weight: bold;
+            margin: 25px 0;
+            font-size: 18px;
+            display: inline-block;
+            height: 19px;
+        }
+
+        i.left-sign {
+            vertical-align: middle;
+        }
+    }
+
+    .content-col {
+        @media #{$medium-and-up} {
+            padding-left: 30px;
+        }
+
+        flex: 1;
+    }    
+}

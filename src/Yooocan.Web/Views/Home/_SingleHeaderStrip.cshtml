@@ -1,0 +1,19 @@
+﻿@using Yooocan.Logic.Extensions
+@model FeaturedStoryHeader
+<embedcss Href="/css/Home/newUserHeader.css"></embedcss>
+<div id="new-user-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('@Model.ImageUrl'); background-position: @(Model.HotAreaLeft??50)% @(Model.HotAreaTop??50)%">
+    <div class="center-container">
+        <h1>YOOCAN DO ANYTHING</h1>
+        <h4 class="slogan hide-on-small-and-down">THE GLOBAL EMPOWERMENT SITE FOR PEOPLE WITH DISABILITIES</h4>
+    </div>
+    <div class="story-details">
+        <div class="tag-container">
+            <span class="tag" style="background-color: #@Model.CategoryColor">
+                @Model.Category
+            </span>
+        </div>
+        <span class="title">@Model.Title</span> <span class="by">By: </span><span class="author-name">@Model.Author</span>
+        <a asp-route="story" asp-route-id="@Model.Id" asp-route-title="@Model.Title.ToCanonical()" 
+           class="waves-effect btn-flat read-more">READ MORE</a>
+    </div>
+</div>

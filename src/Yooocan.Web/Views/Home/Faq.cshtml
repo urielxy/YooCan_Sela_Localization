@@ -1,0 +1,374 @@
+﻿@{
+    ViewBag.Title = "FAQ";
+    var serviceProviderId = User.FindFirst(claim => claim.Type.StartsWith("serviceProvider"));
+}
+@section head {
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="yoocan" />
+    <meta property="og:image:secure_url" content="https://yoocanfind.com/images/faqHeader.jpg" />
+    <meta property="og:image:width" content="1140" />
+    <meta property="og:image:height" content="250" />
+    <meta property="og:url" content="@Url.RouteUrl("FAQ", null, "https")" />
+    <meta name="twitter:title" property="og:title" itemprop="title name" content="yoocan - FAQ" />
+    <meta name="twitter:description" property="og:description" itemprop="description" content="All your questions about the website, content, registration and payment answered" />
+    <meta name="description" content="All your questions about the website, content, registration and payment answered" />
+    <meta name="twitter:card" content="summary_large_image">
+    <style>
+        .bg-image {
+            background-image: url('/images/faqHeader.jpg?v=1');
+        }
+
+        #textOnImage {
+            top: 30% !important;
+        }
+
+        #mainBody #faq {
+            margin-top: 40px;
+        }
+
+        #faq header {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url(/images/faqHeader.jpg?v=1);
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 250px;
+        }
+
+            #faq header h1 {
+                color: #fff;
+                font-size: 34px;
+                text-align: center;
+            }
+
+        #faq .panel-heading {
+            min-height: 0;
+            line-height: normal;
+        }
+
+        #faq .panel-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin: 15px 0;
+            height: 100%;
+            line-height: 1.2;
+        }
+
+            #faq .panel-title a {
+                padding-left: 25px;
+                padding-right: 26px;
+                position: relative;
+                display: inline-block;
+                vertical-align: middle;
+                color: #333;
+            }
+
+                #faq .panel-title a span {
+                    display: inline;
+                    vertical-align: middle;
+                }
+
+                #faq .panel-title a:before {
+                    color: #878787;
+                    content: '+';
+                    font-size: 30px;
+                    vertical-align: middle;
+                    display: inline-block;
+                    margin-right: 15px;
+                }
+
+                #faq .panel-title a.open:before {
+                    color: #000;
+                    content: '-';
+                    margin-right: 15px;
+                }
+
+        #faq .panel-body {
+            padding: 15px 26px 15px 40px;
+            font-size: 16px;
+        }
+
+            #faq .panel-body ul {
+                padding: 0;
+            }
+
+                #faq .panel-body ul li {
+                    margin-top: 10px;
+                }
+
+        #goto-aboutus-btn {
+            background-color: transparent;
+            position: absolute;
+            margin: auto;
+            text-align: center;
+            left: 0;
+            right: 0;
+            width: 120px;
+            height: 40px;
+            top: -120px;
+            border: solid 2px white;
+            border-radius: 7px;
+            line-height: 2.7;
+            color: white;
+            cursor: pointer;
+        }
+
+            #goto-aboutus-btn:hover {
+                color: gray;
+                background-color: white;
+                text-decoration: none;
+            }
+
+        @@media (max-width: 767px) {
+            #textOnImage {
+                margin-top: 10px !important;
+            }
+        }
+
+        @@media (max-width: 380px) {
+            #textOnImage {
+                margin-top: -20px !important;
+                font-size: 2.4em;
+            }
+
+            #goto-aboutus-btn {
+                top: -100px;
+            }
+        }
+    </style>
+}
+@*@section Top {
+        @{ Html.RenderPartial("/Views/Old/_ImageBackground.cshtml", new ImageBackgroundModel { Title = "frequently asked questions", HideSearch = true }); }
+    }*@
+<section class="container" id="faq">
+    @*<div style="position:relative">
+            <a asp-route="About" id="goto-aboutus-btn">ABOUT US</a>
+        </div>*@
+    <header>
+        <h1>
+            FREQUENTLY ASKED QUESTIONS
+        </h1>
+    </header>
+    <div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2">
+        <ul class="collapsible panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <li class="panel panel-default">
+                <div class="panel-heading collapsible-header active" role="tab" id="heading1">
+                    <h3 class="panel-title">
+                        <a class="open" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="true" aria-controls="collapse1">
+                            <span>What is yoocan?</span>
+                        </a>
+                    </h3>
+                </div>
+                <div id="collapse1" class="panel-collapse collapse collapsible-body" role="tabpanel" aria-labelledby="heading1">
+                    <div class="panel-body">
+                        yoocan is the first inspirational community marketplace for people with disabilities and their families. Our mission is to improve the lives of people with disabilities and their families by enabling easy discovery of activities, products, services and innovation. We strive to be the one stop place to share stories, connect with others and buy/find disability related products and services. Check <a target="_Blank" asp-route="About">about us</a> for more information on why we founded yoocan.
+                    </div>
+                </div>
+            </li>
+            <li class="panel panel-default">
+                <div class="panel-heading collapsible-header" role="tab" id="heading2">
+                    <h3 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapse2">
+                            <span>How can yoocan bring me value?</span>
+                        </a>
+                    </h3>
+                </div>
+                <div id="collapse2" class="panel-collapse collapse collapsible-body" role="tabpanel" aria-labelledby="heading2">
+                    <div class="panel-body">
+                        <ul>
+                            <li>
+                                <b>I have a disability:</b> yoocan was created for the community. It comes from the needs of families like ours who continuously seek ideas, tips, and empowering stories about how to improve life and make it easier. On yoocan, you can connect with others in a similar situation to see what activities they are doing and how they are doing them. Our hope is that you will discover and explore new activities and find the resources to try them yourself or with a family member or friend.
+                            </li>
+                            <li>
+                                <b>My family or friend has a disability:</b> We know how it feels to be frustrated and lost when it comes to looking for ideas and solutions. On yoocan, you can gather resources whether it is a new product or outstanding service. Our hope is that yoocan will provide you with information from around the world to gain awareness and ideas about what is out there and what your family member or friend may find interest in.
+                            </li>
+                            <li>
+                                <b>I don’t have a disability:</b> You may not have a disability, but it is likely that someone in your family, your friendship circle or workplace does. yoocan is a place to expand your knowledge, learn, and admire the incredible things that people are doing regardless of disabilities. The more you know, the more you can empower others that they can do anything.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+            <li class="panel panel-default">
+                <div class="panel-heading collapsible-header" role="tab" id="heading3">
+                    <h3 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapse3">
+                            <span>What are the benefits of creating a profile?</span>
+                        </a>
+                    </h3>
+                </div>
+                <div id="collapse3" class="panel-collapse collapse collapsible-body" role="tabpanel" aria-labelledby="heading3">
+                    <div class="panel-body">
+                        <ul>
+                            <li>Add your own stories to empower and inspire others.</li>
+                            <li>Connect with others to ask questions, give advice and make new friends from around the world.</li>
+                            <li>Find and buy activities, services, products and innovation.</li>
+                            <li>Take an active part in changing the lives of millions for the better.</li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+            <li class="panel panel-default">
+                <div class="panel-heading collapsible-header" role="tab" id="heading4">
+                    <h3 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapse4">
+                            <span>Does it cost money for me to create a profile?</span>
+                        </a>
+                    </h3>
+                </div>
+                <div id="collapse4" class="panel-collapse collapse collapsible-body" role="tabpanel" aria-labelledby="heading4">
+                    <div class="panel-body">
+                        Nope- yoocan is totally free! The only time you will have to pay for something is if you want to buy a product or service. This will be at the cost presented on the product or service page.
+                    </div>
+                </div>
+            </li>
+            <li class="panel panel-default">
+                <div class="panel-heading collapsible-header" role="tab" id="heading5">
+                    <h3 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapse5">
+                            <span>I sell products or provide services for people with disabilities, how do I showcase them on the site?</span>
+                        </a>
+                    </h3>
+                </div>
+                <div id="collapse5" class="panel-collapse collapse collapsible-body" role="tabpanel" aria-labelledby="heading5">
+                    <div class="panel-body">
+                        At yoocan, we are always looking for the best and newest products/services to offer our community! We have created this platform to help you reach the community in a simple and easy way. We would love to have you join us a vendor or service provider. All you have to do is click <a target="_Blank" asp-route="Partners">become a partner</a> on the bottom bar and fill out the page that is most relevant. Someone from our team will be in touch with you shortly after.
+                    </div>
+                </div>
+            </li>
+            <li class="panel panel-default">
+                <div class="panel-heading collapsible-header" role="tab" id="heading6">
+                    <h3 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapse6">
+                            <span>Does it cost money for me to become a vendor or service provider?</span>
+                        </a>
+                    </h3>
+                </div>
+                <div id="collapse6" class="panel-collapse collapse collapsible-body" role="tabpanel" aria-labelledby="heading6">
+                    <div class="panel-body">
+                        We do not allow advertising or special promotion. Our policy is to allow every vendor/ service provider to be showcased at no cost. Products or services provided to the community for free, will be presented for free. In the future, in order to insure the long term self sustainability of yoocan, so we can grow and invest in promoting adaptive innovation, we intend to work on sales commission with anyone selling a product or service on yoocan. You can remove your page from yoocan at anytime.
+                        <br />
+                        If you have any more questions, <a href="mailto:moshe@yoocantech.com" target="_blank">click here</a> and we will get back to you.
+                    </div>
+                </div>
+            </li>
+            <li class="panel panel-default">
+                <div class="panel-heading collapsible-header" role="tab" id="heading7">
+                    <h3 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapse7">
+                            <span>How can I recommend a product or service?</span>
+                        </a>
+                    </h3>
+                </div>
+                <div id="collapse7" class="panel-collapse collapse collapsible-body" role="tabpanel" aria-labelledby="heading7">
+                    <div class="panel-body">
+                        We would love to hear of the amazing products or services you use! There are two ways to share them with us- First, you can <a target="_Blank" asp-action="Create" asp-controller="Story">share my story</a> and how this product helped you.
+                        <br />Second, you can click the chat button at the bottom right corner of the page and drop us a note.
+                    </div>
+                </div>
+            </li>
+            <li class="panel panel-default">
+                <div class="panel-heading collapsible-header" role="tab" id="heading8">
+                    <h3 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapse8">
+                            <span>How can I provide feedback on the website or contact you?</span>
+                        </a>
+                    </h3>
+                </div>
+                <div id="collapse8" class="panel-collapse collapse collapsible-body" role="tabpanel" aria-labelledby="heading8">
+                    <div class="panel-body">
+                        We would love to hear from you! Simply click the chat button at the bottom right corner of the page and write in the chat window. Someone from our team will be in touch with you shortly after.
+                    </div>
+                </div>
+            </li>
+            <li class="panel panel-default">
+                <div class="panel-heading collapsible-header" role="tab" id="heading9">
+                    <h3 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapse9">
+                            <span>How do I create a profile?</span>
+                        </a>
+                    </h3>
+                </div>
+                <div id="collapse9" class="panel-collapse collapse collapsible-body" role="tabpanel" aria-labelledby="heading9">
+                    <div class="panel-body">
+                        In the top right corner, click the button that says “Sign up”. Please register via one of the social media platforms or by creating a new profile.
+                    </div>
+                </div>
+            </li>
+            <li class="panel panel-default">
+                <div class="panel-heading collapsible-header" role="tab" id="heading10">
+                    <h3 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapse10">
+                            <span>How do I edit my profile?</span>
+                        </a>
+                    </h3>
+                </div>
+                <div id="collapse10" class="panel-collapse collapse collapsible-body" role="tabpanel" aria-labelledby="heading10">
+                    <div class="panel-body">
+                        Click the “Edit Profile” button under your photo in the top right corner or <a target="_Blank" asp-controller="User" asp-action="Edit">click here</a>.
+                    </div>
+                </div>
+            </li>
+            <li class="panel panel-default">
+                <div class="panel-heading collapsible-header" role="tab" id="heading15">
+                    <h3 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapse12">
+                            <span>How can I edit my story?</span>
+                        </a>
+                    </h3>
+                </div>
+                <div id="collapse15" class="panel-collapse collapse collapsible-body" role="tabpanel" aria-labelledby="heading12">
+                    <div class="panel-body">
+                        Click <a target="_Blank" asp-controller="User" asp-action="Edit">edit my profile</a>, then click the "edit" button on the story.
+                    </div>
+                </div>
+            </li>
+            <li class="panel panel-default">
+                <div class="panel-heading collapsible-header" role="tab" id="heading11">
+                    <h3 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapse11">
+                            <span>How do I follow/unfollow other people?</span>
+                        </a>
+                    </h3>
+                </div>
+                <div id="collapse11" class="panel-collapse collapse collapsible-body" role="tabpanel" aria-labelledby="heading11">
+                    <div class="panel-body">
+                        Following people means that you will be notified when they write a new story. To follow someone, visit their story page and click the blue “Follow” button under their profile.
+                        To “Unfollow” someone, click on following and click the unfollow button next to their name.
+                    </div>
+                </div>
+            </li>
+            @if (serviceProviderId != null)
+            {
+                <li class="panel panel-default">
+                    <div class="panel-heading collapsible-header" role="tab" id="heading13">
+                        <h3 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapse13">
+                                <span>How can I edit my service page?</span>
+                            </a>
+                        </h3>
+                    </div>
+                    <div id="collapse13" class="panel-collapse collapse collapsible-body" role="tabpanel" aria-labelledby="heading13">
+                        <div class="panel-body">
+                            Click the “Edit Service Page” button under your photo in the top right corner or <a asp-action="Edit" asp-controller="ServiceProvider" asp-route-id="@serviceProviderId.Value">click here</a>.
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+</section>
+
+@section Scripts{
+    <script>
+        $('#faq-top-link').addClass('active');
+        $('#faq .panel-title a')
+            .click(function () {
+                if (!$(this).hasClass('open'))
+                    $('#faq .panel-title a.open').toggleClass('open');
+
+                $(this).toggleClass('open');
+            });
+    </script>
+}

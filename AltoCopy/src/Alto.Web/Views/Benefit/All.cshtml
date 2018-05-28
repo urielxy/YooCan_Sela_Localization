@@ -1,0 +1,38 @@
+﻿@using Alto.Models.Cards
+@model List<BenefitCardModel>
+
+<div>
+    <a asp-controller="Benefit" asp-action="Create" class="btn" target="_Blank"> Create New </a>
+</div>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Company</th>
+        <th>Title</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    @foreach (var benefit in Model)
+    {
+        <tr>
+            <td><a asp-route="Benefit" asp-route-id="@benefit.Id" asp-route-company="@benefit.CompanyName.ToCanonical()"> @benefit.Id</a></td>
+            <td>@benefit.CompanyName</td>
+            <td>@benefit.Title</td>
+            <td>
+                <a asp-controller="Benefit" asp-action="Edit" asp-route-id="@benefit.Id" class="btn" target="_Blank">
+                    Edit
+                </a>
+            </td>
+            <td>
+                <form asp-controller="Benefit" asp-action="Delete" method="post">
+                    <input name="id" value="@benefit.Id" type="hidden" />
+                    <button type="submit"
+                            onclick="return confirm('Are you sure you wish to delete benefit: @benefit.Title?');"
+                            class="btn">
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,210 @@
+﻿@using System.Security.Claims
+@inject Microsoft.AspNetCore.Hosting.IHostingEnvironment HostingEnv
+<header id="page-header">
+    <div id="header-desktop" class="hide-on-med-and-down">
+        <nav id="header-second-line">
+            <div class="nav-wrapper">
+                @Html.Partial("_Logo")
+                <ul class="left">
+                    <li>
+                        <a class="dropdown-button" href="#" data-activates='story-categories-popup' data-beloworigin="true"
+                           data-constrainwidth="false" data-alignment="left" data-hover="true">
+                            <span>EXPLORE STORIES</span><i class="material-icons">keyboard_arrow_down</i>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-button" asp-controller="Shop" asp-action="Index" data-activates='shop-categories-popup' data-beloworigin="true" data-hover="true"
+                           data-constrainwidth="false" data-alignment="left">SHOP<i class="material-icons">keyboard_arrow_down</i></a>
+                    </li>
+                    <li>
+                        <a class="dropdown-button" asp-controller="Story" asp-action="Create" data-activates='add-templates-popup' data-beloworigin="true" data-hover="true"
+                           data-constrainwidth="false" data-alignment="left">
+                            ＋ADD<i class="material-icons">keyboard_arrow_down</i>
+                        </a>
+                    </li>
+                    <li class="search-button">
+                        <a asp-controller="Search" asp-action="Search">
+                            <i class="material-icons">search</i>SEARCH
+                        </a>
+                    </li>
+                    @*<li>
+                            <a class="dropdown-button" href="#" data-activates='sp-categories-popup' data-beloworigin="true" data-hover="true"
+                               data-constrainwidth="false" data-alignment="left">SERVICE PROVIDERS<i class="material-icons">keyboard_arrow_down</i></a>
+                        </li>
+                        <li>
+                            <a class="dropdown-button" asp-controller="Benefit" asp-action="Home" data-activates='benefit-categories-popup' data-beloworigin="true" data-hover="true"
+                               data-constrainwidth="false" data-alignment="left">BENEFITS<i class="material-icons">keyboard_arrow_down</i></a>
+                        </li>*@
+                </ul>
+                <ul class="right">
+                    @*<li><a class="waves-effect waves-light btn @ViewBag.AddStoryClass" id="add-new-story" asp-action="Create" asp-controller="Story">+ADD NEW STORY</a></li>*@
+                    @*<li><a href="#!"><img class="icon" src="/images/shopping-cart-icon.svg"/>CART</a></li>*@
+                    @Html.Partial("_UserButton")
+                </ul>
+            </div>
+        </nav>
+    </div>
+    @*<div id="header-medium" class="hide-on-large-only hide-on-small-and-down">
+            <nav id="header-mobile-first-line">
+                <div class="nav-wrapper">
+                    <a href="/" class="valign-wrapper logo left">
+                        <img src="/images/yoocan-logo.png" alt="Yoocan logo" class="valign" />
+                    </a>
+                    <ul class="right">
+                        @Html.Partial("_UserButton")
+                    </ul>
+                </div>
+            </nav>
+            <nav class="header-mobile-second-line">
+                @Html.Partial("_SearchControl")
+            </nav>
+            <nav class="header-mobile-second-line">
+                <div class="nav-wrapper">
+                    <ul>
+                        <li>
+                            <a class="dropdown-button" href="#" data-activates='story-categories-popup' data-beloworigin="true"
+                               data-constrainwidth="false" data-alignment="left" data-hover="true">
+                                STORIES<i class="material-icons right">keyboard_arrow_down</i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-button" href="#" data-activates='sp-categories-popup' data-beloworigin="true"
+                               data-constrainwidth="false" data-alignment="left" data-hover="true">
+                                SERVICE PROVIDERS<i class="material-icons right">keyboard_arrow_down</i>
+                            </a>
+                        </li>
+                        <li>
+                        </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                        <li><a asp-route="Messages"><i class="material-icons header-icons">mail_outline</i></a></li>
+                        <li>
+                            <a class="dropdown-button open-notifications-button" href="#!" data-activates='notifications-popup' data-beloworigin="true" data-constrainwidth="false" data-alignment="right"
+                               data-induration="60">
+                                <i class="material-icons header-icons">notifications_none</i>
+                                <span class="new-notifications"></span>
+                            </a>
+                        </li>
+                        }
+                    </ul>
+                </div>
+            </nav>
+        </div>*@
+    <div id="header-mobile" class="hide-on-large-only">
+        <div class="menu-item">
+            <a href="#!" data-activates="side-menu" class="button-collapse" id="side-menu-button">
+                <i class="material-icons">menu</i>
+            </a>
+        </div>
+        <div class="menu-item">
+            @if (User.Identity.IsAuthenticated)
+            {
+                @*<a class="dropdown-button open-notifications-button" href="#!" data-activates='notifications-popup' data-beloworigin="true" data-constrainwidth="false" data-alignment="left"
+                       data-induration="60">
+                        <div>
+                            <i class="material-icons header-icons">notifications_none</i>
+                            <span class="new-notifications"></span>
+                        </div>
+                    </a>*@
+            }
+        </div>
+        @Html.Partial("_Logo")
+        <div class="menu-item">
+            <a class="dropdown-button user-dropdown-button" href="#!" data-activates='search-dropdown' data-beloworigin="true" data-alignment="right" data-stoppropagation="true"
+               id="search-dropdown-button">
+                <i class="material-icons">search</i>
+            </a>
+        </div>
+        <div class="menu-item">
+            <a class="dropdown-button user-dropdown-button" href="#!" data-activates='user-dropdown' data-beloworigin="true" data-alignment="left" data-constrainwidth="false">
+                <img src="@(User.FindFirstValue("picture") ?? "/images/no-avatar.jpg")" />
+            </a>
+        </div>
+    </div>
+    <embedcss Href="/css/ViewComponents/categoriesPopup.css"></embedcss>
+    <div id="story-categories-popup" class="dropdown-content">
+        <cache expires-after="@TimeSpan.FromMinutes(60)" enabled="@(HostingEnv.EnvironmentName == "Production")">
+            @await Component.InvokeAsync("StoryCategoriesPopup")
+        </cache>
+    </div>
+    <div id="shop-categories-popup" class="dropdown-content">
+        <cache expires-after="@TimeSpan.FromMinutes(60)" enabled="@(HostingEnv.EnvironmentName == "Production")">
+            @await Component.InvokeAsync("ShopCategoriesPopup")
+        </cache>
+    </div>
+    <div id="sp-categories-popup" class="dropdown-content">
+        <cache expires-after="@TimeSpan.FromMinutes(60)" enabled="@(HostingEnv.EnvironmentName == "Production")">
+            @await Component.InvokeAsync("ServiceProviderCategoriesPopup")
+        </cache>
+    </div>
+    <div id="benefit-categories-popup" class="dropdown-content">
+        <cache expires-after="@TimeSpan.FromMinutes(60)" enabled="@(HostingEnv.EnvironmentName == "Production")">
+            @await Component.InvokeAsync("BenefitCategoriesPopup")
+        </cache>
+    </div>
+    <div id="add-templates-popup" class="dropdown-content">
+        <ul class="popup-categories">
+            <li>
+                <a asp-controller="Story" asp-action="Create">
+                    <span class="category-name">PERSONAL STORY</span>
+                </a>
+            </li>
+            <li>
+                <a asp-controller="Story" asp-action="Create" asp-route-template="tips">
+                    <span class="category-name">10 TIPS ARTICLE</span>
+                </a>
+            </li>
+            <li>
+                <a asp-controller="Story" asp-action="Create" asp-route-template="product">
+                    <span class="category-name">PRODUCT RECOMMENDATION</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    @await Component.InvokeAsync("SideMenu")
+    <ul id="search-dropdown" class="dropdown-content">
+        @Html.Partial("_SearchControl")
+    </ul>
+    <ul id="user-dropdown" class="dropdown-content">
+        @if (User.Identity.IsAuthenticated)
+        {
+            <li><a asp-controller="User" asp-action="Edit">Edit Profile</a></li>
+        }
+        else
+        {
+            <li>
+                <a class="header-login-btn" asp-action="Login" asp-controller="Account" asp-route-returnUrl="@(ViewBag.ReturnUrl ?? Context.Request.Path.Value)">Sign In</a>
+            </li>
+            <li>
+                <a class="header-register-btn" id="header-register-button" asp-action="Register" asp-controller="Account" asp-route-returnUrl="@(ViewBag.ReturnUrl ?? Context.Request.Path.Value)">Sign Up</a>
+            </li>
+        }
+        @{
+            var serviceProviderId = User.FindFirst(claim => claim.Type.StartsWith("serviceProvider"))?.Value;
+            var vendorId = User.FindFirst(claim => claim.Type.StartsWith("vendor"))?.Value;
+        }
+        @if (serviceProviderId != null)
+        {
+            <li>
+                <a asp-action="Edit" asp-controller="ServiceProvider" asp-route-id="@serviceProviderId">Edit Service Page</a>
+            </li>
+        }
+        @*@if (vendorId != null)
+            {
+                <li>
+                    <a asp-action="MyProducts" asp-controller="Vendor" asp-route-id="@vendorId">My Products</a>
+                </li>
+                <li>
+                    <a asp-action="Upload" asp-controller="Product">Upload Product</a>
+                </li>
+            }*@
+        @if (User.Identity.IsAuthenticated)
+        {
+            <li>
+                <form asp-controller="Account" asp-action="LogOff" method="post" asp-antiforgery="false">
+                    <button class="anchor-button" type="submit">Log out</button>
+                </form>
+            </li>
+        }
+    </ul>
+</header>

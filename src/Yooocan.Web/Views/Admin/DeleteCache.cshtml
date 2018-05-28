@@ -1,0 +1,21 @@
+﻿@using Yooocan.Logic
+<div class="container" style="text-align: center; margin-top: 30px;">
+    <div class="row">
+        <form class="col s12" method="POST">
+            <input type="hidden" name="resource" value="@RedisKeys.HomeModel" />
+            <button class="btn">DELETE HOMEPAGE CAHCE</button>
+        </form>
+    </div>
+    <div class="row">
+        <form class="col s12" method="POST">
+            <input type="hidden" name="resource" value="@RedisKeys.HomeStoryFeed" />
+            <button class="btn">DELETE HOMEPAGE STORIES CACHE</button>
+        </form>
+    </div>
+    <div class="row">
+        <form class="col s12" method="POST">
+            <input type="hidden" name="resource" value="@RedisKeys.HomeModelMobile" />
+            <button class="btn">DELETE MOBILE STORIES HOMEPAGE CACHE</button>
+        </form>
+    </div>
+</div>

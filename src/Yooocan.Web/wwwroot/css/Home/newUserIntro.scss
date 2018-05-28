@@ -1,0 +1,47 @@
+﻿@import '../_variables.scss';
+
+#intro {
+    text-align: center;
+
+    > div.column {
+        margin-top: 70px;
+        padding: 27.5px;
+
+        @media #{$medium-and-up} {
+            display: inline-block;
+            max-width: 25%;
+            vertical-align: top;
+        }
+
+        > img {
+            height: 50px;
+        }
+
+        h3 {
+            margin-top: 25px;
+            margin-bottom: 11px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #4d4e53;
+        }
+
+        h5 {
+            font-family: Source Sans Pro;
+            font-size: 20px;
+            color: #8e8e8e;
+        }
+    }
+}
+
+.signup-container {
+    margin: 60px 0;
+    text-align: center;
+
+    .btn {
+        border-radius: 4px;
+        background-color: #f6a623;
+        height: 71px;
+        line-height: 71px;
+        font-size: 26px;
+    }
+}

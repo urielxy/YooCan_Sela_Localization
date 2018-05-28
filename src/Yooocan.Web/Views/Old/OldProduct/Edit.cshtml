@@ -1,0 +1,1083 @@
+﻿@model Yooocan.Models.VendorUploadProductModel
+@{
+    ViewData["Title"] = "Edit Product";
+}
+@section Head{
+    <link rel="stylesheet" href="/lib/croppie/croppie.css" />
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/themes/smoothness/jquery-ui.css">
+    <style>
+        body {
+            background-color: white !important;
+        }
+
+        #mainBody {
+            background-color: #f1f1f1 !important;
+        }
+
+        #upload-form {
+            padding: 5px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #upload-form .has-error .form-control {
+            border: 2px solid #a94442;
+        }
+
+        #upload-form sub {
+            bottom: 0;
+        }
+
+        .categories-container > h3 {
+            padding-bottom: 14px;
+        }
+
+        .category-checkbox-label, .limitation-checkbox-label {
+            color: #A9A9A9;
+        }
+
+        .limitation-checkbox:checked + .limitation-checkbox-label,
+        .category-checkbox:checked + .category-checkbox-label {
+            color: black;
+        }
+
+        .categories-container .checkbox-container .category-group {
+            width: 100%;
+            display: inline-block;
+        }
+
+        .categories-container .checkbox-container {
+            -webkit-column-count: 5;
+            -moz-column-count: 5;
+            column-count: 5;
+        }
+
+        .limitations-container .checkbox-container {
+            -webkit-column-count: 4;
+            -moz-column-count: 4;
+            column-count: 4;
+        }
+
+        #status-bar-container {
+            width: 100%;
+            height: 70px;
+            background-color: #a8a9ad;
+            border-radius: 7px;
+            position: relative;
+        }
+
+        #step-position-wrapper {
+            padding: 10px 40px;
+        }
+
+        .step-pos {
+            display: inline-block;
+        }
+
+            .step-pos > div {
+                width: 246px;
+            }
+
+        .step-ball {
+            width: 50px;
+            height: 50px;
+            background-color: #808285;
+            border-radius: 25px;
+            position: relative;
+        }
+
+        .step-ball > div {
+            position: absolute;
+            left: 0;
+            right: 0;
+            text-align: center;
+            line-height: 47px;
+            color: black;
+            display: block;
+        }
+
+        .step-pipe {
+            width: 201px;
+            height: 30px;
+            border-bottom: solid 8px #808285;
+            display: inline-block;
+            margin-left: 50px;
+            position: absolute;
+            top: 9px;
+            text-align: center;
+            line-height: 23px;
+            font-size: 16px;
+        }
+
+        .step-ball-active {
+            background-color: #a6ce39;
+            border: solid 3px white;
+            position: relative;
+        }
+
+        .step-ball-active > div {
+            position: absolute;
+            left: 0;
+            right: 0;
+            text-align: center;
+            line-height: 47px;
+            color: white;
+            display: block;
+        }
+
+        .step-pipe-active {
+            border-bottom-color: white;
+            color: white;
+        }
+
+        .product-info {
+            display: inline-block;
+            width: 29%;
+            margin-right: 61px;
+        }
+
+        #product-description, #product-specifications {
+            display: inline-block;
+            width: 48%;
+        }
+
+        #product-description {
+            margin-right: 36px;
+        }
+
+        #product-description > fieldset > textarea, #product-specifications > fieldset > textarea {
+            width: 100%;
+            height: 136px;
+        }
+
+        .product-image-container {
+            border-radius: 7px;
+            width: 120px;
+            min-height: 120px;
+            display: inline-block;
+            margin-right: 15px;
+        }
+
+        #step-container {
+            position: relative;
+            display: inline-flex;
+            width: 400%;
+        }
+
+        #step-container > div {
+            padding: 0 45px;
+            flex: 1;
+            overflow-y: auto;
+            height: 738px;
+            position: relative;
+        }
+
+        #step-container > div > div.step {
+            overflow: visible;
+            padding-bottom: 80px;
+        }
+
+        .product-attribute {
+            display: inline-block;
+            width: 15%;
+            margin-right: 35px;
+        }
+
+        #RRP-container, #MSRP-container {
+            display: inline-block;
+            width: 47%;
+            margin-right: 13px;
+        }
+
+        #product-attributes .input-group-addon {
+            font-weight: bold;
+        }
+
+        #more-images-button {
+            width: 100%;
+            padding-bottom: 100%;
+            margin: 0;
+            cursor: pointer;
+            border: 2px dashed #c1c1c1;
+            position: relative;
+            background-color: #a9a9a9;
+            background-image: url("/images/white-plus.png");
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .upload-image {
+            position: relative;
+        }
+
+        .upload-image .delete-image-button {
+            display: none;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            border: 1px solid rgba(93, 93, 93, 0.5);
+            background-color: rgba(200, 200, 200, 0.6);
+            color: #000;
+            text-align: center;
+            height: 25px;
+            border-radius: 25px;
+            width: 25px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        label.with-image ~ .delete-image-button {
+            display: block;
+        }
+
+        .upload-image .delete-image-button::before {
+            vertical-align: middle;
+            content: 'X'
+        }
+
+        .upload-image .delete-image-button:hover {
+            border: 2px solid rgb(93, 93, 93);
+        }
+
+        .upload-image .delete-image-button:hover::before {
+            color: rgb(93, 93, 93);
+            font-weight: bold;
+        }
+
+        .upload-image > label {
+            width: 100%;
+            padding-bottom: 100%;
+            margin: 0;
+            cursor: pointer;
+            border: 2px solid #c1c1c1;
+            background-color: #a9a9a9;
+            background-image: url("/images/camera.png");
+            background-repeat: no-repeat;
+            background-position: 45px 55px;
+            background-size: 40%;
+        }
+
+        .upload-image > label.with-image {
+            border: 0.5px solid #c1c1c1;
+            background-position: 0 0;
+            background-size: 100% 100%;
+            background-color: transparent;
+        }
+
+        .upload-document > label {
+            background-image: url('http://www.myiconfinder.com/uploads/iconsets/a55cff87045ef37b6ceb274a33d92aeb-document.png');
+            background-position: 45px 45px;
+            width: 100%;
+            padding-bottom: 100%;
+            margin: 0;
+            cursor: pointer;
+            border: 2px solid #c1c1c1;
+            background-color: #a9a9a9;
+            background-repeat: no-repeat;
+            background-size: 40%;
+            position: relative;
+        }
+
+        .upload-document .fa-stack {
+            top: 2px;
+            right: 2px;
+            position: absolute;
+        }
+
+        #step2-row2-input-fields-container {
+            display: inline-block;
+        }
+
+        #yooocan-commission + .step2-row2-sign {
+            position: absolute;
+            right: 254px;
+            top: 54px;
+        }
+
+        #vendor-net-price + .step2-row2-sign {
+            position: absolute;
+            right: 50px;
+            top: 54px;
+        }
+
+        #step2-row2-info-fields-container {
+            position: relative;
+            display: inline-block;
+            height: 119px;
+            vertical-align: top;
+            width: 44%;
+        }
+
+        .next-btn-anabled {
+            cursor: pointer;
+            border: dashed 2px red;
+        }
+
+        footer {
+            display: none;
+        }
+    </style>
+
+}
+<div class="alert alert-danger hidden-lg" style="margin-top: 60px;">
+    <h3>Currently uploads are not support from mobile and tablet devices.</h3>
+    <h4>Please revisit from a desktop.</h4>
+</div>
+<section id="upload-product-container" class="hidden-xs hidden-sm hidden-md">
+    <div id="status-bar-container">
+        <div id="step-position-wrapper">
+            <div class="step-pos" id="step_1">
+                <div>
+                    <div class="step-ball step-ball-active">
+                        <div>1</div>
+                    </div>
+                    <div class="step-pipe step-pipe-active">Product</div>
+                </div>
+            </div>
+            <div class="step-pos" id="step_2">
+                <div>
+                    <div class="step-ball">
+                        <div>2</div>
+                    </div>
+                    <div class="step-pipe">Pricing</div>
+                </div>
+            </div>
+            <div class="step-pos" id="step_3">
+                <div>
+                    <div class="step-ball">
+                        <div>3</div>
+                    </div>
+                    <div class="step-pipe">Activity</div>
+                </div>
+            </div>
+            <div class="step-pos" id="step_4">
+                <div>
+                    <div class="step-ball">
+                        <div>4</div>
+                    </div>
+                    <div class="step-pipe">Disablility</div>
+                </div>
+            </div>
+            <div class="step-pos">
+                <div style="width:0">
+                    <div class="step-ball">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h1 style="text-align: center; font-weight: bold;"> PRODUCT LISTING FORM</h1>
+    <div class="modal" id="image-preview-modal" tabindex="-1">
+        <div class="modal-dialog modal-lg" style="width: 800px;">
+            <div class="modal-content">
+                <div id="image-pic-preview"></div>
+                <div class="text-center" style="padding-bottom: 15px">
+                    <button id="image-take-picture" type="button" class="btn btn-primary">Looks good</button>
+                    <button id="image-close-modal" type="button" class="btn btn-default">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form id="upload-form" asp-action="Edit" asp-controller="Product" method="post">
+        <input asp-for="ProductId" type="hidden"/>
+        <div id="step-container">
+            <div>
+                <div id="product-description-step_1" class="step">
+                    <div id="product-info-container">
+                        <div class="product-info">
+                            <fieldset class="form-group">
+                                <h4>UPC</h4>
+                                <input class="form-control" asp-for="Upc" placeholder="UPC" />
+                            </fieldset>
+                        </div>
+                        <div class="product-info">
+                            <fieldset class="form-group">
+                                <h4 class="required">Product Name</h4>
+                                <input class="form-control" asp-for="Name" required placeholder="Product name" />
+                            </fieldset>
+                        </div>
+                        <div class="product-info" style="margin-right: 0">
+                            <fieldset class="form-group">
+                                <h4>Product Brand</h4>
+                                <input class="form-control" asp-for="Brand" placeholder="Brand name" />
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div>
+                        <div id="product-description">
+                            <fieldset class="form-group">
+                                <h4 class="required">Product Description</h4>
+                                <textarea asp-for="About" class="form-control" required="@string.IsNullOrEmpty(Model.AmazonId)" placeholder="Description"></textarea>
+                            </fieldset>
+                        </div>
+                        <div id="product-specifications">
+                            <fieldset class="form-group">
+                                <h4>Product Specifications</h4>
+                                <textarea asp-for="Specifications" class="form-control" placeholder="Specifications"></textarea>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="row" id="product-attributes">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <h4>Height</h4>
+                                <div class="input-group">
+                                    <span class="input-group-addon">(in)</span>
+                                    <input asp-for="Height" class="form-control" placeholder="Height" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <h4>Width</h4>
+                                <div class="input-group">
+                                    <span class="input-group-addon">(in)</span>
+                                    <input asp-for="Width" class="form-control" placeholder="Width" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <h4>Depth</h4>
+                                <div class="input-group">
+                                    <span class="input-group-addon">(in)</span>
+                                    <input asp-for="Depth" class="form-control" placeholder="Depth" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <h4>Weight</h4>
+                                <div class="input-group">
+                                    <span class="input-group-addon">(lb)</span>
+                                    <input asp-for="Weight" class="form-control" placeholder="Weight" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <h4 class="required">Product page URL on <b>your</b> website</h4>
+                                <input asp-for="Url" type="url" required="@string.IsNullOrEmpty(Model.AmazonId)" class="form-control" placeholder="http://myWebsite.com/Product/123" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <h4>Colors <sub>comma seperated</sub></h4>
+                                <input asp-for="Colors" class="form-control" placeholder="Red,White,Blue" />
+                            </div>
+                        </div>
+                    </div>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <div class="row">
+                            <div class="form-group">
+                                <label asp-for="VendorId" class="col-sm-2 control-label">Vendor ID</label>
+                                <div class="col-sm-10">
+                                    <input asp-for="VendorId" class="form-control" placeholder="Vendor ID"/>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div>
+                <div id="product-price-step_2" class="step">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <h4 class="required">Price on website</h4>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-usd" aria-hidden="true"></i></span>
+                                    <input asp-for="Price" required class="form-control" placeholder="Price" />
+                                </div>
+                            </div>
+                        </div>
+                        @if (Model.Commission != null)
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <h4>yoocan commission <sub>(Currently free)</sub></h4>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-percent" aria-hidden="true"></i></span>
+                                        <input asp-for="Commission" class="form-control" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <h4>Vendor net price</h4>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-usd" aria-hidden="true"></i></span>
+                                        <input id="vendor-net-price" value="@Model.Price" class="form-control" placeholder="0.00" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <h4><b>Primary</b> image</h4>
+                            <div class="upload-image" data-container="product-images" data-width="554" data-height="554">
+                                <label for="picture-upload-1" @(Model.Images.Count >= 1 ? "class=with-image style=background-image:url("+Model.Images[0]+")" : "")>
+                                    <input type="file" class="upload-image-input" id="picture-upload-1" accept="image/*" style="display: none;" />
+                                </label>
+                                <input name="@nameof(Model.Images)" type="hidden" value="@Model.Images.ElementAtOrDefault(0)" />
+                                <div class="delete-image-button"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <h4>Image 2</h4>
+                            <div class="upload-image" data-container="product-images" data-width="554" data-height="554">
+                                <label for="picture-upload-2" @(Model.Images.Count >= 2 ? "class=with-image style=background-image:url(" + Model.Images[1] + ")" : "")>
+                                    <input type="file" class="upload-image-input" id="picture-upload-2" accept="image/*" style="display: none;" />
+                                </label>
+                                <input name="@nameof(Model.Images)" type="hidden" value="@Model.Images.ElementAtOrDefault(1)"/>
+                                <div class="delete-image-button"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <h4>Image 3</h4>
+                            <div class="upload-image" data-container="product-images" data-width="554" data-height="554">
+                                <label for="picture-upload-3" @(Model.Images.Count >= 3 ? "class=with-image style=background-image:url(" + Model.Images[2] + ")" : "")>
+                                    <input type="file" class="upload-image-input" id="picture-upload-3" accept="image/*" style="display: none;" />
+                                </label>
+                                <input name="@nameof(Model.Images)" type="hidden" value="@Model.Images.ElementAtOrDefault(2)" />
+                                <div class="delete-image-button"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <h4>Image 4</h4>
+                            <div class="upload-image" data-container="product-images" data-width="554" data-height="554">
+                                <label for="picture-upload-4" @(Model.Images.Count >= 4 ? "class=with-image style=background-image:url(" + Model.Images[3] + ")" : "")>
+                                    <input type="file" class="upload-image-input" id="picture-upload-4" accept="image/*" style="display: none;" />
+                                </label>
+                                <input name="@nameof(Model.Images)" type="hidden" value="@Model.Images.ElementAtOrDefault(3)" />
+                                <div class="delete-image-button"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <h4>More images</h4>
+                            <div id="more-images-button"></div>
+                        </div>
+                        <div class="col-md-2">
+                            <h4><b>Brand</b> logo</h4>
+                            <div class="upload-image" data-container="product-images/brands" data-width="200" data-height="200">
+                                <label for="brand-upload" @(!string.IsNullOrEmpty(Model.BrandLogoUrl) ? "class=with-image style=background-image:url(" + Model.BrandLogoUrl + ")" : "")>
+                                    <input type="file" class="upload-image-input" id="brand-upload" accept="image/*" style="display: none;" />
+                                </label>
+                                <input asp-for="BrandLogoUrl" type="hidden" />
+                                <div class="delete-image-button"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row hidden" id="more-images-container">
+                        <div class="col-md-2">
+                            <h4>Image 5</h4>
+                            <div class="upload-image" data-container="product-images" data-width="554" data-height="554">
+                                <label for="picture-upload-5" @(Model.Images.Count >= 5 ? "class=with-image style=background-image:url(" + Model.Images[4] + ")" : "")>
+                                    <input type="file" class="upload-image-input" id="picture-upload-5" accept="image/*" style="display: none;" />
+                                </label>
+                                <input name="@nameof(Model.Images)" type="hidden" value="@Model.Images.ElementAtOrDefault(4)" />
+                                <div class="delete-image-button"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <h4>Image 6</h4>
+                            <div class="upload-image" data-container="product-images" data-width="554" data-height="554">
+                                <label for="picture-upload-6" @(Model.Images.Count >= 6 ? "class=with-image style=background-image:url(" + Model.Images[5] + ")" : "")>
+                                    <input type="file" class="upload-image-input" id="picture-upload-6" accept="image/*" style="display: none;" />
+                                </label>
+                                <input name="@nameof(Model.Images)" type="hidden" value="@Model.Images.ElementAtOrDefault(5)" />
+                                <div class="delete-image-button"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <h4>Image 7</h4>
+                            <div class="upload-image" data-container="product-images" data-width="554" data-height="554">
+                                <label for="picture-upload-7" @(Model.Images.Count >= 7 ? "class=with-image style=background-image:url(" + Model.Images[6] + ")" : "")>
+                                    <input type="file" class="upload-image-input" id="picture-upload-7" accept="image/*" style="display: none;" />
+                                </label>
+                                <input name="@nameof(Model.Images)" type="hidden" value="@Model.Images.ElementAtOrDefault(6)" />
+                                <div class="delete-image-button"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <h4>Image 8</h4>
+                            <div class="upload-image" data-container="product-images" data-width="554" data-height="554">
+                                <label for="picture-upload-8" @(Model.Images.Count >= 8 ? "class=with-image style=background-image:url(" + Model.Images[7] + ")" : "")>
+                                    <input type="file" class="upload-image-input" id="picture-upload-8" accept="image/*" style="display: none;" />
+                                </label>
+                                <input name="@nameof(Model.Images)" type="hidden" value="@Model.Images.ElementAtOrDefault(7)" />
+                                <div class="delete-image-button"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <fieldset class="form-group">
+                            <h4>YouTube</h4>
+                            <input id="youTubeUrl" class="form-control youtube-url" placeholder="Paste YouTube video link here" value="@(!string.IsNullOrEmpty(Model.YouTubeId) ? "https://www.youtube.com/watch?v="+Model.YouTubeId :"")">
+                            <input asp-for="YouTubeId" type="hidden" />                            
+                        </fieldset>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="upload-image" data-container="product-images/certifications" data-width="200" data-height="200">
+                                <h4>Certification image</h4>
+                                <label for="cerification-upload-1" @(Model.CertificationImages.Count >= 1 ? "class=with-image style=background-image:url(" + Model.CertificationImages[0] + ")" : "")>
+                                    <input type="file" class="upload-image-input" id="cerification-upload-1" accept="image/*" style="display: none;" />
+                                </label>
+                                <input name="@nameof(Model.CertificationImages)" type="hidden" value="@Model.CertificationImages.ElementAtOrDefault(0)" />
+                                <div class="delete-image-button"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <h4>Certification image</h4>
+                            <div class="upload-image" data-container="product-images/certifications" data-width="200" data-height="200">
+                                <label for="cerification-upload-2" @(Model.CertificationImages.Count >= 2 ? "class=with-image style=background-image:url(" + Model.CertificationImages[1] + ")" : "")>
+                                    <input type="file" class="upload-image-input" id="cerification-upload-2" accept="image/*" style="display: none;" />
+                                </label>
+                                <input name="@nameof(Model.CertificationImages)" type="hidden" value="@Model.CertificationImages.ElementAtOrDefault(1)" />
+                                <div class="delete-image-button"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <h4>Warrenty document</h4>
+                            <div class="upload-document">
+                                <label for="warrenty-upload">
+                                    <input type="file" name="file" id="warrenty-upload" style="display:none;" data-url="@Url.Action("Upload", "File", new {containerName = "products-warrenties"})" />
+                                    <span class="fa-stack fa-lg" style="display: @(!string.IsNullOrEmpty(Model.WarrentyUrl) ? "block": "none");">
+                                        <i class="fa fa-circle fa-stack-2x" style="color: lightgreen;"></i>
+                                        <i class="fa fa-check fa-stack-1x" style="color: white;"></i>
+                                    </span>
+                                </label>
+                                <input asp-for="WarrentyUrl" type="hidden" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div id="product-catagories-step_3" class="step">
+                    <fieldset class="form-group categories-container">
+                        <h3>Select one or more relevant categories</h3>
+                        <div class="checkbox-container">
+                            @foreach (var category in Model.CategoriesOptions)
+                            {
+                                <div class="category-group">
+                                    @*<h4> @category.Key</h4>*@
+                                    <input type="checkbox" class="main-category-checkbox" id="main-category-@category.Key" checked="@category.Value.All(x => Model.Categories.Contains(x.Key))" />
+                                    <label for="main-category-@category.Key" class="category-checkbox-label">@category.Key</label>
+                                    @foreach (var subCategory in category.Value)
+                                    {
+                                        <div class="checkbox">
+                                            <input type="checkbox" class="category-checkbox" name="@nameof(Model.Categories)" value="@subCategory.Key"
+                                                   checked="@Model.Categories.Contains(subCategory.Key)" id="category-@subCategory.Key">
+                                            <label for="category-@subCategory.Key" class="category-checkbox-label">@subCategory.Value</label>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <div>
+                <div id="product-limitations-step_4" class="step">
+                    <fieldset class="form-group limitations-container">
+                        <h3 style="margin-top: 35px;">Select one or more disabilities</h3>
+                        <div class="checkbox-container">
+                            <div class="limitation-group">
+                                @foreach (var limitation in Model.LimitationsOptions)
+                                {
+                                    <div class="checkbox">
+                                        <input type="checkbox" class="limitation-checkbox" name="@nameof(Model.Limitations)" value="@limitation.Key" id="limitation-@limitation.Key"
+                                               checked="@Model.Limitations.Contains(limitation.Key)">
+                                        <label for="limitation-@limitation.Key" class="limitation-checkbox-label">@limitation.Value</label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div>
+                            <button class="btn" id="select-all-limitations">toggle all</button>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <div style="position: absolute; height: 80px; bottom: 0; width: 100%; background-color: #f1f1f1; opacity: 0.9; z-index: 10;">
+            <button id="back" type="button" class="btn btn-default pull-left hidden" style="width: 180px; height: 60px; font-size: 20px; margin-left: 45px;">BACK</button>
+            <button id="next" type="button" class="btn btn-success pull-right" style="width: 180px; height: 60px; font-size: 20px; margin-right: 45px;">NEXT</button>
+            <button id="submit" class="btn btn-primary pull-right hidden" style="width: 180px; height: 60px; font-size: 20px; margin-right: 45px;">SUBMIT</button>
+            @*<button id="preview" type="button" class="btn btn-warning pull-right hidden" style="width: 180px; height: 60px; font-size: 20px; margin-right: 45px;">PREVIEW</button>*@
+        </div>
+    </form>
+</section>
+@section Scripts {
+    <script src="/lib/croppie/croppie.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.5.2/jquery.fileupload.min.js"></script>
+    <script>
+        $(function() {
+            // Go to hell sucker.
+            $('footer').remove();
+
+            var page = 1;
+            var isAnimating;
+
+            var canNavigate = function() {
+                if (isAnimating)
+                    return false;
+                var $emptyRequireds = $('#step-container .step:eq(' + (page - 1) + ') [required]')
+                    .filter(function() { return this.value == null || this.value === "" });
+                if ($emptyRequireds.length > 0) {
+                    $emptyRequireds.closest('.form-group').addClass('has-error');
+                    alert("Please fill all required fields");
+                    return false;
+                }
+
+                return true;
+            }
+
+            $('#step-container').on('keyup', ' .has-error .form-control', function() {
+                $(this).closest('.has-error').removeClass('has-error');
+            });
+
+            $("#next")
+                .click(function() {
+
+                    if (!canNavigate())
+                        return false;
+
+                    page++;
+                    isAnimating = true;
+                    switch (page) {
+                    case 2:
+                    {
+                        $('#back').removeClass('hidden');
+                        $("#step_2").addClass("step-activated");
+                        $("#step_2 .step-ball").addClass("step-ball-active");
+                        $("#step_2 .step-pipe").addClass("step-pipe-active");
+                        $("#step-container").animate({ left: '-100%' }, function() {
+                            $('#step-container > div:nth-child(' + (page) + ') input:first').focus();
+                            isAnimating = false;
+                        });
+                        break;
+                    }
+                    case 3:
+                    {
+                        $("#step_3").addClass("step-activated");
+                        $("#step_3 .step-ball").addClass("step-ball-active");
+                        $("#step_3 .step-pipe").addClass("step-pipe-active");
+                        $("#step-container").animate({ left: '-200%' }, function() {
+                            $('#step-container > div:nth-child(' + (page) + ') input:first').focus();
+                            isAnimating = false;
+                        });
+                        break;
+                    }
+                    case 4:
+                    {
+                        $('#preview').removeClass('hidden');
+                        $('#submit').removeClass('hidden');
+
+                        $("#step_4").addClass("step-activated");
+                        $("#step_4 .step-ball").addClass("step-ball-active");
+                        $("#step_4 .step-pipe").addClass("step-pipe-active");
+                        $("#step-container").animate({ left: '-300%' }, function() {
+                            $('#step-container > div:nth-child(' + (page) + ') input:first').focus();
+                            isAnimating = false;
+                        });
+                        $(this).addClass('hidden');
+
+                        break;
+                    }
+                    }
+                });
+
+
+            $("#back")
+                .click(function() {
+                    switch (page) {
+                    case 2:
+                    {
+                        $("#step-container").animate({ left: '0%' });
+                        $("#step_2 .step-ball").removeClass("step-ball-active");
+                        $("#step_2 .step-pipe").removeClass("step-pipe-active");
+                        $(this).addClass('hidden');
+                        break;
+                    }
+                    case 3:
+                    {
+                        $("#step-container").animate({ left: '-100%' });
+                        $("#step_3 .step-ball").removeClass("step-ball-active");
+                        $("#step_3 .step-pipe").removeClass("step-pipe-active");
+                        break;
+                    }
+                    case 4:
+                    {
+                        $("#step-container").animate({ left: '-200%' });
+                        $("#step_4 .step-ball").removeClass("step-ball-active");
+                        $("#step_4 .step-pipe").removeClass("step-pipe-active");
+                        $('#next').removeClass('hidden');
+                        $('#back').removeClass('hidden');
+                        $('#preview').addClass('hidden');
+                        $('#submit').addClass('hidden');
+                        break;
+                    }
+                    }
+
+                    page--;
+                });
+
+
+            $('#step_1')
+                .click(function() {
+                    if (!canNavigate())
+                        return false;
+
+                    page = 1;
+                    $('#back,#preview,#submit').addClass('hidden');
+                    $('#next').removeClass('hidden');
+                    $("#step-container").animate({ left: '0%' });
+                    $("#step_4 .step-ball").removeClass("step-ball-active");
+                    $("#step_4 .step-pipe").removeClass("step-pipe-active");
+                    $("#step_3 .step-ball").removeClass("step-ball-active");
+                    $("#step_3 .step-pipe").removeClass("step-pipe-active");
+                    $("#step_2 .step-ball").removeClass("step-ball-active");
+                    $("#step_2 .step-pipe").removeClass("step-pipe-active");
+                });
+            $('#step_2')
+                .click(function() {
+                    if ($("#step_2").hasClass("step-activated")) {
+                        page = 2;
+
+                        $('#preview,#submit').addClass('hidden');
+                        $('#back,#next').removeClass('hidden');
+
+                        $("#step-container").animate({ left: '-100%' });
+                        $("#step_4 .step-ball").removeClass("step-ball-active");
+                        $("#step_4 .step-pipe").removeClass("step-pipe-active");
+                        $("#step_3 .step-ball").removeClass("step-ball-active");
+                        $("#step_3 .step-pipe").removeClass("step-pipe-active");
+                        $("#step_2 .step-ball").addClass("step-ball-active");
+                        $("#step_2 .step-pipe").addClass("step-pipe-active");
+                    }
+                });
+            $('#step_3')
+                .click(function() {
+
+                    if ($("#step_3").hasClass("step-activated")) {
+                        page = 3;
+
+                        $('#preview,#submit').addClass('hidden');
+                        $('#back,#next').removeClass('hidden');
+
+                        $("#step-container").animate({ left: '-200%' });
+                        $("#step_4 .step-ball").removeClass("step-ball-active");
+                        $("#step_4 .step-pipe").removeClass("step-pipe-active");
+                        $("#step_3 .step-ball").addClass("step-ball-active");
+                        $("#step_3 .step-pipe").addClass("step-pipe-active");
+                        $("#step_2 .step-ball").addClass("step-ball-active");
+                        $("#step_2 .step-pipe").addClass("step-pipe-active");
+                    }
+                });
+            $('#step_4')
+                .click(function() {
+                    if ($("#step_4").hasClass("step-activated")) {
+                        page = 4;
+                        $('#preview,#submit,#back').removeClass('hidden');
+                        $('#next').addClass('hidden');
+
+                        $("#step-container").animate({ left: '-300%' });
+                        $("#step_4 .step-ball").addClass("step-ball-active");
+                        $("#step_4 .step-pipe").addClass("step-pipe-active");
+                        $("#step_3 .step-ball").addClass("step-ball-active");
+                        $("#step_3 .step-pipe").addClass("step-pipe-active");
+                        $("#step_2 .step-ball").addClass("step-ball-active");
+                        $("#step_2 .step-pipe").addClass("step-pipe-active");
+                    }
+                });
+            var $currentUpdating;
+            var $imagePicPreview = $('#image-pic-preview')
+                .croppie({
+                    viewport: {
+                        width: 554,
+                        height: 554
+                    },
+                    boundary: {
+                        width: 650,
+                        height: 650
+                    }
+                });
+
+            @if (Model.Commission != null)
+            {
+                <text>
+                    $('#@nameof(Model.Price)').keyup(function() {
+                        //$('#vendor-net-price').val((this.value - (this.value * @Model.Commission / 100)).toFixed(2));
+                        $('#vendor-net-price').val(this.value);
+                    });
+                </text>
+            }
+
+            function getYoutubeId(url) {
+                var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+                var match = url.match(regExp);
+
+                if (match && match[2].length >= 5) {
+                    return match[2];
+                } else {
+                    return 'error';
+                }
+            }
+
+            $('#youTubeUrl')
+                .change(function() {
+                    if (!this.value.trim()) {
+                        $('#YoutubeId').val('');
+                        $("#youtubeContainer").hide();
+                        return false;
+                    }
+
+                    var id = getYoutubeId(this.value);
+                    if (id === "error") {
+                        $('#@nameof(Model.YouTubeId)').val('');
+                        $("#youtubeContainer").hide();
+                        alert('Invalid YouTube Url');
+                        return false;
+                    }
+
+                    $('#@nameof(Model.YouTubeId)').val(id);
+                });
+
+            // Validate and animate moving to next slide with tab.
+            // It catches "Tab" clicks on each VISIBLE inputs of every slide.
+            $('#step-container > div > div.step').each(function() {
+                $(this).find('input:visible:last').keydown(function(e) {
+                    if (e.which === 9 && !e.shiftKey) {
+                        $('#next').click();
+                        return false;
+                    }
+                });
+            });
+
+            function readImageFile(input) {
+                var width = $currentUpdating.data('width');
+                var height = $currentUpdating.data('height');
+
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(event) {
+                        $('#image-preview-modal').modal('show');
+
+                        $('#image-pic-preview')
+                            .croppie('destroy')
+                            .croppie({
+                                viewport: {
+                                    width: width,
+                                    height: height
+                                },
+                                boundary: {
+                                    width: width * 1.3,
+                                    height: height * 1.3
+                                }
+                            });
+
+                        $imagePicPreview.croppie('bind',
+                        {
+                            url: event.target.result
+                        });
+                    };
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            $('.upload-image-input').on('change', function() {
+                $currentUpdating = $(this).closest('.upload-image');
+                readImageFile(this);
+            });
+            $('.delete-image-button').click(function() {
+                var $currentImage = $(this).closest('.upload-image');
+                $currentImage.find('label')
+                    .css('background-image', '')
+                    .removeClass('with-image');
+                $currentImage.find('input[type="hidden"]').val('');
+            });
+            $('#image-take-picture')
+                .click(function() {
+                    var width = $currentUpdating.data('width');
+                    var height = $currentUpdating.data('height');
+                    var container = $currentUpdating.data('container');
+                    $imagePicPreview.croppie('result', {
+                            size: {
+                                width: width,
+                                height: height
+                            },
+                            quality: 0.8,
+                            format:"jpeg"
+                        })
+                        .then(function(data) {
+                            $currentUpdating.find('label')
+                                .css('background-image', 'url(' + data + ')')
+                                .addClass('with-image');
+
+                            $.post('@Url.Action("UploadDataUriImages", "Image")',
+                                {
+                                    dataUri: data,
+                                    containerName: container
+                                },
+                                function(url) {
+                                    $currentUpdating.find('input[type="hidden"]').val(url);
+                                });
+
+                            $('#image-preview-modal').modal('hide');
+                        });
+                    return false;
+                });
+
+            $('#image-close-modal')
+                .click(function() {
+                    $('#image-preview-modal').modal('hide');
+                });
+
+            $('#more-images-button').one('click', function() {
+                $('#more-images-container').css('visibility', 'visible').removeClass('hidden').hide().slideDown();
+                $(this).css({
+                    opacity: 0.2,
+                    cursor: 'default'
+                });
+            });
+
+            $('#warrenty-upload').fileupload({
+                dataType: 'json',
+                add: function(event, data) {
+                    data.submit();
+                },
+                done: function (e, data) {
+                    $('#WarrentyUrl').val(data.result.url);
+                    $('.upload-document .fa-stack').fadeIn();
+                }
+            });
+
+            var allLimitationsChecked = false;
+            $('#select-all-limitations').click(function () {
+                allLimitationsChecked = !allLimitationsChecked;
+                $('.limitation-group .limitation-checkbox').each(function () {                   
+                    this.checked = allLimitationsChecked;
+                });
+                return false;
+            });
+
+            $('.main-category-checkbox').change(function (event) {
+                var $checkbox = $(this);
+                var isChecked = this.checked;
+                var subcategoryCheckboxes = $checkbox.closest(".category-group").find(".category-checkbox");
+                subcategoryCheckboxes.each(function (i, element) {
+                    element.checked = isChecked;
+                });
+            });
+        });
+    </script>
+}

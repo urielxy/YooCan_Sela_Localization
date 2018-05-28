@@ -1,0 +1,47 @@
+﻿@import "../_variables.scss";
+
+.category-banners-strip {
+    margin-top: 80px;
+
+    &.not-init {
+        display: flex;
+        overflow-x: hidden;
+
+        .carousel-cell {
+            display: inline-block;
+
+            img {
+                max-width: unset;
+            }
+        }
+    }
+
+    .carousel-cell {
+        width: 33.5%;
+        border-right: 2px solid #fff;
+        border-left: 2px solid #fff;
+        border-top: 4px solid #fff;
+        text-align: center;
+
+        img {
+            max-width: 100%;
+        }
+    }
+
+    @media #{$medium-and-down} {
+        margin-top: 10px;
+
+        .carousel-cell {
+            width: 100%;
+            border: 0;
+        }
+
+        .flickity-prev-next-button {
+            background-color: transparent;
+
+            .arrow {
+                fill: #eee;
+            }
+        }
+    }
+}

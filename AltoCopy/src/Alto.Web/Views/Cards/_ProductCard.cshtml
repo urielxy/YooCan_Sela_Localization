@@ -1,0 +1,26 @@
+﻿@using Alto.Logic.Extensions
+@model Alto.Models.Cards.ProductCardModel
+@if (ViewContext.HttpContext.Items["ProductCard"] == null)
+{
+    <embedcss href="/css/Cards/ProductCard"></embedcss>
+    ViewContext.HttpContext.Items["ProductCard"] = true;
+}
+<a asp-action="Index" asp-controller="Product" asp-route-id="@Model.Id" asp-route-name="@Model.Name.ToCanonical()">
+    <div class="product card hoverable">
+        @Html.Partial("~/Views/Cards/_ProductDiscount.cshtml")
+        <div class="card-image" style="background-image: url('@(Model.ImageUrl)_300x200')">
+        </div>
+        <div class="card-stacked">
+            <div class="card-content">
+                <div class="name">@Model.Name.Truncate(30, TruncatorExt.DiscardingIncompleteWord)</div>
+                <div class="vendor">By @Model.VendorName</div>
+                <div class="price">
+                    @if (Model.PriceAfterDiscount > 0)
+                    {
+                        <text>@Model.PriceAfterDiscount.ToString("C")</text>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</a>

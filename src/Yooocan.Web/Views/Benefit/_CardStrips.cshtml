@@ -1,0 +1,8 @@
+﻿@model Yooocan.Models.Categories.AltoCategoryFeedModel
+@for (var i = 0; i < Model.BenefitsStrips.Count; i++)
+{
+    if (Model.BenefitsStrips.Count - 1 >= i)
+    {
+        @Html.Partial("_BenefitsStrip", Model.BenefitsStrips[i])
+    }
+}

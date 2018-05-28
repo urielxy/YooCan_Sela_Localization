@@ -1,0 +1,17 @@
+﻿@inject Yooocan.Logic.IOldProductLogic ProductLogic
+@{ 
+    var product = await ProductLogic.GetProductOfTheDay();
+}
+<a no-follow-external href="@product.ProductPageUrl" class="product-card-link" data-product-name="@product.Name" data-product-id="@product.Id">
+    <div class="alto-card-promo card hoverable">
+        <div class="card-content white-background">
+            <h2>
+                Product Of The Day
+            </h2>
+            <img src="@product.PrimaryImageUrl" />
+        </div>
+        <div class="card-button">
+            BUY NOW
+        </div>
+    </div>
+</a>

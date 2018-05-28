@@ -1,0 +1,125 @@
+﻿@import '../_variables.scss';
+
+#html {
+    .reelabilities-card {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        text-align: left;
+        padding: 0;
+
+        .card-content {
+            width: 100%;
+            border-radius: 3px;
+            border: solid 1px #00abc7;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: #fff;
+            text-align: left;
+            padding-top: 10px;
+
+            img {
+                max-width: 100%;
+                display: block;
+                margin: 0 auto;
+
+                &.location {
+                    margin: 5px 0;
+                }
+
+                &.reel-logo {
+                    margin-top: 8px;
+                }
+            }
+
+            h5 {
+                margin: 8px 0 0 0;
+                font-size: 25px;
+                font-weight: bold;
+                color: #1e252b;
+            }
+
+            .date {
+                margin: 0;
+                font-size: 16px;
+                font-weight: 500;
+                line-height: 1.13;
+                color: #8c9099;
+            }
+
+            .bottom {
+                font-size: 30px;
+                font-weight: 900;
+                line-height: 0.85;
+                text-align: left;
+                color: #1f252c;
+
+                .yoocan-logo {
+                    span {
+                        &:nth-child(1) {
+                            color: #07b557;
+                        }
+
+                        &:nth-child(2) {
+                            color: #ff9e26;
+                        }
+
+                        &:nth-child(3) {
+                            color: #ea2930;
+                        }
+
+                        &:nth-child(4) {
+                            color: #859c8f;
+                        }
+
+                        &:nth-child(5) {
+                            color: #0989cd;
+                        }
+
+                        &:nth-child(6) {
+                            color: #31ace8;
+                        }
+                    }
+                }
+            }
+
+            @media (max-width: 1500px) {
+                .bottom {
+                    font-size: 24px;
+                }
+            }
+
+            @media (max-width: 1230px) {
+                h5 {
+                    font-size: 18px;
+                }
+
+                .date {
+                    font-size: 14px;
+                }
+
+                .bottom {
+                    font-size: 18px;
+                }
+            }
+
+            @media #{$small-and-down} {
+                padding: 5px 10px;
+                border-radius: 0;
+
+                h5 {
+                    font-size: 16px;
+                }
+
+                .date {
+                    font-size: 11px;
+                }
+
+                .bottom {
+                    font-size: 18px;
+                }
+            }
+        }
+    }
+}

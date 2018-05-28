@@ -1,0 +1,30 @@
+﻿@import "../_variables.scss";
+
+.social-numbers {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto 40px auto;
+    justify-content: center;
+    align-items: center;
+
+    li {
+        font-family: Montserrat;
+        font-size: 18px;
+        text-align: center;
+        color: #818181;
+        padding: 5px 30px;
+        min-width: 120px;
+        font-size: 20px;
+        line-height: 1;
+
+        strong {
+            font-size: 40px;
+            font-weight: bold;
+            display: block;
+        }
+
+        @media #{$small-and-down} {
+            width: 100%;
+        }
+    }
+}

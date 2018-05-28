@@ -1,0 +1,107 @@
+﻿@{
+    Layout = "_MasterLayout";
+}
+@using System.Security.Claims
+@inject Yooocan.Logic.Options.ClientSideApiKeys ApiKeys
+@{ await Html.RenderPartialAsync("_Header"); }
+@section head {
+    <script>
+        if (window.self !== window.top) {
+            window.top.location = window.location;
+        }
+    </script>
+    @RenderSection("head", required: false)
+    <link rel="shortcut icon" sizes="120x120" href="/images/icons/yoocanicon-120x120.png?v=1">
+    <link rel="shortcut icon" sizes="152x152" href="/images/icons/yoocanicon-152x152.png?v=1">
+    <link rel="shortcut icon" sizes="192x192" href="/images/icons/yoocanicon-192x192.png?v=1">
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/images/icons/yoocanicon-120x120.png">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/images/icons/yoocanicon-152x152.png">
+    <link rel="apple-touch-icon-precomposed" sizes="192x192" href="/images/icons/yoocanicon-192x192.png">
+    <meta name="mobile-web-app-capable" content="yes">
+}
+@section scripts {
+    @RenderSection("scripts", required: false)
+    @*<script>
+            window.intercomSettings = {
+                app_id: "@ApiKeys.IntercomKey",
+                custom_launcher_selector: ".intercom-launcher"
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <text>
+                , name: "@User.FindFirstValue(ClaimTypes.GivenName) @User.FindFirstValue(ClaimTypes.Surname)"
+                , email: "@User.FindFirstValue(ClaimTypes.Email)"
+                    </text>
+                }
+            };
+        </script>
+        <script>(function () { var w = window; var ic = w.Intercom; if (typeof ic === "function") { ic('reattach_activator'); ic('update', intercomSettings); } else { var d = document; var i = function () { i.c(arguments) }; i.q = []; i.c = function (args) { i.q.push(args) }; w.Intercom = i; function l() { var s = d.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'https://widget.intercom.io/widget/y6su27as'; var x = d.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x); } if (w.attachEvent) { w.attachEvent('onload', l); } else { w.addEventListener('load', l, false); } } })()</script>*@
+    @if (!User.Identity.IsAuthenticated && Context.Request.Cookies["RegDialog"] != "1" 
+        && !Context.Request.Path.ToString().StartsWith("/Account/Register") && !Context.Request.Path.ToString().StartsWith("/Account/Login"))
+    {
+        Context.Response.Cookies.Append("RegDialog", "1", new Microsoft.AspNetCore.Http.CookieOptions { Expires = DateTimeOffset.UtcNow.AddHours(12) });
+        @Html.Partial("../Account/_SmallRegister")
+    }
+    @Html.Partial("_Chat")
+}
+@section GA {
+    @RenderSection("GA", required: false)
+}
+<div id="mainBody">
+    @RenderBody()
+</div>
+<input type="hidden" id="hid-user-avatar" value="@User.FindFirstValue("picture")" />
+<input type="hidden" id="hid-first-name" value="@User.FindFirstValue(ClaimTypes.GivenName)" />
+<input type="hidden" id="hid-last-name" value="@User.FindFirstValue(ClaimTypes.Surname)" />
+@{ Html.RenderPartial("_Footer"); }
+<div id="modal-container" class="modal">
+    <a href="#!" class="modal-close-corner modal-close" aria-label="close modal dialog"></a>
+    <div id="spinner-container">
+        <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-blue">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+            <div class="spinner-layer spinner-red">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+            <div class="spinner-layer spinner-yellow">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+            <div class="spinner-layer spinner-green">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-content">@RenderSection("modal", false)</div>
+</div>

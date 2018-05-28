@@ -1,0 +1,151 @@
+﻿@model List<Yooocan.Models.SetStoryProductModel>
+<style>
+    .checkbox.checkbox-lg label::before {
+        width: 30px;
+        height: 30px;
+    }
+
+    .checkbox.checkbox-lg label::after {
+        width: 30px;
+        height: 30px;
+        padding-left: 4px;
+        font-size: 20px;
+    }
+</style>
+<form asp-controller="Story" asp-action="SetStoryProducts" style="margin: 20px 0; padding: 0 3px; background-color: #a9a9a9;" class="clearfix" id="set-story-products-form">
+    <div id="related-products-container">
+        <input type="hidden" name="storyId" value="@ViewBag.StoryId" />
+    </div>
+
+
+    <h3> Add product for this story</h3>
+    <fieldset class="form-group">
+        <input class="form-control" name="productSearchTerm" id="productSearchTerm" placeholder="Product Id / Name" />
+        <input type="button" id="search-related-product" class="btn btn-success" value="Search" />
+        <table class="table table-hover table-striped table-bordered" id="related-products-results" style="display: none;">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Vendor name</th>
+                <th style="width: 100px;">Image</th>
+                <th>Add</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </fieldset>
+
+    <table class="table table-hover table-striped table-bordered" id="related-items-table" style="display: @(Model.Any() ? "block" : "none")">
+        <thead>
+        <tr>
+            <th>Used?</th>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Vendor name</th>
+            <th style="width: 100px;"></th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        @for (var i =0; i < Model.Count; i ++)
+        {
+            var product = Model[i];
+            <tr>
+                <td class="is-used">
+                    <div class="checkbox">
+                        <input type="checkbox" name="products[@i].IsUsedInStory" id="products_@(i)_.IsUsedInStory" checked="@product.IsUsedInStory" value="true" />
+                        <label for="products_@(i)_.IsUsedInStory">In Story?</label>
+                    </div>
+                </td>
+                <td class="product-id">@product.Id
+                    <input type="hidden" name="products[@i].Id" value="@product.Id" />
+                </td>
+                <td>@product.Name</td>
+                <td>@product.VendorName</td>
+                <td>
+                    <img src="@product.PrimaryImageUrl" style="width: 100px;" />
+                </td>
+                <td><button class="btn btn-danger remove-product" type="button" data-product-id="@product.Id">Remove</button></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <input type="submit" value="Save Changes" class="btn btn-primary" style="float: right;" />
+</form>
+<script>
+    $('#set-story-products-form')
+        .submit(function () {
+            $('#related-items-table tbody > tr').each(function (i) {
+                $(this).find('td.is-used input').attr('name', 'products[' + i + '].IsUsedInStory');
+                $(this).find('td.product-id input').attr('name', 'products[' + i + '].Id');
+            });
+        });
+
+    $('#related-items-table')
+        .on('click',
+            '.remove-product',
+            function () {
+                var productId = $(this).data('product-id');
+                $(this).closest('tr').remove();
+                $('#related-products-container input')
+                    .filter(function () { return this.value === productId })
+                    .remove();
+            });
+
+    $('#productSearchTerm')
+        .keypress(function (e) {
+            if (e.which === 13 /*enter*/) {
+                $('#search-related-product').click();
+                return false;
+            }
+        });
+
+    $('#search-related-product')
+        .click(function () {
+            $('#related-products-results tbody')
+                .load('@Url.Action("SearchRelatedProduct", "Search")',
+                {
+                    productSearchTerm: $('#productSearchTerm').val()
+                }, function () {
+                    $('#related-products-results').show();
+                });
+            return false;
+        });
+
+    $('#related-products-results')
+        .on('click',
+            '.add-related-product',
+            function () {
+                var index = $('#related-items-table tbody tr').length + 1;
+                var $productId = $('<input>',
+                {
+                    type: 'hidden',
+                    value: $(this).closest('tr').find('.product-id').text().trim(),
+                    name: 'products['+index+'].Id'
+                });
+                var randomId = 'isUsed_' + Math.floor(Math.random() * 90000) + 10000;
+                var $isUsed = $('<div>', { 'class': 'checkbox checkbox-lg' }).append($('<input>',
+                {
+                    type: 'checkbox',
+                    value: true,
+                    name: 'products[' + index + '].IsUsed',
+                    id : randomId
+                })).append($('<label>').attr('for', randomId));
+
+                var $tr = $('<tr>');
+                $tr.append($('<td>', {"class": "is-used"}).append($isUsed));
+                $tr.append($('<td>', { "class": "product-id" }).text($(this).closest('tr').find('.product-id').text().trim()).append($productId));
+                $tr.append('<td>' + $(this).closest('tr').find('.product-name').text().trim() + '</td>');
+                $tr.append('<td>' + $(this).closest('tr').find('.vendor-name').text().trim() + '</td>');
+                $tr.append('<td>' +
+                    '<img class="img-responsive" style="max-width: 300px" src="' +
+                    $(this).closest('tr').find('img').prop('src').trim() +
+                    '"/></td>');
+                $tr.append('<td><button class="btn btn-danger remove-product" type="button" data-product-id="' +
+                    $(this).closest('tr').find('.product-id').text().trim() +
+                    '">Remove</button></td>');
+                $('#related-items-table').show().find('tbody').append($tr);
+                $(this).closest('tr').remove();
+            });
+</script>

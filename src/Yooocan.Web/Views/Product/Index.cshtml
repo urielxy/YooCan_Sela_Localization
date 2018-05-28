@@ -1,0 +1,206 @@
+﻿@using Yooocan.Enums
+@using Yooocan.Logic.Extensions
+@using Yooocan.Logic.Images
+@inject Yooocan.Logic.Images.ImageUrlOptimizer ImageUrlOptimizer
+@inject Yooocan.Logic.HtmlSanitizer HtmlSanitizer
+@model Yooocan.Models.Products.ProductModel
+@{
+    ViewBag.Title = Model.Name;
+    var discount = Model.Discount.ToString($"{(Model.DiscountType == RateType.Percentage ? "0\\%" : "C")}");
+    const int thumbSize = 50;
+    const int fullWidth = 600;
+}
+@section Head {
+    <embedcss href="/css/Shared/WideContainer.css"></embedcss>
+    <embedcss href="/css/Product/Index.css"></embedcss>
+}
+<div id="product-page" data-product-name="@Model.Name">
+    @*@Html.Partial("_Header")*@
+    <div class="container wide">
+        <div class="breadcrumbs">
+            @if (Model.ParentCategory != null && Model.Category != null)
+            {
+                <a href="/" class="breadcrumb">Homepage</a>
+                <a asp-route="CategoryShop" asp-route-id="@Model.ParentCategory.Value.Key" asp-route-categoryName="@Model.ParentCategory.Value.Value.ToCanonical()" class="breadcrumb">@Model.ParentCategory.Value.Value</a>
+                @*<a asp-route="CategoryShop" asp-route-id="@Model.Category.Value.Key" asp-route-categoryName="@Model.Category.Value.Value.ToCanonical()" class="breadcrumb">@Model.Category.Value.Value</a>*@
+                <span class="breadcrumb">@Model.Name</span>
+            }
+        </div>
+        <div class="row">
+            <div class="col s12 m4 left-col">
+                @if (Model.Images.Any() || !string.IsNullOrEmpty(Model.YouTubeId))
+                {
+                    <div class="images-container">
+                        <span class="img-container active" style="background-image: url('@(ImageUrlOptimizer.GetOptimizedUrl(Model.MainImageUrl, thumbSize, thumbSize, TransformationMode.Contain))')" 
+                              data-big-image-url="@ImageUrlOptimizer.GetOptimizedUrl(Model.MainImageUrl, fullWidth)" data-loaded="true">
+                        </span>
+                        @foreach (var image in Model.Images)
+                        {
+                            <span class="img-container" style="background-image: url('@(ImageUrlOptimizer.GetOptimizedUrl(image, thumbSize, thumbSize, TransformationMode.Contain))')"
+                                  data-big-image-url="@ImageUrlOptimizer.GetOptimizedUrl(image, fullWidth)"></span>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.YouTubeId))
+                        {
+                            <span class="img-container video" style="background-image: url('/images/video-thumbnail.gif')"></span>
+                        }
+                    </div>
+                }
+                <div class="main-container">
+                    <img src="@ImageUrlOptimizer.GetOptimizedUrl(Model.MainImageUrl, fullWidth)" class="main" />
+                    <div class="video-container hide">
+                        <iframe src="//www.youtube.com/embed/@Model.YouTubeId?rel=0" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m4 main">
+                @if (Model.DiscountPercentage == 0 && Model.DiscountAbsolute == 0)
+                {
+                }
+                else if (Model.Price == 0 && Model.DiscountPercentage == 0)
+                {
+                    <div class="saving-container">
+                        <span class="saved-raw">FREE</span>
+                    </div>
+                }
+                else if (Model.Price > 0 && (Model.DiscountPercentage > 0 || Model.DiscountAbsolute > 0))
+                {
+                    <div class="saving-container"
+                         data-discount-percentage="@Model.DiscountPercentage"
+                         data-discount-absolute="@Model.DiscountAbsolute"
+                         data-discount-type="@((int) Model.DiscountType)">
+                        <span class="you-save">YOU SAVE</span>
+                        <span class="saved-raw">@Model.DiscountAbsolute.ToString("C")</span>
+                        <span class="saved-percentage">(@Model.DiscountPercentage.ToString("0\\%"))</span>
+                    </div>
+                    <div class="list-price-container">
+                        List Price: <span class="list-price-deleted"><span>@Model.Price.ToString("C")</span></span>
+                    </div>
+                    <div class="price-container">
+                        Member Price: <span id="member-price" data-base-price="@Model.Price">@Model.PriceAfterDiscount.ToString("C")</span>
+                    </div>
+                }
+                else if(Model.Price > 0)
+                {
+                    <div class="price-container">
+                        <span id="member-price" data-base-price="@Model.Price">@Model.PriceAfterDiscount.ToString("C")</span>
+                    </div>
+                }
+                else if (Model.DiscountAbsolute > 0 || Model.DiscountPercentage > 0)
+                {
+                    <div class="saving-container">
+                        <span class="you-save">YOU SAVE</span>
+                        <span class="saved-raw">@discount</span>
+                    </div>
+                }
+                <h4 class="name">
+                    @if (Model.DiscountPercentage > 0 || Model.DiscountAbsolute > 0)
+                    {
+                        <text>On </text>
+                    }
+                    @Model.Name
+                </h4>
+                <h4 class="company-name">@Model.CompanyName</h4>
+                @*@if (Model.Variations.Any())
+                    {
+                        <input type="hidden" id="getCombinationsUrl" value="@Url.Action("GetCombinations", "Product", new {id = Model.Id})" />
+                    }
+                    <div id="variations-container">
+                        @foreach (var variation in Model.Variations)
+                        {
+                            <div class="select-container valign-wrapper">
+                                <label for="var-@variation.Id">@variation.Name</label>
+                                <select required id="var-@variation.Id" name="var-@variation.Id" class="browser-default var">
+                                    <option value="">-SELECT-</option>
+                                    @foreach (var option in variation.Variations)
+                                    {
+                                        <option value="@option.Key">@option.Value</option>
+                                    }
+                                </select>
+                            </div>
+                        }
+                    </div>*@
+                <div class="content">@Html.Raw(HtmlSanitizer.SanitizeHtml(Model.About))</div>
+            </div>
+            <div class="col s12 m4 right-col">
+                <div class="center-align">
+                    <img class="logo" src="@Model.LogoUrl" />
+                    <div>
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <a target="_Blank" rel="nofollow noopener" class="btn buy-subscribe-button buy-button"
+                               href="#!">
+                                Register & Buy Now
+                            </a>
+                        }
+                        @*else if (Model.IsSoldOnSite)
+                            {
+                                <div id="paypal-product-preloader">
+                                    <div class="preloader-wrapper small active">
+                                        <div class="spinner-layer spinner-blue-only">
+                                            <div class="circle-clipper left">
+                                                <div class="circle"></div>
+                                            </div>
+                                            <div class="gap-patch">
+                                                <div class="circle"></div>
+                                            </div>
+                                            <div class="circle-clipper right">
+                                                <div class="circle"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="paypal-button" data-create-url="@Url.Action("Create", "Order", new {Model.Id})"
+                                     data-execute-url="@Url.Action("Execute", "Order")"
+                                     data-environment="@(PayPalOptions.Value.PayPalIsProduction ? "production" : "sandbox")"></div>
+                                    <div class="credit-card-note">*Option to pay by credit card</div>
+                            }*@
+                        else
+                        {
+                            <a target="_Blank" rel="nofollow noopener" class="btn redirect-button buy-button"
+                               asp-controller="External" asp-action="Product" asp-route-id="@Model.Id">Buy Now</a>
+                            if (Model.CompanyIsForeignCurrency)
+                            {
+                                <div>
+                                    <span class="red-text">* Price is converted from another currency</span>
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div class="details-container left-align">
+                        <div class="line"></div>
+                        @if (Model.DiscountPercentage != 0 || Model.DiscountAbsolute != 0)
+                        {
+                            <h5 class="save-text">Save @discount On @Model.Name</h5>
+                        }
+                        @if (Model.IsSoldOnSite)
+                        {
+                            <section class="shipping">
+                                <h6>Shipping:</h6>
+                                <div>
+                                    <span id="shipping-cost">@(Model.ShippingPrice == 0 ? "FREE Shipping" : Model.ShippingPrice.ToString("C"))</span>
+                                </div>
+                            </section>
+                        }
+                        @*<div class="save-container">
+                                <i class="material-icons">favorite_border</i> <span class="save">SAVE</span>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        @Html.Partial("_RedirectWindow", Model)
+        @if (!Model.IsTravel)
+        {
+            @Html.Partial("_ProductsStrip", Model.RelatedProducts)
+        }
+    </div>
+</div>
+@section scripts{
+    <script src="https://unpkg.com/flickity@2.0/dist/flickity.pkgd.min.js" asp-fallback-src="/lib/flickity/dist/flickity.pkgd.min.js" asp-fallback-test="window.Flickity"></script>
+    <script src="/dist/Product/Index.js" asp-append-version="true"></script>
+    @if (Model.IsSoldOnSite)
+    {
+        <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+        <script src="/dist/Product/IndexPayment.js" asp-append-version="true"></script>
+    }
+}

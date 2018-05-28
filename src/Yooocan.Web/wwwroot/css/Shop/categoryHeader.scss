@@ -1,0 +1,31 @@
+﻿#category-header {
+    background-position: center;
+    background-size: cover;
+    height: 315px;
+    padding-top: 160px;
+    text-align: center;
+
+    h1 {
+        margin: 0;
+        display: inline-block;
+        font-family: Montserrat;
+        font-size: 30px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        color: #ffffff;
+        padding: 10px 38px;
+        border-radius: 9px;
+        background-color: #4a90e2;
+    }
+
+    h3 {
+        margin: 12px auto 0 auto;        
+        width: 734px;
+        font-family: Source Sans Pro;
+        font-size: 14px;
+        line-height: 1.29;
+        text-align: center;
+        color: #ffffff;
+    }
+}

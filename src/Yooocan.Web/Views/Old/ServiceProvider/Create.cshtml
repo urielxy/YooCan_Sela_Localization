@@ -1,0 +1,893 @@
+﻿@using System.Threading.Tasks
+@using Yooocan.Models.ServiceProviders
+@model CreateServiceProviderModel
+@{
+    ViewBag.Title = "Register Service Provider";
+}
+@section Head{
+    <link rel="stylesheet" href="/lib/croppie/croppie.css" />
+    <link href="~/lib/dropzone/dist/basic.css" rel="stylesheet" />
+    <link href="~/lib/dropzone/dist/dropzone.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: white !important;
+        }
+
+        #mainBody {
+            background-color: #f1f1f1 !important;
+        }
+
+        #add-Service-Provider-Form-container {
+            margin-left: 20%;
+            margin-right: 20%;
+        }
+
+        #header-image {
+            height: 250px;
+            position: relative;
+            background-color: #a9a9a9;
+        }
+
+        #upload-header-container {
+            position: absolute;
+            right: 15px;
+            bottom: 15px;
+        }
+
+        #top {
+            background-color: #a9a9a9 !important;
+        }
+
+        #address {
+            width: 100%;
+        }
+
+        .address-container {
+            float: left;
+            width: 55%;
+        }
+
+
+        #contactPreson {
+            width: 100%;
+        }
+
+        .activity-location-map {
+            width: 19%;
+            min-width: 210px;
+            height: 250px;
+            border: solid 2px #c1c1c1;
+            border-radius: 7px;
+            float: left;
+        }
+
+        .dropzone {
+            background-color: #a9a9a9;
+            border: 2px solid #c1c1c1;
+            border-radius: 7px;
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+
+        .dropzone h3 {
+            color: #f1f1f1;
+        }
+
+        #logo-dz-upload {
+            max-width: 350px;
+            min-height: 150px;
+        }
+
+        .dropzone-camera-icon {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 40px;
+        }
+
+        .map-container {
+            float: left;
+        }
+
+        .location-address-container {
+            float: right;
+            width: 80%;
+            margin-top: 0;
+        }
+
+        .form-control {
+            border: solid 2px #999999;
+        }
+
+        .location-email-container {
+            float: right;
+            width: 48%;
+            float: right;
+            margin-left: 24px;
+            margin-top: -37px;
+        }
+
+        #addServiceProviderForm .large-input-field {
+            height: 125px;
+        }
+
+        .form-group {
+            margin-top: 0;
+        }
+
+        .activity-location-container {
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        h3.font-group-header {
+            font-size: 20px;
+            margin-top: 0;
+            clear: both;
+            margin-bottom: 4px;
+        }
+
+        #youtube-static-container h3.font-group-header {
+            margin-top: 20px;
+        }
+
+        #addAnotherVideoBtn {
+            margin-bottom: 30px;
+        }
+
+        .company-address-map {
+            width: 290px;
+            height: 280px;
+            border: solid 1px #cccccc;
+            margin-left: 17px;
+            border-radius: 7px;
+            z-index: 100;
+        }
+
+        .descripition-services-form-container .close {
+            padding: 2px 15px;
+            opacity: 1;
+        }
+
+            .descripition-services-form-container .close:hover {
+                opacity: 1;
+                color: #fff;
+            }
+
+        .service-description-form-field-container {
+            margin-left: 15px;
+            margin-right: 15px;
+        }
+
+            .service-description-form-field-container h3 {
+                margin-top: 3px;
+                margin-bottom: 3px;
+            }
+
+        .descripition-services-form-container {
+            background-color: #dadada;
+            border-radius: 7px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            margin-bottom: 12px;
+        }
+
+        #add-another-ativity-btn-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        #add-another-ativity-btn-container {
+            float: left;
+        }
+
+        #internal-fields {
+            background-color: lightgray;
+            margin-top: 15px;
+        }
+
+        .service-description-form-field-container > fieldset {
+            margin-bottom: -10px;
+        }
+
+        .category-checkbox-label, .limitation-checkbox-label {
+            color: #A9A9A9;
+        }
+
+        .limitation-checkbox:checked + .limitation-checkbox-label,
+        .category-checkbox:checked + .category-checkbox-label {
+            color: black;
+        }
+
+        @@media (max-width: 1199px) {
+            .activity-location-container .location-address-container {
+                width: 73%;
+            }
+
+            .address-container {
+                width: 45%;
+            }
+
+            .company-address-map {
+                width: 270px;
+                margin-left: 38px;
+            }
+        }
+
+        @@media (max-width: 991px) {
+            .activity-location-container .location-address-container {
+                width: 100%;
+                margin-top: 16px;
+            }
+
+            .company-address-map {
+                float: left;
+                margin-left: 0;
+            }
+
+            .address-container {
+                width: 100%;
+            }
+        }
+
+        @@media (max-width: 680px) {
+
+            #upload-header-container {
+                right: 5px;
+            }
+
+                #upload-header-container a {
+                    font-size: 11px;
+                }
+
+            #add-Service-Provider-Form-container {
+                margin-left: 1%;
+                margin-right: 1%;
+            }
+
+
+            .submit-preview-btn-container {
+                margin-bottom: 30px !important;
+            }
+
+                .submit-preview-btn-container .btn {
+                    font-size: 10px;
+                }
+
+            #web-fields-container, #phone-fields-container {
+                padding: 8px;
+            }
+
+            .web-field, .phone-field {
+                display: inline;
+                margin-right: 10px;
+                margin-left: 10px;
+            }
+        }
+
+        @@media (min-width: 768px) {
+            .categories-container .checkbox-container, .limitations-container .checkbox-container {
+                -webkit-column-count: 2;
+                -moz-column-count: 2;
+                column-count: 2;
+            }
+
+                .categories-container .checkbox-container .category-group {
+                    display: inline-block;
+                    width: 50%;
+                }
+        }
+
+        @@media (min-width: 992px) {
+            .categories-container .checkbox-container, .limitations-container .checkbox-container {
+                -webkit-column-count: 3;
+                -moz-column-count: 3;
+                column-count: 3;
+            }
+
+                .categories-container .checkbox-container .category-group {
+                    width: 100% !important;
+                }
+        }
+    </style>
+}
+@section Top{
+    <div id="header-image">
+        <div id="upload-header-container">
+            <label for="header-picture-upload" style="margin-bottom: 0;">
+                <a class="btn btn-default" id="upload-picture-button">Upload a cover image for your company or service....</a>
+                <input type="file" id="header-picture-upload" accept="image/*" style="display: none;" />
+            </label>
+        </div>
+    </div>
+    <div class="modal" id="header-preview-modal" tabindex="-1">
+        <div class="modal-dialog modal-lg" style="width: 1200px;">
+            <div class="modal-content">
+                <div id="header-pic-preview"></div>
+                <div class="text-center" style="padding-bottom: 15px">
+                    <button id="take-picture" type="button" class="btn btn-primary">Looks good</button>
+                    <button id="close-modal" type="button" class="btn btn-default">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<section>
+    <div id="add-Service-Provider-Form-container">
+        <form id="addServiceProviderForm" asp-controller="ServiceProvider" asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="HeaderImageUrl" />
+            <input type="hidden" asp-for="LogoUrl" />
+            <div style="text-align: center; margin-bottom: 26px;">
+                <h1>Service Provider Registration Form</h1>
+            </div>
+            <h3 class="font-group-header">Upload logo</h3>
+            <div id="logo-dz-upload" class="dropzone">
+                <div class="dz-message needsclick">
+                    <h3>Drop an image here or click to upload</h3>
+                    <img src="/images/camera.png" class="dropzone-camera-icon" />
+                </div>
+            </div>
+            <fieldset class="form-group">
+                <h3 class="font-group-header required" style="margin-top: 30px">Company or service name</h3>
+                <input asp-for="Name" required class="form-control" maxlength="50" placeholder="Company or service name">
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </fieldset>
+            <fieldset class="form-group paragraph-container">
+                <h3 class="font-group-header">Tell us about your company or service</h3>
+                <textarea asp-for="AboutTheCompany" class="form-control large-input-field" placeholder="Please try to keep it 100 words or less"></textarea>
+            </fieldset>
+            <div class="address-container" id="address-container">
+                <fieldset class="form-group">
+                    <h3 class="font-group-header">Address</h3>
+                    <input asp-for="Address" type="text" class="form-control" placeholder="Exact address">
+                    <input type="hidden" asp-for="StreetNumber" data-type="street_number" />
+                    <input type="hidden" asp-for="StreetName" data-type="route" />
+                    <input type="hidden" asp-for="City" data-type="locality" />
+                    <input type="hidden" asp-for="State" data-type="administrative_area_level_1" />
+                    <input type="hidden" asp-for="PostalCode" data-type="postal_code" />
+                    <input type="hidden" asp-for="Country" data-type="country" />
+                    <input type="hidden" asp-for="Latitude" data-type="Latitude" />
+                    <input type="hidden" asp-for="Longitude" data-type="Longitude" />
+                </fieldset>
+
+                <fieldset class="form-group">
+                    <h3 class="font-group-header">Contact person</h3>
+                    <input asp-for="ContactPresonName" type="text" class="form-control" placeholder="Contact person full name">
+                    <span asp-validation-for="ContactPresonName" class="text-danger"></span>
+                </fieldset>
+                <fieldset class="form-group">
+                    <h3 class="font-group-header">Email address</h3>
+                    <input asp-for="Email" type="email" class="form-control" placeholder="JohnDoe@@myCompany.com">
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </fieldset>
+            </div>
+            <div style="display: inline-block">
+                <div id="company-address-map" class="company-address-map"></div>
+            </div>
+            <div id="internal-fields">
+                <div class="row" style="padding-top: 15px; margin-left: 0; margin-right: 0;">
+                    <div class="col-sm-6 col-md-4">
+                        <fieldset class="form-group">
+                            <h3 class="font-group-header required">Website</h3>
+                            <input asp-for="WebsiteUrl" required class="form-control" placeholder="http://example.com" type="url">
+                            <span asp-validation-for="WebsiteUrl" class="text-danger"></span>
+                        </fieldset>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <fieldset class="form-group">
+                            <h3 class="font-group-header">Facebook</h3>
+                            <input asp-for="Facebook" class="form-control" placeholder="www">
+                            <span asp-validation-for="Facebook" class="text-danger"></span>
+                        </fieldset>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <fieldset class="form-group">
+                            <h3 class="font-group-header">Instagram</h3>
+                            <input asp-for="Instagram" class="form-control" placeholder="@@">
+                            <span asp-validation-for="Instagram" class="text-danger"></span>
+                        </fieldset>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <fieldset class="form-group">
+                            <h3 class="font-group-header">Office number</h3>
+                            <input asp-for="PhoneNumber" type="tel" class="form-control" placeholder="987-654-3210">
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </fieldset>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <fieldset class="form-group">
+                            <h3 class="font-group-header">Toll-free number</h3>
+                            <input asp-for="TollFreePhoneNumber" type="tel" class="form-control" placeholder="1-800-123-4567">
+                            <span asp-validation-for="TollFreePhoneNumber" class="text-danger"></span>
+                        </fieldset>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <fieldset class="form-group">
+                            <h3 class="font-group-header">Mobile number</h3>
+                            <input asp-for="MobileNumber" type="tel" class="form-control" placeholder="987-654-3210">
+                            <span asp-validation-for="MobileNumber" class="text-danger"></span>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            <fieldset class="form-group paragraph-container">
+                <div class="checkbox">
+                    <input asp-for="IsChapter" class="form-control" />
+                    <label asp-for="IsChapter" class="font-group-header">Are you a branch or chapter?</label>
+                </div>
+            </fieldset>
+
+            <h3> Activity or service</h3>
+            <div class="descripition-services-form-container">
+                <input type="hidden" class="index" name="@(nameof(Model.Activities)).index" value="0" />
+                <span class="close">X</span>
+                <div class="service-description-form-field-container">
+                    <fieldset>
+                        <h3>Name</h3>
+                        <input name="Activities[0].Name" class="form-control" placeholder="ex: adaptive fitness class, wheelchair dancing, cooking class" />
+                    </fieldset>
+                </div>
+                <div class="service-description-form-field-container">
+                    <fieldset>
+                        <h3>Description</h3>
+                        <textarea name="Activities[0].Description" class="form-control" placeholder="Describe the activity in 50 words or less"></textarea>
+                    </fieldset>
+                </div>
+                <div class="service-description-form-field-container">
+                    <fieldset>
+                        <div class="form-group">
+                            <h3>Price</h3>
+                            <div class="input-group">
+                                <div class="input-group-addon">$</div>
+                                <input name="Activities[0].Price" type="number" min="0" value="0" class="form-control" placeholder="Price">
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="service-description-form-field-container">
+                    <fieldset>
+                        <h3>Sessions / Time</h3>
+                        <input name="Activities[0].Units" class="form-control" placeholder="1 Lesson / 45 min" />
+                    </fieldset>
+                </div>
+                <div class="service-description-form-field-container">
+                    <fieldset>
+                        <h3>Days and hours of operation</h3>
+                        <input name="Activities[0].OpenDays" class="form-control" placeholder="ex: M-F, weekends only, by appointment etc." />
+                    </fieldset>
+                </div>
+            </div>
+            <div id="add-another-buttons-container">
+                <div id="add-another-ativity-btn-container">
+                    <button class="btn btn-info" id="add-another-ativity-btn" type="button">Add an activity</button>
+                </div>
+            </div>
+
+            <h3 class="font-group-header">Upload images</h3>
+            <div id="dZUpload" class="dropzone">
+                <div class="dz-message needsclick">
+                    <h3>Drop images here or click to upload</h3>
+                    <img src="/images/camera.png" class="dropzone-camera-icon" />
+                </div>
+            </div>
+            <div id="hiddenImages">
+                <input type="hidden" name="@nameof(Model.Images)" class="hidden-image" />
+            </div>
+            <div id="youtube-static-container">
+                <fieldset class="form-group">
+                    <h3 class="font-group-header">Upload YouTube video</h3>
+                    <div class="youtubeConainer">
+                        <input class="form-control youtube-url" placeholder="Paste YouTube video link here">
+                        <input type="hidden" name="@nameof(Model.YouTubeIds)" />
+                    </div>
+                </fieldset>
+            </div>
+            <button class="btn btn-info" id="addAnotherVideoBtn" type="button">Add another video</button>
+            <fieldset class="form-group categories-container">
+                <h3>Select one or more categories</h3>
+                <div class="checkbox-container">
+                    @foreach (var category in Model.CategoriesOptions)
+                    {
+                        <div class="category-group">
+                            <h4> @category.Key</h4>
+                            @foreach (var subCategory in category.Value)
+                            {
+                                <div class="checkbox">
+                                    <input type="checkbox" class="category-checkbox" name="@nameof(Model.Categories)" value="@subCategory.Key" id="category-@subCategory.Key">
+                                    <label for="category-@subCategory.Key" class="category-checkbox-label">@subCategory.Value</label>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </fieldset>
+            <fieldset class="form-group">
+                <h3 style="margin-top: 29px">I can't find the relevant category for my activity or service</h3>
+                <input class="form-control" asp-for="SuggestedCategory" placeholder="Suggest something we may be missing" />
+            </fieldset>
+
+            <fieldset class="form-group limitations-container">
+                <h3 style="margin-top: 35px;">Who can participate in this activity or service, check all that apply:</h3>
+                <div class="checkbox-container">
+                    <div class="limitation-group">
+                        @foreach (var limitation in Model.LimitationsOptions)
+            {
+                            <div class="checkbox">
+                                <input type="checkbox" class="limitation-checkbox" name="@nameof(Model.Limitations)" value="@limitation.Key" id="limitation-@limitation.Key">
+                                <label for="limitation-@limitation.Key" class="limitation-checkbox-label">@limitation.Value</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset class="form-group">
+                <h3 style="margin-top: 29px">Additional information </h3>
+                <textarea asp-for="AdditionalInformation" class="form-control" placeholder="Ex: Upper body strength is necessary, no prior expirence needed etc."></textarea>
+            </fieldset>
+            <fieldset class="input-group">
+                <div class="checkbox checkbox-success">
+                    <input type="checkbox" required id="agree-terms">
+                    <label for="agree-terms">I agree to the <a asp-action="TermsOfUse" asp-controller="Home" target="_Blank">terms of use</a></label>
+                </div>
+            </fieldset>
+            <div class="form-group submit-preview-btn-container" style="margin-top: 20px">
+                <div>
+                    <span style="float: left;">
+                        <a class="btn btn-default" id="Contact-us-btn" href="mailto:jessica@yoocantech.com?subject=Question about service provider registeration" target="_Blank">Contact us for questions</a>
+                    </span>
+                    <div class="visible-xs"></div>
+                    <span style="float: right; margin-bottom: 36px;">
+                        <button style="margin-right: 10px" id="preview" class="btn btn-success" type="button">Preview</button>
+                        <button id="submit" class="btn btn-info" type="submit">Submit</button>
+                    </span>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+@section Scripts{
+    <script src="/lib/croppie/croppie.js"></script>
+    <script src="~/lib/dropzone/dist/dropzone.js"></script>
+    <script>
+        var $headerPicPreview = $('#header-pic-preview')
+            .croppie({
+                viewport: {
+                    width: 1140,
+                    height: 250,
+                },
+                boundary: {
+                    width: 1140,
+                    height: 300
+                }
+            });
+
+        function readFileHeader(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    $('#header-preview-modal').modal('show');
+                    $headerPicPreview.croppie('bind',
+                        {
+                            url: event.target.result
+                        });
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $('#header-picture-upload').on('change', function () { readFileHeader(this); });
+        $('#take-picture')
+            .click(function () {
+                $headerPicPreview.croppie('result',
+                        {
+                            size: {
+                                width: 1140,
+                                height: 250
+                            },
+                            quality: 0.8,
+                            format: "jpeg"
+                        })
+                    .then(function (data) {
+                        $('#header-image').css('background-image', 'url(' + data + ')');
+                        $.post('@Url.Action("UploadDataUriImages", "Image")',
+                            {
+                                dataUri: data,
+                                containerName: 'service-providers'
+                            },
+                            function (url) {
+                                $('#@nameof(Model.HeaderImageUrl)').val(url);
+                            });
+                        $('#header-preview-modal').modal('hide');
+                    });
+
+                return false;
+            });
+
+        $('#close-modal')
+            .click(function () {
+                $('#header-preview-modal').modal('hide');
+            });              
+
+        function getYoutubeId(url) {
+            var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            var match = url.match(regExp);
+
+            if (match && match[2].length >= 5) {
+                return match[2];
+            } else {
+                return 'error';
+            }
+        }
+
+        $(function () {
+
+            $('#addServiceProviderForm')
+                .submit(function () {
+                    var regex = /\d+/;
+                    $('.descripition-services-form-container')
+                        .each(function () {
+                            var name = $(this).find('.form-control:first').attr('name');
+                            var index = regex.exec(name)[0];
+                            $(this).find('.index').val(index);
+                        });
+                });
+
+            $('#youtube-static-container')
+                .on('change',
+                    '.youtube-url',
+                    function () {
+                        if (!this.value.trim()) {
+                            $(this).next().val('');
+                            return;
+                        }
+
+                        var youTubeId = getYoutubeId(this.value);
+                        if (youTubeId === 'error') {
+                            $(this).next().val('');
+                            alert('Invalid YouTube Url');
+                            return;
+                        }
+
+                        $(this).next().val(youTubeId);
+                    });
+
+            $("#addAnotherVideoBtn")
+                .click(function () {
+                    var $cloned = $('.youtubeConainer:last').clone();
+                    $cloned.find('input').val('');
+                    $cloned.insertAfter('.youtubeConainer:last');
+                    $cloned.focus();
+                    return false;
+                });
+
+            $("#add-another-ativity-btn")
+                .click(function () {
+                    var $cloned = $('.descripition-services-form-container:last').clone();
+                    $cloned.find('input, textarea')
+                        .each(function () {
+                            this.value = "";
+                            if ($(this).hasClass('index')) {
+                                this.value = $('.descripition-services-form-container').length;
+                            }
+                            this.name = this.name.replace(/\[(\d+)\]/,
+                                function (str, p1) {
+                                    return '[' + (parseInt(p1, 10) + 1) + ']';
+                                });
+                        });
+
+                    $cloned.insertAfter('.descripition-services-form-container:last');
+                    $cloned.focus();
+
+                    return false;
+                });
+
+            $('#addServiceProviderForm')
+                .on('click',
+                    '.close',
+                    function () {
+                        if ($('.descripition-services-form-container').length === 1) {
+                            $(this).parent().find('input,textarea').val('');
+                        } else {
+                            $(this).parent().remove();
+                        }
+                    });
+
+            Dropzone.autoDiscover = false;
+            $("#dZUpload")
+                .dropzone({
+                    url: "@(Url.Action("UploadImages", "Image"))",
+                    addRemoveLinks: true,
+                    paramName: "images",
+                    maxFilesize: 5,
+                    removedfile: function (file) {
+                        if (file.xhr && file.xhr.status === 200 && file.xhr.response) {
+                            $('.hidden-image')
+                                .filter(function () { return this.value === eval(file.xhr.response)[0] })
+                                .remove();
+                        }
+                        $(document).find(file.previewElement).remove();
+                    },
+                    sending: function (file, width, formData) {
+                        formData.append("width", 700);
+                        formData.append("height", 700);
+                        formData.append("containerName", "service-providers");
+                    },
+                    acceptedFiles: "image/*",
+                    success: function (file, imageUrl) {
+                        file.previewElement.classList.add("dz-success");
+                        console.log("Successfully uploaded :" + imageUrl);
+                        $('.hidden-image')
+                            .last()
+                            .val(imageUrl)
+                            .clone()
+                            .each(function () {
+                                this.value = "";
+                            })
+                            .insertAfter($('.hidden-image').last());
+                        return false;
+                    },
+                    error: function (file, response) {
+                        console.log(response);
+                        file.previewElement.classList.add("dz-error");
+                        $(file.previewElement).find('.dz-error-message').text(response);
+                    }
+                });
+            $("#logo-dz-upload")
+                .dropzone({
+                    url: "@(Url.Action("UploadImages", "Image"))",
+                    addRemoveLinks: true,
+                    paramName: "images",
+                    maxFilesize: 5,
+                    removedfile: function (file) {
+                        if (!$(file.previewElement).hasClass("dz-error")) {
+                            $('#LogoUrl').val("");
+                        }
+                        $(document).find(file.previewElement).remove();
+                    },
+                    sending: function (file, width, formData) {
+                        formData.append("containerName", "service-providers");
+                    },
+                    acceptedFiles: "image/*",
+                    success: function (file, imageUrl) {
+                        $(file.previewElement).siblings(".dz-image-preview").remove();
+                        file.previewElement.classList.add("dz-success");
+                        console.log("Successfully uploaded :" + imageUrl);
+                        $('#LogoUrl').val(imageUrl);
+
+                        return false;
+                    },
+                    error: function (file, response) {
+                        console.log(response);
+                        file.previewElement.classList.add("dz-error");
+                        $(file.previewElement).find('.dz-error-message').text(response);
+                    }
+                });
+
+            $('#preview')
+                .click(function () {
+
+                    var regex = /\d+/;
+                    $('.descripition-services-form-container')
+                        .each(function () {
+                            var name = $(this).find('.form-control:first').attr('name');
+                            var index = regex.exec(name)[0];
+                            $(this).find('.index').val(index);
+                        });
+                    var $form = $('#addServiceProviderForm');
+                    if ($form[0].checkValidity()) {
+                        var params = $form.serialize();
+                        var win = window.open('@Url.Action("Preview", "ServiceProvider")?' + params, 'previewWindow');
+                        win.focus();
+                    }
+                    else {
+                        $('#submit').click();
+                    }
+                });
+        });
+
+
+        /*Google maps API*/
+        function initMapControl(mapId, pacInputId, containerId) {
+
+            var autocomplete, map;
+            var componentForm = {
+                street_number: 'short_name',
+                route: 'long_name',
+                locality: 'long_name',
+                administrative_area_level_1: 'short_name',
+                country: 'long_name',
+                postal_code: 'short_name'
+            };
+
+            var fillInAddress = function (componentForm, containerId) {
+                var place = autocomplete.getPlace();
+                var $container = $('#' + containerId);
+                for (var component in componentForm) {
+                    $container.find('input[data-type="' + component + '"]').val('');
+                }
+                // Get each component of the address from the place details
+                // and fill the corresponding field on the form.
+                for (var i = 0; i < place.address_components.length; i++) {
+                    var addressType = place.address_components[i].types[0];
+                    if (componentForm[addressType]) {
+                        var val = place.address_components[i][componentForm[addressType]];
+                        $container.find('input[data-type="' + addressType + '"]').val(val);
+                    }
+                }
+                $container.find('input[data-type="Latitude"]').val(place.geometry.location.lat());
+                $container.find('input[data-type="Longitude"]').val(place.geometry.location.lng());
+                new google.maps.Marker({
+                    position: place.geometry.location,
+                    title: place.name,
+                    map: map
+                });
+                map.setCenter(place.geometry.location);
+                map.setZoom(15);
+            };
+
+            map = new google.maps.Map(document.getElementById(mapId),
+                {
+                    center: {
+                        lat: 51.4826,
+                        lng: -0.0077
+                    },
+                    zoom: 1,
+                    mapTypeId: 'roadmap',
+                    clickableIcons: false,
+                    mapTypeControlOptions: { mapTypeIds: [] }
+                });
+
+            var pacInput = document.getElementById(pacInputId);
+            (function pacSelectFirst(input) {
+                // store the original event binding function
+                var _addEventListener = (input.addEventListener) ? input.addEventListener : input.attachEvent;
+
+                function addEventListenerWrapper(type, listener) {
+                    // Simulate a 'down arrow' keypress on hitting 'return' when no pac suggestion is selected,
+                    // and then trigger the original listener.
+
+                    if (type === "keydown") {
+                        var origListener = listener;
+                        listener = function (event) {
+                            var suggestionSelected = $(".pac-item-selected").length > 0;
+                            if ((event
+                                    .which ===
+                                    13 /* Enter */ ||
+                                    event.which === 9 /* TAB */) &&
+                                !suggestionSelected) {
+                                var simulatedDownarrow = $.Event("keydown", { keyCode: 40, which: 40 });
+                                origListener.apply(input, [simulatedDownarrow]);
+                            }
+
+                            origListener.apply(input, [event]);
+                        };
+                    }
+
+                    // add the modified listener
+                    _addEventListener.apply(input, [type, listener]);
+                }
+
+                if (input.addEventListener)
+                    input.addEventListener = addEventListenerWrapper;
+                else if (input.attachEvent)
+                    input.attachEvent = addEventListenerWrapper;
+
+            })(pacInput);
+
+            autocomplete = new google.maps.places.Autocomplete(pacInput, { types: ['geocode'] });
+            autocomplete.addListener('place_changed',
+                function () {
+                    fillInAddress(componentForm, containerId);
+                });
+        }
+
+        function initGoogleMaps() {
+            initMapControl('company-address-map', '@nameof(Model.Address)', 'address-container');
+        }
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7RtYQXdokxTRbfyikcr8wl_wSq4SDGSc&language=en&libraries=places&callback=initGoogleMaps" async defer></script>
+}

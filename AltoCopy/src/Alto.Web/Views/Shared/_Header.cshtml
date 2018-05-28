@@ -1,0 +1,89 @@
+﻿@inject Microsoft.AspNetCore.Hosting.IHostingEnvironment HostingEnv
+<embedcss Href="/css/Shared/Header"></embedcss>
+<header id="page-header" class="hide-on-small-and-down">
+    <div id="header-desktop">
+        <nav id="header-first-line">
+            <div class="nav-wrapper">
+                <ul class="small-links">
+                    @*<li>
+                            <a class="dropdown-button" href="#!" data-activates="countries-dropdown">
+                                USA<i class="material-icons right">arrow_drop_down</i>
+                            </a>
+                        </li>*@
+                </ul>
+                <ul class="small-links right">
+                    @{
+                        var showUnloggedButtons = !User.Identity.IsAuthenticated && ViewBag.HideRegisterButtons != true;
+                    }
+                    <li>
+                        <a id="header-register-btn" asp-action="Register" asp-controller="Account"
+                           style="@(!showUnloggedButtons ? "display:none;" : "")">REGISTER</a>
+                    </li>
+                    <li>
+                        <a id="header-login-btn" asp-action="Login" asp-controller="Account"
+                           style="@(!showUnloggedButtons ? "display:none;" : "")">LOGIN</a>
+                    </li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li><img class="avatar" src="@User.FindFirstValue("picture")" /></li>
+                    }
+                    <li style="@(!User.Identity.IsAuthenticated ? "display:none;" : "")" id="logout-container">
+                        <form asp-controller="Account" asp-action="LogOff" method="post">
+                            <button class="anchor-button" type="submit">Log out</button>
+                        </form>
+                    </li>
+                </ul>
+                @(ViewBag.IsSearchBarInPage == true ? null : Html.Partial("_SearchControl"))
+                <ul class="small-links right">
+                    <li><a asp-controller="Company" asp-action="Register">BECOME A PROVIDER</a></li>
+                </ul>
+            </div>
+        </nav>
+        <nav id="header-second-line">
+            <div class="nav-wrapper">
+                <div class="left valign-wrapper">
+                    <a href="/" class="valign">
+                        <img class="icon" src="/images/icons/icon.png" alt="Alto icon" />
+                    </a>
+                </div>
+                <div class="logo left valign-wrapper">
+                    <a href="/" class="valign">
+                        <img src="/images/logo-purple.png" alt="Alto logo" />
+                    </a>
+                </div>
+                <ul class="left">
+                    <li>
+                        <div class="title">
+                            <a href="https://yoocanfind.com" target="_blank">
+                                <img src="/images/poweredbyyoocan.png" alt="powered by yoocan" />
+                            </a>
+                        </div>
+                    </li>
+                    @if (ViewBag.IsMenuInPage != true)
+                    {
+                        <li>
+                            <a class="dropdown-button" href="#" data-activates="drop-menu-container" data-beloworigin="true"
+                               data-constrainwidth="false" data-alignment="left" data-hover="true">
+                                <span>CATEGORIES</span><i class="material-icons">keyboard_arrow_down</i>
+                            </a>
+                        </li>
+                    }
+                </ul>
+                <ul class="right">
+                    <li><a asp-action="WhyAlto" asp-controller="Home">WHY ALTO</a></li>
+                    <li><a asp-route="About">ABOUT US</a></li>
+                    <li><a target="_blank" href="https://yoocanfind.com">YOOCAN COMMUNITY</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <ul id="user-dropdown" class="dropdown-content">
+        <li>
+            <form asp-controller="Account" asp-action="LogOff" method="post">
+                <button class="anchor-button" type="submit">Log out</button>
+            </form>
+        </li>
+    </ul>
+</header>
+@Html.Partial("_HeaderMobile")

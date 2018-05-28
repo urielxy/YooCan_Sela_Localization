@@ -1,0 +1,33 @@
+﻿.back-to-edit-strip {
+    height: 50px;
+    background-color: #f5a623;
+    text-align: center;
+    position: relative;
+    padding: 16px 0;
+    color: #ffffff;
+
+    .notice {
+        font-size: 14px;
+    }
+
+    .right-actions {
+        width: 33.333%;
+        position: absolute;
+        right: 33px;
+        z-index: 2;
+        text-align: right;
+        top: 7px;
+
+        .btn {
+            border-radius: 100px;
+            margin-right: 9px;
+            font-size: 11px;
+            letter-spacing: 1px;
+            background-color: #337ab7;
+        }
+    }
+}
+
+#back-to-edit-footer{
+    margin-bottom: 40px;
+}

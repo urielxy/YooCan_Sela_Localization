@@ -1,0 +1,48 @@
+﻿@import '../_variables.scss';
+
+.flickity-viewport {
+    height: 460px;
+}
+
+.benefits-strip {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 40px 0;
+    color: #1e2226;
+
+    .title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #1e2226;
+        padding-bottom: 25px;
+        margin: 0;
+        text-transform: uppercase;
+    }
+
+    .carousel-cell {
+        width: 100%;
+        margin-bottom: 19px;
+
+        @media #{$medium-and-up} {
+            width: 310px;
+            float: left;
+            margin-right: 19px;
+            padding: 2px 3px;
+        }
+    }
+}
+
+@media #{$small-and-down} {
+    .flickity-page-dots {
+        display: none;
+    }
+
+    .benefits-strip {
+        .title {
+            font-size: 27px;
+            text-align: center;
+            padding-right: 5px;
+            padding-left: 5px;
+        }
+    }
+}
